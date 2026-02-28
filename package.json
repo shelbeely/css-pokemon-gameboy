@@ -17,11 +17,12 @@
     "build:scss:full": "sass src/scss/main.scss dist-lib/css-pokemon-gameboy.css --style=expanded --no-source-map",
     "build:css": "tsc && vite build --config vite.lib.config.js",
     "build:css:full": "tsc && vite build --config vite.lib.full.config.js",
-    "licenses": "npx license-checker-rseidelsohn --plainVertical --excludePackages css-pokemon-gameboy --out LICENSES-THIRD-PARTY.md"
+    "licenses": "bunx license-checker-rseidelsohn --plainVertical --excludePackages css-pokemon-gameboy --out LICENSES-THIRD-PARTY.md"
   },
   "files": [
     "dist-lib/css-pokemon-gameboy.css"
   ],
+  "packageManager": "bun@1.3.10",
   "devDependencies": {
     "@types/prismjs": "^1.26.4",
     "license-checker-rseidelsohn": "^4.2.0",
