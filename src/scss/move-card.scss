@@ -1,0 +1,89 @@
+@import '_variables.scss';
+
+// ─── Move Card ────────────────────────────────────────────────────────────────
+// Individual move display card showing the move name, type badge, remaining PP,
+// power, and accuracy — as shown in the Gen 2 move-details and Pokédex screens.
+//
+// Usage:
+//   <div class="move-card">
+//     <div class="move-card-name">SURF</div>
+//     <div class="move-card-meta">
+//       <span class="type-badge water">WATER</span>
+//       <span class="move-card-pp">PP <span>15/15</span></span>
+//     </div>
+//     <div class="move-card-stats">
+//       <div class="move-card-stat"><span>POW</span><span>95</span></div>
+//       <div class="move-card-stat"><span>ACC</span><span>100</span></div>
+//       <div class="move-card-stat"><span>CAT</span><span>Special</span></div>
+//     </div>
+//   </div>
+
+.move-card {
+  display: inline-flex;
+  flex-direction: column;
+  background: $neutral;
+  border: 4px solid $contrast;
+  padding: $padding * $small-modifier $padding;
+  min-width: 160px;
+  box-sizing: border-box;
+  font-family: $font-content;
+  gap: $padding * $small-modifier * 0.5;
+
+  // ── Move name ─────────────────────────────────────────────────────────────
+  .move-card-name {
+    font-family: $font-heading;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    margin-bottom: $padding * $small-modifier * 0.5;
+  }
+
+  // ── Type badge + PP row ───────────────────────────────────────────────────
+  .move-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $padding * $small-modifier;
+  }
+
+  .move-card-pp {
+    font-size: 0.65em;
+    text-transform: uppercase;
+    color: $dimmed;
+
+    span {
+      color: $contrast;
+      font-weight: bold;
+    }
+  }
+
+  // ── Stats row (Power / Accuracy / Category) ───────────────────────────────
+  .move-card-stats {
+    display: flex;
+    gap: $padding * $small-modifier;
+    border-top: 2px solid $contrast;
+    padding-top: $padding * $small-modifier * 0.5;
+    margin-top: $padding * $small-modifier * 0.5;
+  }
+
+  .move-card-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2em;
+    flex: 1;
+    font-size: 0.6em;
+    text-transform: uppercase;
+
+    span:first-child {
+      color: $dimmed;
+    }
+
+    span:last-child {
+      font-weight: bold;
+    }
+  }
+
+  @media screen and (max-width: $medium) {
+    width: 100%;
+  }
+}

@@ -1,0 +1,92 @@
+@import '_variables.scss';
+@import '_mixins.scss';
+
+// ─── Pokégear ─────────────────────────────────────────────────────────────────
+// Replicates the Pokégear device introduced in Gen 2 (Gold/Silver/Crystal).
+// The Pokégear shows a title bar, a row of app tabs (MAP / PHONE / RADIO), and
+// a screen area for the selected app.
+//
+// Usage:
+//   <div class="pokegear">
+//     <div class="pokegear-titlebar">POKÉGEAR</div>
+//     <div class="pokegear-tabs">
+//       <button class="pokegear-tab active">MAP</button>
+//       <button class="pokegear-tab">PHONE</button>
+//       <button class="pokegear-tab">RADIO</button>
+//     </div>
+//     <div class="pokegear-screen">
+//       <!-- active screen content -->
+//     </div>
+//   </div>
+
+.pokegear {
+  display: inline-flex;
+  flex-direction: column;
+  background: $neutral;
+  border: 4px solid $contrast;
+  min-width: 200px;
+  max-width: 320px;
+  box-sizing: border-box;
+  font-family: $font-content;
+
+  // ── Title bar ─────────────────────────────────────────────────────────────
+  .pokegear-titlebar {
+    background: $contrast;
+    color: $neutral;
+    text-align: center;
+    font-family: $font-heading;
+    font-size: 0.6em;
+    padding: $padding * $small-modifier * 0.5 $padding * $small-modifier;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  // ── App tab strip ─────────────────────────────────────────────────────────
+  .pokegear-tabs {
+    display: flex;
+    border-bottom: 4px solid $contrast;
+
+    .pokegear-tab {
+      flex: 1;
+      font-family: $font-content;
+      font-size: 0.65em;
+      text-transform: uppercase;
+      padding: $padding * $small-modifier * 0.5;
+      background: darken($neutral, 8%);
+      color: $contrast;
+      border: none;
+      border-right: 2px solid $contrast;
+      cursor: pointer;
+
+      &:last-child {
+        border-right: none;
+      }
+
+      &:hover::before {
+        display: none;
+      }
+
+      &:hover {
+        background: darken($neutral, 14%);
+      }
+
+      &.active {
+        background: $neutral;
+        font-weight: bold;
+      }
+    }
+  }
+
+  // ── Screen area ───────────────────────────────────────────────────────────
+  .pokegear-screen {
+    padding: $padding * $small-modifier $padding;
+    font-size: 0.75em;
+    min-height: 80px;
+    text-transform: uppercase;
+  }
+
+  @media screen and (max-width: $medium) {
+    max-width: 100%;
+    width: 100%;
+  }
+}

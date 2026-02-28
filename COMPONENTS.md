@@ -42,6 +42,16 @@ All styling is applied automatically to standard HTML elements once you include 
 34. [Navigation Bar](#34-navigation-bar)
 35. [Navigation Rail](#35-navigation-rail)
 36. [App Bar](#36-app-bar)
+37. [Pokégear](#37-pokégear) *(Gen 2)*
+38. [Trainer Phone Call](#38-trainer-phone-call) *(Gen 2)*
+39. [Time-of-Day Badge](#39-time-of-day-badge) *(Gen 2)*
+40. [Gym Badge Case](#40-gym-badge-case) *(Gen 2)*
+41. [Move Card](#41-move-card) *(Gen 2)*
+42. [PC Box](#42-pc-box) *(Gen 2)*
+43. [Pokédex Entry](#43-pokédex-entry) *(Gen 2)*
+44. [Friendship Meter](#44-friendship-meter) *(Gen 2)*
+45. [Held Item](#45-held-item) *(Gen 2)*
+46. [Summary Screen](#46-summary-screen) *(Gen 2)*
 
 ---
 
@@ -1479,3 +1489,324 @@ Top application bar — like the area name header (*PALLET TOWN*) shown at the t
 | `.app-bar-actions` | `<div>` | Right-aligned icon button row |
 | `.elevated` | On `.app-bar` | Light background, dark text (inverted) |
 | `.app-bar-sm` | On `.app-bar` | Compact padding and smaller title |
+
+---
+
+## 37. Pokégear *(Gen 2)*
+
+The Pokégear device introduced in Gen 2 (Gold/Silver/Crystal) — a handheld gadget with MAP, PHONE, and RADIO apps. Shows a title bar, a tab strip to switch apps, and a screen area for the active app.
+
+```html
+<div class="pokegear">
+  <div class="pokegear-titlebar">POKÉGEAR</div>
+  <div class="pokegear-tabs">
+    <button class="pokegear-tab active">MAP</button>
+    <button class="pokegear-tab">PHONE</button>
+    <button class="pokegear-tab">RADIO</button>
+  </div>
+  <div class="pokegear-screen">
+    <p>NEW BARK TOWN</p>
+    <p>→ Route 29</p>
+  </div>
+</div>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.pokegear` | `<div>` | Device container; dark border |
+| `.pokegear-titlebar` | `<div>` | Inverted title bar |
+| `.pokegear-tabs` | `<div>` | Row of app tabs |
+| `.pokegear-tab` | `<button>` | Tab button; add `.active` for selected tab |
+| `.pokegear-screen` | `<div>` | Screen content area |
+
+---
+
+## 38. Trainer Phone Call *(Gen 2)*
+
+Trainer phone call dialog introduced in Gen 2 — registered trainers can call your Pokégear to request rematches, share tips, or just chat.
+
+```html
+<div class="phone-call">
+  <div class="phone-call-header">
+    <span class="phone-call-icon">📞</span>
+    <span class="phone-call-caller">YOUNGSTER JOEY</span>
+  </div>
+  <div class="phone-call-body">
+    <p>My Rattata is in the top percentage of all Rattata!</p>
+  </div>
+  <div class="phone-call-footer">
+    <button>Sure!</button>
+    <button>OK!</button>
+  </div>
+</div>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.phone-call` | `<div>` | Call panel container |
+| `.phone-call-header` | `<div>` | Inverted bar with icon and caller name |
+| `.phone-call-icon` | `<span>` | Telephone icon slot |
+| `.phone-call-caller` | `<span>` | Caller name in heading font |
+| `.phone-call-body` | `<div>` | Dialogue / message area |
+| `.phone-call-footer` | `<div>` | Action button row |
+
+---
+
+## 39. Time-of-Day Badge *(Gen 2)*
+
+Gen 2 introduced a real-time clock with three time periods that affect wild Pokémon encounters and in-game events.
+
+| Period | Class | Hours |
+|---|---|---|
+| Day | `.time-badge.day` | 06:00 – 17:59 |
+| Evening | `.time-badge.eve` | 18:00 – 19:59 |
+| Night | `.time-badge.night` | 20:00 – 05:59 |
+
+```html
+<span class="time-badge day">DAY</span>
+<span class="time-badge eve">EVE</span>
+<span class="time-badge night">NIGHT</span>
+```
+
+| Class | Effect |
+|---|---|
+| `.time-badge` | Base badge style |
+| `.day` | Warm yellow background, dark text |
+| `.eve` | Amber/orange background, light text |
+| `.night` | Dark blue background, light text |
+
+---
+
+## 40. Gym Badge Case *(Gen 2)*
+
+Displays the collected gym badges in a grid — as seen on the badge case screen in Gold/Silver/Crystal. Add `.earned` to mark a slot as collected.
+
+```html
+<div class="badge-case">
+  <div class="badge-case-title">JOHTO BADGES</div>
+  <div class="badge-case-grid">
+    <div class="badge-slot earned" title="Zephyr Badge">🥇</div>
+    <div class="badge-slot earned" title="Hive Badge">🥇</div>
+    <div class="badge-slot earned" title="Plain Badge">🥇</div>
+    <div class="badge-slot earned" title="Fog Badge">🥇</div>
+    <div class="badge-slot" title="Storm Badge"></div>
+    <div class="badge-slot" title="Mineral Badge"></div>
+    <div class="badge-slot" title="Glacier Badge"></div>
+    <div class="badge-slot" title="Rising Badge"></div>
+  </div>
+</div>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.badge-case` | `<div>` | Container with border and padding |
+| `.badge-case-title` | `<div>` | Heading-font section title |
+| `.badge-case-grid` | `<div>` | 4-column grid of badge slots |
+| `.badge-slot` | `<div>` | Empty badge slot (dark fill) |
+| `.badge-slot.earned` | — | Earned badge slot (light fill, green border) |
+
+---
+
+## 41. Move Card *(Gen 2)*
+
+Individual move detail card showing move name, type, PP, power, and accuracy — as displayed on the move-details and Pokédex screens in Gen 2.
+
+```html
+<div class="move-card">
+  <div class="move-card-name">SURF</div>
+  <div class="move-card-meta">
+    <span class="type-badge water">WATER</span>
+    <span class="move-card-pp">PP <span>15/15</span></span>
+  </div>
+  <div class="move-card-stats">
+    <div class="move-card-stat"><span>POW</span><span>95</span></div>
+    <div class="move-card-stat"><span>ACC</span><span>100</span></div>
+  </div>
+</div>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.move-card` | `<div>` | Card container |
+| `.move-card-name` | `<div>` | Move name in heading font |
+| `.move-card-meta` | `<div>` | Type badge + PP row |
+| `.move-card-pp` | `<span>` | PP label; inner `<span>` is styled bold |
+| `.move-card-stats` | `<div>` | Stat columns row |
+| `.move-card-stat` | `<div>` | Single stat column (label on top, value below) |
+
+---
+
+## 42. PC Box *(Gen 2)*
+
+Pokémon PC storage box with a named header and 5×4 slot grid — redesigned in Gold/Silver/Crystal with box names. Mark occupied slots with `.occupied`.
+
+```html
+<div class="pc-box">
+  <div class="pc-box-header">
+    <button class="pc-box-nav">◀</button>
+    <span class="pc-box-name">BOX 1</span>
+    <button class="pc-box-nav">▶</button>
+  </div>
+  <div class="pc-box-grid">
+    <div class="pc-box-slot occupied">🌿</div>
+    <div class="pc-box-slot occupied">🔥</div>
+    <div class="pc-box-slot"></div>
+    <!-- up to 20 slots (5 columns × 4 rows) -->
+  </div>
+</div>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.pc-box` | `<div>` | Box container |
+| `.pc-box-header` | `<div>` | Inverted header bar with box name and nav buttons |
+| `.pc-box-name` | `<span>` | Box name in heading font |
+| `.pc-box-nav` | `<button>` | Previous/next box button |
+| `.pc-box-grid` | `<div>` | 5-column slot grid |
+| `.pc-box-slot` | `<div>` | Empty slot |
+| `.pc-box-slot.occupied` | — | Slot containing a Pokémon (hover highlight) |
+
+---
+
+## 43. Pokédex Entry *(Gen 2)*
+
+Pokédex entry panel showing the dex number, name, species category, height, weight, and flavor text — updated with color in the Gen 2 Pokédex.
+
+```html
+<div class="pokedex-entry">
+  <div class="pokedex-entry-header">
+    <span class="pokedex-entry-number">#152</span>
+    <span class="pokedex-entry-name">CHIKORITA</span>
+  </div>
+  <div class="pokedex-entry-image">
+    <img src="chikorita.png" alt="Chikorita">
+  </div>
+  <div class="pokedex-entry-info">
+    <span class="pokedex-entry-species">Leaf Pokémon</span>
+    <span class="pokedex-entry-ht">HT: 2'11"</span>
+    <span class="pokedex-entry-wt">WT: 14 lb</span>
+  </div>
+  <div class="pokedex-entry-text">
+    A sweet aroma gently wafts from the leaf on its head.
+  </div>
+</div>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.pokedex-entry` | `<div>` | Entry container |
+| `.pokedex-entry-header` | `<div>` | Inverted bar with dex number and name |
+| `.pokedex-entry-number` | `<span>` | Dex number (dimmed) |
+| `.pokedex-entry-name` | `<span>` | Pokémon name in heading font |
+| `.pokedex-entry-image` | `<div>` | Artwork area (dark background) |
+| `.pokedex-entry-info` | `<div>` | Species / height / weight row |
+| `.pokedex-entry-species` | `<span>` | Full-width species category |
+| `.pokedex-entry-ht` | `<span>` | Height value |
+| `.pokedex-entry-wt` | `<span>` | Weight value |
+| `.pokedex-entry-text` | `<div>` | Flavor text area |
+
+---
+
+## 44. Friendship Meter *(Gen 2)*
+
+Friendship / happiness display using pixel hearts — introduced in Gen 2 where high friendship evolves Pokémon like Eevee into Espeon or Umbreon.
+
+```html
+<!-- Max friendship (5 full hearts) -->
+<span class="friendship">
+  <span class="heart full">♥</span>
+  <span class="heart full">♥</span>
+  <span class="heart full">♥</span>
+  <span class="heart full">♥</span>
+  <span class="heart full">♥</span>
+</span>
+
+<!-- Medium friendship -->
+<span class="friendship">
+  <span class="heart full">♥</span>
+  <span class="heart full">♥</span>
+  <span class="heart half">♥</span>
+  <span class="heart">♥</span>
+  <span class="heart">♥</span>
+</span>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.friendship` | `<span>` / `<div>` | Flex container for hearts |
+| `.heart` | `<span>` | Empty heart (dimmed) |
+| `.heart.full` | — | Full heart (danger red) |
+| `.heart.half` | — | Half heart (secondary orange) |
+
+---
+
+## 45. Held Item *(Gen 2)*
+
+Held item slot display — a Gen 2 exclusive mechanic allowing each Pokémon to carry one item. Shown in party and summary screens.
+
+```html
+<!-- Pokémon is holding an item -->
+<div class="held-item">
+  <span class="held-item-icon">🍇</span>
+  <span class="held-item-name">SITRUS BERRY</span>
+</div>
+
+<!-- No item equipped -->
+<div class="held-item empty">
+  <span class="held-item-name">NO ITEM</span>
+</div>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.held-item` | `<div>` / `<span>` | Item chip with border |
+| `.held-item-icon` | `<span>` | Item icon slot |
+| `.held-item-name` | `<span>` | Item name |
+| `.empty` | On `.held-item` | Dashed dimmed border; no item state |
+
+---
+
+## 46. Summary Screen *(Gen 2)*
+
+Pokémon summary panel showing name, level, gender, type badges, base stats as progress bars, and Original Trainer info — as seen on the Gen 2 party / PC summary screen.
+
+```html
+<div class="summary-screen">
+  <div class="summary-header">
+    <span class="summary-name">TOTODILE</span>
+    <span class="summary-gender male">♂</span>
+    <span class="summary-level">:L15</span>
+  </div>
+  <div class="summary-types">
+    <span class="type-badge water">WATER</span>
+  </div>
+  <div class="summary-stats">
+    <div class="summary-stat">
+      <span class="summary-stat-label">HP</span>
+      <div class="progress-bar-container">
+        <div class="progress-bar p80"></div>
+      </div>
+      <span class="summary-stat-value">53</span>
+    </div>
+    <!-- Repeat .summary-stat rows for ATK / DEF / SPD / SPC -->
+  </div>
+  <div class="summary-ot">
+    <span>OT: KRIS</span>
+    <span>ID: 12345</span>
+  </div>
+</div>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.summary-screen` | `<div>` | Summary container |
+| `.summary-header` | `<div>` | Inverted name / level / gender bar |
+| `.summary-name` | `<span>` | Pokémon name in heading font |
+| `.summary-gender` | `<span>` | Gender symbol; add `.male` (blue) or `.female` (pink) |
+| `.summary-level` | `<span>` | Level label |
+| `.summary-types` | `<div>` | Row of `.type-badge` elements |
+| `.summary-stats` | `<div>` | Stat bars container |
+| `.summary-stat` | `<div>` | Single stat row (label + bar + value) |
+| `.summary-stat-label` | `<span>` | Stat abbreviation (HP / ATK / DEF…) |
+| `.summary-stat-value` | `<span>` | Numeric stat value |
+| `.summary-ot` | `<div>` | Original Trainer name and ID row |

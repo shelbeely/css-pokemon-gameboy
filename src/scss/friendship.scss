@@ -1,0 +1,39 @@
+@import '_variables.scss';
+
+// ─── Friendship Meter ─────────────────────────────────────────────────────────
+// Displays a Pokémon's friendship / happiness level using pixel hearts.
+// Friendship was introduced in Gen 2 (Gold/Silver/Crystal) — high friendship
+// evolves Pokémon like Eevee into Espeon/Umbreon and powers up Return.
+// Full hearts = max happiness; empty hearts = low happiness.
+//
+// Usage:
+//   <div class="friendship">
+//     <span class="heart full">♥</span>
+//     <span class="heart full">♥</span>
+//     <span class="heart half">♥</span>
+//     <span class="heart">♥</span>
+//     <span class="heart">♥</span>
+//   </div>
+//
+// Recommended: 5 hearts total (each representing ~50 friendship points out of 255).
+
+.friendship {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1em;
+  font-family: $font-content;
+  font-size: 1em;
+
+  .heart {
+    line-height: 1;
+    color: darken($neutral, 20%);
+
+    &.full {
+      color: $danger-accent;
+    }
+
+    &.half {
+      color: $secondary-accent;
+    }
+  }
+}

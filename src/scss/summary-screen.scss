@@ -1,0 +1,129 @@
+@import '_variables.scss';
+
+// ─── Pokémon Summary Screen ───────────────────────────────────────────────────
+// The Pokémon summary panel showing name, level, gender, types, base stats
+// (rendered as progress bars), and OT info — as shown in the Gen 2
+// (Gold/Silver/Crystal) party / PC summary screen.
+//
+// Usage:
+//   <div class="summary-screen">
+//     <div class="summary-header">
+//       <span class="summary-name">TOTODILE</span>
+//       <span class="summary-gender male">♂</span>
+//       <span class="summary-level">:L15</span>
+//     </div>
+//     <div class="summary-types">
+//       <span class="type-badge water">WATER</span>
+//     </div>
+//     <div class="summary-stats">
+//       <div class="summary-stat">
+//         <span class="summary-stat-label">HP</span>
+//         <div class="progress-bar-container">
+//           <div class="progress-bar p80"></div>
+//         </div>
+//         <span class="summary-stat-value">53</span>
+//       </div>
+//       <!-- ATK / DEF / SPD / SPC rows follow the same pattern -->
+//     </div>
+//     <div class="summary-ot">
+//       <span>OT: KRIS</span>
+//       <span>ID: 12345</span>
+//     </div>
+//   </div>
+
+.summary-screen {
+  display: inline-flex;
+  flex-direction: column;
+  background: $neutral;
+  border: 4px solid $contrast;
+  min-width: 220px;
+  max-width: 320px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: $font-content;
+
+  // ── Name / level header ───────────────────────────────────────────────────
+  .summary-header {
+    background: $contrast;
+    color: $neutral;
+    display: flex;
+    align-items: baseline;
+    gap: 0.3em;
+    padding: $padding * $small-modifier;
+    text-transform: uppercase;
+
+    .summary-name {
+      flex: 1;
+      font-family: $font-heading;
+      font-size: 0.75em;
+    }
+
+    .summary-gender {
+      font-size: 0.9em;
+      flex-shrink: 0;
+
+      &.male   { color: #6890F0; }
+      &.female { color: #F85888; }
+    }
+
+    .summary-level {
+      font-size: 0.7em;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+  }
+
+  // ── Type badge row ────────────────────────────────────────────────────────
+  .summary-types {
+    padding: $padding * $small-modifier $padding * $small-modifier * 0.5 0;
+    display: flex;
+    gap: $padding * $small-modifier * 0.5;
+  }
+
+  // ── Stat bars grid ────────────────────────────────────────────────────────
+  .summary-stats {
+    padding: $padding * $small-modifier * 0.5 $padding * $small-modifier $padding * $small-modifier;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .summary-stat {
+    display: flex;
+    align-items: center;
+    gap: $padding * $small-modifier * 0.5;
+    font-size: 0.65em;
+
+    .summary-stat-label {
+      width: 2.5em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .progress-bar-container {
+      flex: 1;
+      margin: 0;
+    }
+
+    .summary-stat-value {
+      width: 2.5em;
+      text-align: right;
+      flex-shrink: 0;
+    }
+  }
+
+  // ── Original Trainer info ─────────────────────────────────────────────────
+  .summary-ot {
+    border-top: 2px solid $contrast;
+    padding: $padding * $small-modifier;
+    font-size: 0.65em;
+    text-transform: uppercase;
+    display: flex;
+    gap: $padding;
+    color: $dimmed;
+  }
+
+  @media screen and (max-width: $medium) {
+    max-width: 100%;
+  }
+}

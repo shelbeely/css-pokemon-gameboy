@@ -1,0 +1,47 @@
+@import '_variables.scss';
+
+// ─── Held Item ────────────────────────────────────────────────────────────────
+// Held item slot display — a Gen 2 (Gold/Silver/Crystal) exclusive mechanic
+// allowing each Pokémon to carry one item. Shown in the party and summary screens.
+// Use the .empty modifier when no item is equipped.
+//
+// Usage:
+//   <!-- Pokémon is holding an item -->
+//   <div class="held-item">
+//     <span class="held-item-icon">🍇</span>
+//     <span class="held-item-name">SITRUS BERRY</span>
+//   </div>
+//
+//   <!-- No item equipped -->
+//   <div class="held-item empty">
+//     <span class="held-item-name">NO ITEM</span>
+//   </div>
+
+.held-item {
+  display: inline-flex;
+  align-items: center;
+  gap: $padding * $small-modifier * 0.5;
+  font-family: $font-content;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  border: 2px solid $contrast;
+  padding: 0.2em 0.5em;
+  background: $neutral;
+
+  .held-item-icon {
+    font-size: 1.1em;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .held-item-name {
+    white-space: nowrap;
+  }
+
+  // ── No item state ─────────────────────────────────────────────────────────
+  &.empty {
+    color: $dimmed;
+    border-color: $dimmed;
+    border-style: dashed;
+  }
+}
