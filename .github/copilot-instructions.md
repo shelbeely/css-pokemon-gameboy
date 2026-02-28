@@ -98,6 +98,15 @@ All utilities return `Promise<void>` and are exported from `src/pgb.ts`.
 | `bun run build:css` | Build minified library CSS to `dist-release/styles/css-pokemon-gameboy.css` |
 | `bun run build:css:full` | Build unminified library CSS |
 
+## Agent workflow
+
+When working on multiple independent tasks in a single session, always delegate each task to a separate subagent using the `task` tool instead of doing all the work sequentially in the main context. This keeps the main context clean and allows tasks to be completed more efficiently.
+
+- Use the **explore** subagent for codebase questions (finding files, understanding patterns, answering "how does X work?").
+- Use the **task** subagent for running commands (builds, tests, lints, installs) where you only need success/failure status.
+- Use the **general-purpose** subagent for complex, multi-step implementation tasks that require the full toolset.
+- Prefer calling multiple independent subagents in the same response rather than sequentially.
+
 ## Adding a new component
 
 1. Create `src/scss/<component-name>.scss`.

@@ -7,8 +7,8 @@
 //
 // Usage:
 //   <!-- Pokémon is holding an item -->
-//   <div class="held-item">
-//     <span class="held-item-icon">🍇</span>
+//   <div class="held-item" data-item-name="sitrus-berry">
+//     <span class="held-item-icon"></span>
 //     <span class="held-item-name">SITRUS BERRY</span>
 //   </div>
 //
@@ -32,6 +32,12 @@
     font-size: 1.1em;
     line-height: 1;
     flex-shrink: 0;
+
+    img {
+      width: 1.5em;
+      height: 1.5em;
+      object-fit: contain;
+    }
   }
 
   .held-item-name {
