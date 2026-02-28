@@ -1,0 +1,77 @@
+@import '_variables.scss';
+
+// ─── Container ───────────────────────────────────────────────────────────────
+
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 $padding;
+}
+
+.container-fluid {
+  width: 100%;
+  padding: 0 $padding;
+}
+
+// ─── Flex row / columns ───────────────────────────────────────────────────────
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 (-$padding * $small-modifier);
+
+  > [class*="col-"] {
+    padding: 0 ($padding * $small-modifier);
+    box-sizing: border-box;
+  }
+}
+
+// 12-column grid
+@for $i from 1 through 12 {
+  .col-#{$i} {
+    flex: 0 0 percentage(calc($i / 12));
+    max-width: percentage(calc($i / 12));
+  }
+}
+
+.col {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+// Responsive: stack all columns below $medium
+@media screen and (max-width: $medium) {
+  @for $i from 1 through 12 {
+    .col-#{$i} {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+
+  .col {
+    flex: 0 0 100%;
+  }
+}
+
+// ─── Flex helpers ─────────────────────────────────────────────────────────────
+
+.flex         { display: flex; }
+.flex-col     { flex-direction: column; }
+.flex-wrap    { flex-wrap: wrap; }
+.flex-nowrap  { flex-wrap: nowrap; }
+
+.justify-start   { justify-content: flex-start; }
+.justify-end     { justify-content: flex-end; }
+.justify-center  { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-around  { justify-content: space-around; }
+
+.items-start    { align-items: flex-start; }
+.items-end      { align-items: flex-end; }
+.items-center   { align-items: center; }
+.items-stretch  { align-items: stretch; }
+
+.gap-sm  { gap: $padding * $small-modifier; }
+.gap     { gap: $padding; }
+.gap-lg  { gap: $medium-padding; }

@@ -1,0 +1,42 @@
+@import '_variables.scss';
+
+// ─── Badge ───────────────────────────────────────────────────────────────────
+// Inline label chip, like a type tag or status indicator.
+
+.badge {
+  display: inline-block;
+  font-family: $font-content;
+  font-size: 0.65em;
+  text-transform: uppercase;
+  padding: 0.2em 0.5em;
+  border: 2px solid $contrast;
+  background: $neutral;
+  color: $contrast;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  // Variants
+  &.primary {
+    background: $primary-accent;
+    color: $neutral;
+    border-color: darken($primary-accent, 15%);
+  }
+
+  &.secondary {
+    background: $secondary-accent;
+    color: $neutral;
+    border-color: darken($secondary-accent, 15%);
+  }
+
+  &.danger {
+    background: $danger-accent;
+    color: $neutral;
+    border-color: darken($danger-accent, 15%);
+  }
+
+  &.neutral {
+    background: $neutral;
+    color: $contrast;
+    border-color: $contrast;
+  }
+}

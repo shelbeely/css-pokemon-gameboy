@@ -1,0 +1,81 @@
+@import '_variables.scss';
+
+// ─── <dialog> element ────────────────────────────────────────────────────────
+// Styles the native HTML <dialog> element to look like an in-game dialogue box.
+// Open it with dialog.showModal() (JavaScript) or the `open` attribute.
+
+dialog {
+  font-family: $font-content;
+  font-size: 1em;
+  background: $neutral;
+  color: $contrast;
+  border: none;
+  padding: 0;
+  max-width: 480px;
+  width: calc(100% - 2 * #{$medium-padding});
+
+  // Pixel-art border via border-image (same sprite as .framed)
+  border-image: url('../images/frame-hd.png') 42 round;
+  border-width: 21px;
+  border-style: solid;
+
+  // Header / title bar
+  .dialog-header {
+    background: $contrast;
+    color: $neutral;
+    padding: $padding * $small-modifier $padding;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h2, h3, h4 {
+      margin: 0;
+      font-size: 1em;
+      color: $neutral;
+    }
+
+    // Close button inside header
+    .dialog-close {
+      background: none;
+      border: none;
+      font-family: $font-content;
+      font-size: 0.85em;
+      color: $neutral;
+      cursor: pointer;
+      padding: 0;
+      text-transform: uppercase;
+
+      &:hover::before {
+        display: none;
+      }
+    }
+  }
+
+  // Body / content area
+  .dialog-body {
+    padding: $padding;
+  }
+
+  // Footer with action buttons
+  .dialog-footer {
+    padding: $padding * $small-modifier $padding;
+    border-top: 4px solid $contrast;
+    display: flex;
+    justify-content: flex-end;
+    gap: $padding;
+  }
+}
+
+// Backdrop overlay
+dialog::backdrop {
+  background: rgba($contrast, 0.6);
+}
+
+// Polyfill shim: some browsers use a sibling .backdrop div
+dialog + .backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba($contrast, 0.6);
+}

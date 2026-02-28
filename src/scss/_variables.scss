@@ -36,3 +36,16 @@ $large: 1024px;
   --pgb-font-content: #{$font-content}, monospace;
   --pgb-font-heading: #{$font-heading}, monospace;
 }
+
+// ─── Dark mode ────────────────────────────────────────────────────────────────
+// Automatically swap the neutral/contrast palette when the OS is in dark mode.
+// Override any of these custom properties to opt out of auto dark mode.
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pgb-color-neutral: #181010;
+    --pgb-color-contrast: #F8F3F8;
+    --pgb-color-primary: #5AC46A;
+    --pgb-color-secondary: #F0B088;
+    --pgb-color-danger: #E03040;
+  }
+}

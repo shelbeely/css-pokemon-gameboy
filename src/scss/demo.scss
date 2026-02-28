@@ -20,7 +20,7 @@
   text-align: center;
   padding: $padding;
 
-  animation-name: floater;
+  animation-name: pgb-float;
   animation-duration: 6000ms;
   transform-origin: 50% 50%;
   animation-iteration-count: infinite;
@@ -145,15 +145,8 @@ section.framed {
 }
 
 @keyframes floater {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  50% {
-    transform: translate(2px, 20px);
-  }
-
-  100% {
-    transform: translate(0, 0);
-  }
+  // Kept for backward compatibility — use .animate-float instead
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(2px, 20px); }
+  100% { transform: translate(0, 0); }
 }

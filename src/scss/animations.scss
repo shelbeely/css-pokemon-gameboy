@@ -1,0 +1,78 @@
+@import '_variables.scss';
+
+// ─── Pixel-art cursor blink ───────────────────────────────────────────────────
+@keyframes pgb-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+// ─── Float / idle bounce (used by demo opponent sprite) ───────────────────────
+@keyframes pgb-float {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(2px, 20px); }
+  100% { transform: translate(0, 0); }
+}
+
+// ─── Shake (for "wrong answer" / damage feedback) ────────────────────────────
+@keyframes pgb-shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+// ─── Flash (hit animation) ───────────────────────────────────────────────────
+@keyframes pgb-flash {
+  0%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0.1; }
+  50%      { opacity: 1; }
+}
+
+// ─── Slide in from bottom ────────────────────────────────────────────────────
+@keyframes pgb-slide-in {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+// ─── Fade in ─────────────────────────────────────────────────────────────────
+@keyframes pgb-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// ─── Utility animation classes ────────────────────────────────────────────────
+
+.animate-blink {
+  animation: pgb-blink 1s step-end infinite;
+}
+
+.animate-float {
+  animation: pgb-float 4s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: pgb-shake 0.4s ease-in-out;
+}
+
+.animate-flash {
+  animation: pgb-flash 0.6s steps(1) 3;
+}
+
+.animate-slide-in {
+  animation: pgb-slide-in 0.3s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: pgb-fade-in 0.4s ease forwards;
+}
+
+// ─── Blinking cursor appended to text (e.g. dialogue boxes) ──────────────────
+.cursor-blink::after {
+  content: '▼';
+  display: inline-block;
+  font-size: 0.6em;
+  vertical-align: middle;
+  margin-left: 0.3em;
+  animation: pgb-blink 0.8s step-end infinite;
+}
