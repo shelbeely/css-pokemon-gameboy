@@ -239,7 +239,61 @@
       text-transform: uppercase;
       padding: 0.75em;
       line-height: 1.8;
+    }
+
+    /* Evolution path */
+    #detail-evolution {
+      font-size: 0.55em;
+      text-transform: uppercase;
+      padding: 0.5em 0.75em 0.75em;
+      border-top: 2px solid var(--pgb-color-contrast);
       flex: 1;
+    }
+    .evo-label {
+      font-family: var(--pgb-font-content, monospace);
+      margin-bottom: 0.5em;
+      opacity: 0.7;
+    }
+    .evo-chain {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5em;
+    }
+    .evo-stage {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5em;
+    }
+    .evo-mon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.15em;
+      cursor: pointer;
+      padding: 0.2em 0.3em;
+    }
+    .evo-mon:hover { background: rgba(128,128,128,0.15); }
+    .evo-mon.evo-active {
+      background: rgba(128,128,128,0.25);
+      outline: 2px solid var(--pgb-color-contrast);
+    }
+    .evo-mon img {
+      width: 40px;
+      height: 40px;
+      image-rendering: pixelated;
+      object-fit: contain;
+    }
+    .evo-mon span {
+      font-family: var(--pgb-font-content, monospace);
+      font-size: 0.7em;
+      text-align: center;
+    }
+    .evo-arrow {
+      font-family: var(--pgb-font-content, monospace);
+      font-size: 1.2em;
+      flex-shrink: 0;
+      align-self: center;
     }
 
     /* Search input */
@@ -345,6 +399,7 @@
           </div>
         </div>
         <div id="detail-flavor"></div>
+        <div id="detail-evolution"></div>
       </div>
     </div>
   </div>
@@ -730,11 +785,16 @@
       if (activeRow) activeRow.scrollIntoView({ block: "nearest" });
     }
 
+    // ── Sprite URL helpers (PokeAPI Crystal Gen-II) ────────────────────────────
+    const SPRITE_BASE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal';
+    function spriteUrl(id)     { return `${SPRITE_BASE}/${id}.png`; }
+    function backSpriteUrl(id) { return `${SPRITE_BASE}/back/${id}.png`; }
+
     // ── Update left panel preview ──────────────────────────────────────────────
     function updatePreview(idx) {
       const [id, name] = POKEMON[idx];
       const img = document.getElementById("preview-img");
-      img.src = `crystal_sprites/pokemon/front/${id}.png`;
+      img.src = spriteUrl(id);
       img.alt = name;
       document.getElementById("list-preview-label").textContent = `No.${pad(id)} ${name.toUpperCase()}`;
     }
@@ -748,11 +808,11 @@
       document.getElementById("detail-name").textContent = name.toUpperCase();
 
       const front = document.getElementById("detail-front");
-      front.src = `crystal_sprites/pokemon/front/${id}.png`;
+      front.src = spriteUrl(id);
       front.alt = name;
 
       const back = document.getElementById("detail-back");
-      back.src = `crystal_sprites/pokemon/back/${id}.png`;
+      back.src = backSpriteUrl(id);
       back.alt = `${name} back`;
 
       document.getElementById("detail-types").innerHTML =
@@ -764,6 +824,73 @@
         document.getElementById("detail-wt").textContent = `WT  ${hgToLbs(pk[1])}`;
         document.getElementById("detail-flavor").textContent = pk[3].toUpperCase();
       }
+
+      // Async: fetch & render evolution chain
+      document.getElementById("detail-evolution").innerHTML = '';
+      _currentEvoId = id;
+      getEvolutionChain(id).then(stages => {
+        if (_currentEvoId === id) renderEvolution(stages, id);
+      });
+    }
+
+    // ── Evolution chain ────────────────────────────────────────────────────────
+    let _currentEvoId = 0;
+    const _evoSpeciesCache = {};  // pokemonId -> chainUrl
+    const _evoChainCache   = {};  // chainUrl  -> parsed stages
+
+    async function getEvolutionChain(pokemonId) {
+      if (!_evoSpeciesCache[pokemonId]) {
+        try {
+          const r = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}/`);
+          const d = await r.json();
+          _evoSpeciesCache[pokemonId] = d.evolution_chain.url;
+        } catch (e) { console.error('PokeAPI species fetch failed', e); _evoSpeciesCache[pokemonId] = null; }
+      }
+      const chainUrl = _evoSpeciesCache[pokemonId];
+      if (!chainUrl) return null;
+      if (!_evoChainCache[chainUrl]) {
+        try {
+          const r = await fetch(chainUrl);
+          const d = await r.json();
+          _evoChainCache[chainUrl] = parseEvoStages(d.chain);
+        } catch (e) { console.error('PokeAPI evolution chain fetch failed', e); _evoChainCache[chainUrl] = null; }
+      }
+      return _evoChainCache[chainUrl];
+    }
+
+    function parseEvoStages(node, stages = [], depth = 0) {
+      const id = parseInt(node.species.url.split('/').filter(Boolean).pop());
+      if (!stages[depth]) stages[depth] = [];
+      stages[depth].push(id);
+      for (const next of node.evolves_to) parseEvoStages(next, stages, depth + 1);
+      return stages;
+    }
+
+    function renderEvolution(stages, currentId) {
+      const el = document.getElementById('detail-evolution');
+      if (!stages || stages.length <= 1) { el.innerHTML = ''; return; }
+      let html = '<div class="evo-label">EVOLUTION PATH</div><div class="evo-chain">';
+      for (let i = 0; i < stages.length; i++) {
+        if (i > 0) html += '<span class="evo-arrow">▶</span>';
+        html += '<div class="evo-stage">';
+        for (const sid of stages[i]) {
+          const entry = POKEMON.find(p => p[0] === sid);
+          const sname = entry ? entry[1] : '';
+          const active = sid === currentId ? ' evo-active' : '';
+          html += `<div class="evo-mon${active}" data-id="${sid}">` +
+            `<img src="${spriteUrl(sid)}" alt="${sname}" width="40" height="40">` +
+            `<span>${sname.toUpperCase()}</span></div>`;
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+      el.innerHTML = html;
+      el.querySelectorAll('.evo-mon').forEach(mon => {
+        mon.addEventListener('click', () => {
+          const idx = POKEMON.findIndex(p => p[0] === parseInt(mon.dataset.id));
+          if (idx !== -1) selectPokemon(idx);
+        });
+      });
     }
 
     // ── Keyboard navigation on list panel ─────────────────────────────────────
