@@ -1,47 +1,85 @@
 # Pokémon GameBoy CSS
 
-Inspired by: https://github.com/nostalgic-css/NES.css
+A CSS framework that brings the pixel-art aesthetic of the original Pokémon Game Boy games to web projects. Drop in a single CSS file and standard HTML elements — buttons, forms, tables, progress bars, frames, and more — are automatically styled with a faithful retro look.
 
-A CSS framework inspired by the original Pokémon games for the Game Boy. Brings the classic pixel-art aesthetic to your web projects. You can [see a demo here](https://luttje.github.io/css-pokemon-gameboy/).
+**[Live Demo →](https://luttje.github.io/css-pokemon-gameboy/)**
 
-## Using the distribution
+## Installation
 
-1. Download [the latest release](https://github.com/luttje/css-pokemon-gameboy/releases)
+### Download a release
 
-2. The css is in the `styles` directory. All other assets are inlined into the css.
+1. Download [the latest release](https://github.com/luttje/css-pokemon-gameboy/releases).
+2. Copy the `styles/` directory (which contains `css-pokemon-gameboy.css` with all assets inlined) into your project.
+3. Link the stylesheet in your HTML:
 
-3. The release contains a `template.html` to get your started.
+```html
+<link rel="stylesheet" href="./styles/css-pokemon-gameboy.css">
+```
 
-    -OR-
+## Quick start
 
-    Append the following include on the page where you want this style:
+The release includes a `template.html` you can use as a starting point. A minimal page looks like this:
 
-    ```html
-    <link rel="stylesheet" href="./styles/css-pokemon-gameboy.css">
-    ```
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My GameBoy Page</title>
+</head>
+<body>
+  <div class="framed neutral">
+    <div class="stats">
+      <h2>Hello World!</h2>
+      <div class="progress-bar-container">
+        <label for="hp">HP:</label>
+        <div class="progress-bar p51" id="hp"></div>
+      </div>
+    </div>
+    <p>Welcome to Pokémon GameBoy CSS.</p>
+    <a href="#" class="button">Start</a>
+  </div>
 
-4. See the [demo](https://luttje.github.io/css-pokemon-gameboy/), [index.html](./index.html) or [.scss-files](./src/scss/) for all possible classes and effects.
+  <!-- Include the style -->
+  <link rel="stylesheet" href="./styles/css-pokemon-gameboy.css">
+</body>
+</html>
+```
+
+See [COMPONENTS.md](./COMPONENTS.md) for a full reference of all available components and modifiers.
+
+## Theming
+
+All colors and fonts are exposed as CSS custom properties on `:root`. Override any of them after importing the framework to apply your own palette:
+
+```css
+:root {
+  --pgb-color-neutral:   #F8F3F8; /* page background */
+  --pgb-color-contrast:  #181010; /* text / borders  */
+  --pgb-color-primary:   #48A058; /* green accent     */
+  --pgb-color-secondary: #F0B088; /* orange accent    */
+  --pgb-color-danger:    #B3181C; /* red accent       */
+  --pgb-font-content:    "Pokemon GB", monospace;
+  --pgb-font-heading:    "Press Start 2P", monospace;
+}
+```
 
 ## Compile it yourself
 
-### Compiling
+```sh
+npm install
+```
 
-1. Start a terminal/command prompt in the root directory of this repository
+| Command | Description |
+|---|---|
+| `npm run dev` | Dev server with hot-reload |
+| `npm run build` | Build the demo site to `dist/` |
+| `npm run build:css` | Build the minified library CSS to `dist-release/styles/css-pokemon-gameboy.css` |
+| `npm run build:css:full` | Build the unminified library CSS |
 
-2. Run `npm install` to install the dependencies
+## Third-party licenses
 
-3. To build the demo run `npm run build` to build the distribution files to the `dist` directory (preview the demo with `npm run preview`)
+The images and style in this project are the property of Nintendo.
 
-   -OR-
-
-    Run `npm run dev` in the to watch for changes in the `src` directory and automatically build new distributions.
-
-4. To build the css files run `npm run build:css` to build the css file with all needed static files to the `dist-release` directory
-
-5. For the non-minified css file run `npm run build:css:full`
-
-## Third-party Licenses
-
-**The images in this repository are the property of Nintendo. The style is also property of Nintendo.**
-
-You can view the licenses related to third-party code in [LICENSES-THIRD-PARTY.md](LICENSES-THIRD-PARTY.md) or on their respective websites.
+Third-party code licenses are listed in [LICENSES-THIRD-PARTY.md](LICENSES-THIRD-PARTY.md).
