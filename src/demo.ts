@@ -162,3 +162,86 @@ document.querySelectorAll<HTMLElement>('.segmented-buttons').forEach(group => {
     });
   });
 });
+
+// ── Live Pokémon Lookup (PokeAPI) ──────────────────────────────────────────────
+const pokemonLookupForm   = document.getElementById('pokemonLookupForm')   as HTMLFormElement   | null;
+const pokemonLookupInput  = document.getElementById('pokemonLookupInput')  as HTMLInputElement  | null;
+const pokemonRandomBtn    = document.getElementById('pokemonRandomBtn')    as HTMLButtonElement | null;
+const pokemonLookupResult = document.getElementById('pokemonLookupResult') as HTMLElement       | null;
+
+const CRYSTAL_SPRITE_BASE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal';
+const GEN2_MAX = 251;
+const STAT_LABEL: Record<string, string> = {
+  'hp':              'HP',
+  'attack':          'ATK',
+  'defense':         'DEF',
+  'special-attack':  'SP.ATK',
+  'special-defense': 'SP.DEF',
+  'speed':           'SPD',
+};
+
+function escHtml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+async function lookupPokemon(nameOrId: string | number): Promise<void> {
+  if (!pokemonLookupResult) return;
+  const resultEl = pokemonLookupResult;
+  resultEl.innerHTML = '<span class="spinner primary spinner-sm"></span>';
+  try {
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${nameOrId}/`);
+    if (!res.ok) throw new Error('not found');
+    const data = await res.json() as {
+      id: number;
+      name: string;
+      types: { type: { name: string } }[];
+      stats: { stat: { name: string }; base_stat: number }[];
+    };
+    const id    = data.id;
+    const name  = escHtml(data.name);
+    const types = data.types.map(t => escHtml(t.type.name));
+    const stats = data.stats.map(s => ({
+      label: STAT_LABEL[s.stat.name] ?? escHtml(s.stat.name).toUpperCase(),
+      value: s.base_stat,
+    }));
+
+    const typeBadges = types.map(t => `<span class="type-badge ${t}">${t.toUpperCase()}</span>`).join(' ');
+    const statBars   = stats.map(s => {
+      const pct = Math.max(1, Math.round((s.value / 255) * 100));
+      return `<div class="summary-stat">
+        <span class="summary-stat-label">${s.label}</span>
+        <div class="progress-bar-container"><div class="progress-bar primary p${pct}"></div></div>
+        <span class="summary-stat-value">${s.value}</span>
+      </div>`;
+    }).join('');
+
+    resultEl.innerHTML = `
+      <div class="summary-screen">
+        <div class="summary-header">
+          <span class="summary-name">${name.toUpperCase()}</span>
+          <span class="summary-level">#${String(id).padStart(3, '0')}</span>
+        </div>
+        <div style="display:flex;gap:0.75em;align-items:flex-start;padding:0.5em 0">
+          <img src="${CRYSTAL_SPRITE_BASE}/${id}.png" alt="${name}" width="64" height="64" style="image-rendering:pixelated">
+          <div class="summary-types">${typeBadges}</div>
+        </div>
+        <div class="summary-stats">${statBars}</div>
+      </div>`;
+  } catch {
+    resultEl.innerHTML = '<span class="alert danger" style="font-size:0.6em">Pokémon not found.</span>';
+  }
+}
+
+if (pokemonLookupForm && pokemonLookupInput) {
+  pokemonLookupForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const val = pokemonLookupInput.value.trim().toLowerCase();
+    if (val) lookupPokemon(val);
+  });
+}
+
+if (pokemonRandomBtn) {
+  pokemonRandomBtn.addEventListener('click', () => {
+    lookupPokemon(Math.floor(Math.random() * GEN2_MAX) + 1);
+  });
+}

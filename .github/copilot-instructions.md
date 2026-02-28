@@ -104,3 +104,17 @@ All utilities return `Promise<void>` and are exported from `src/pgb.ts`.
 2. Add `@import '<component-name>.scss';` to `src/scss/main.scss`.
 3. Document the new component in `COMPONENTS.md` following the existing table-and-code-block format.
 4. Add a demo section to `index.html` so it appears in the live demo.
+
+## PokeAPI
+
+The demo site uses **PokéAPI** (https://pokeapi.co, source: https://github.com/PokeAPI/pokeapi) for live Pokémon data.
+
+- **REST base URL**: `https://pokeapi.co/api/v2/`
+- **Pokémon endpoint**: `GET /pokemon/{id or name}` — returns name, types, base stats, sprites.
+- **Species endpoint**: `GET /pokemon-species/{id or name}` — returns flavor text, evolution chain URL.
+- **Evolution chain endpoint**: `GET /evolution-chain/{id}` — returns the full evolution chain.
+- **Sprites (Gen II Crystal)**: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/{id}.png` (back sprites use `.../crystal/back/{id}.png`).
+
+When adding features that display Pokémon data (sprites, types, stats, flavor text, evolution chains), prefer fetching from PokéAPI rather than hard-coding values. Cache API responses in memory to avoid redundant network calls. Always handle fetch errors gracefully (try/catch) so the UI degrades cleanly if the API is unavailable.
+
+Generation 1 & 2 Pokémon have IDs 1–251. Scale base stats (0–255) to progress-bar percentage classes (`.p{1–100}`) with `Math.max(1, Math.round((stat / 255) * 100))`.

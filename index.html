@@ -1297,6 +1297,20 @@
         </div>
       </section>
 
+      <section class="framed contains-code">
+        <h2>Live Pokémon Lookup</h2>
+        <p>Fetch any Gen 1 &amp; 2 Pokémon live from <a href="https://pokeapi.co" target="_blank">PokéAPI</a> and display its sprite, types, and base stats using framework components.</p>
+
+        <div class="viewable-code">
+          <form id="pokemonLookupForm" style="display:flex;gap:0.5em;align-items:center;flex-wrap:wrap">
+            <input type="text" id="pokemonLookupInput" placeholder="Name or #…" style="width:8em" autocomplete="off">
+            <button type="submit">LOOK UP</button>
+            <button type="button" id="pokemonRandomBtn">RANDOM</button>
+          </form>
+          <div id="pokemonLookupResult" style="margin-top:1em"></div>
+        </div>
+      </section>
+
     </main>
 
     <div id="githubHint">
