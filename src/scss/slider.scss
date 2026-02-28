@@ -1,0 +1,128 @@
+@import '_variables.scss';
+
+// ─── Slider ───────────────────────────────────────────────────────────────────
+// Pixel-art range input — styled like the brightness / volume controls on the
+// Gen 1 Options screen: a hard-edged track with a blocky square thumb, no
+// rounding or smooth gradients.
+//
+//   <input type="range" min="0" max="100" value="60">
+//   <input type="range" class="primary" min="0" max="100" value="72">
+//   <input type="range" class="danger"  min="0" max="100" value="18">
+//   <input type="range" disabled        min="0" max="100" value="40">
+
+$slider-track-height: 4px;
+$slider-thumb-width: 10px;
+$slider-thumb-height: 20px;
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: $slider-track-height;
+  background: $contrast;
+  cursor: pointer;
+  margin: $padding * $small-modifier 0;
+  outline: none;
+
+  // ── WebKit / Blink thumb ─────────────────────────────────────────────────
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: $slider-thumb-width;
+    height: $slider-thumb-height;
+    background: $neutral;
+    border: 3px solid $contrast;
+    cursor: pointer;
+  }
+
+  // ── Firefox thumb ─────────────────────────────────────────────────────────
+  &::-moz-range-thumb {
+    width: $slider-thumb-width;
+    height: $slider-thumb-height;
+    background: $neutral;
+    border: 3px solid $contrast;
+    cursor: pointer;
+  }
+
+  // ── Firefox track ─────────────────────────────────────────────────────────
+  &::-moz-range-track {
+    height: $slider-track-height;
+    background: $contrast;
+  }
+
+  // ── Focus ring ────────────────────────────────────────────────────────────
+  &:focus {
+    outline: 2px solid $primary-accent;
+    outline-offset: 2px;
+  }
+
+  // ── Disabled ──────────────────────────────────────────────────────────────
+  &:disabled {
+    background: $dimmed;
+    cursor: not-allowed;
+
+    &::-webkit-slider-thumb {
+      border-color: $dimmed;
+      cursor: not-allowed;
+    }
+
+    &::-moz-range-thumb {
+      border-color: $dimmed;
+      cursor: not-allowed;
+    }
+  }
+
+  // ── Colour variants ───────────────────────────────────────────────────────
+
+  &.primary {
+    background: $primary-accent;
+
+    &::-webkit-slider-thumb {
+      border-color: $primary-accent;
+    }
+
+    &::-moz-range-thumb {
+      border-color: $primary-accent;
+    }
+
+    &::-moz-range-track {
+      background: $primary-accent;
+    }
+  }
+
+  &.secondary {
+    background: $secondary-accent;
+
+    &::-webkit-slider-thumb {
+      border-color: $secondary-accent;
+    }
+
+    &::-moz-range-thumb {
+      border-color: $secondary-accent;
+    }
+
+    &::-moz-range-track {
+      background: $secondary-accent;
+    }
+  }
+
+  &.danger {
+    background: $danger-accent;
+
+    &::-webkit-slider-thumb {
+      border-color: $danger-accent;
+    }
+
+    &::-moz-range-thumb {
+      border-color: $danger-accent;
+    }
+
+    &::-moz-range-track {
+      background: $danger-accent;
+    }
+  }
+
+  @media screen and (max-width: $medium) {
+    margin: $padding * $small-modifier * $small-modifier 0;
+  }
+}

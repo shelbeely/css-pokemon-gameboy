@@ -1,0 +1,121 @@
+@import '_variables.scss';
+
+// ─── List ─────────────────────────────────────────────────────────────────────
+// Structured list rows — like the item lists inside the Bag, the Pokédex entry
+// browser, or the PC Box. Each list-item can have an optional leading element
+// (icon / sprite / badge), a body section (title + subtitle), and an optional
+// trailing element (meta text, action button, or badge).
+//
+//   <ul class="list">
+//     <li class="list-item">
+//       <span class="list-item-leading">🌿</span>
+//       <span class="list-item-content">
+//         <span class="list-item-title">Bulbasaur</span>
+//         <span class="list-item-subtitle">#001 — Seed Pokémon</span>
+//       </span>
+//       <span class="list-item-trailing">Lv.5</span>
+//     </li>
+//     <li class="list-item">
+//       <span class="list-item-content">
+//         <span class="list-item-title">Charmander</span>
+//       </span>
+//       <span class="list-item-trailing">
+//         <span class="badge danger">Faint</span>
+//       </span>
+//     </li>
+//   </ul>
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: $padding 0;
+  border: 2px solid $contrast;
+  width: 100%;
+  box-sizing: border-box;
+
+  .list-item {
+    display: flex;
+    align-items: center;
+    gap: $padding * $small-modifier;
+    padding: $padding * $small-modifier $padding;
+    border-bottom: 2px solid $contrast;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: darken($neutral, 5%);
+    }
+
+    // ── Clickable / interactive rows ──────────────────────────────────────
+    &[role="button"],
+    &[tabindex] {
+      cursor: pointer;
+
+      &:focus {
+        outline: 2px solid $primary-accent;
+        outline-offset: -2px;
+      }
+    }
+  }
+
+  // ── Leading slot (icon / avatar / sprite) ─────────────────────────────────
+  .list-item-leading {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4em;
+    line-height: 1;
+    min-width: 1.4em;
+  }
+
+  // ── Body: title + optional subtitle ──────────────────────────────────────
+  .list-item-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+    min-width: 0;
+  }
+
+  .list-item-title {
+    font-family: $font-content;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .list-item-subtitle {
+    font-size: 0.7em;
+    color: $dimmed;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // ── Trailing slot (meta / action / badge) ─────────────────────────────────
+  .list-item-trailing {
+    flex-shrink: 0;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    color: $dimmed;
+    text-align: right;
+  }
+
+  @media screen and (max-width: $medium) {
+    .list-item {
+      flex-wrap: wrap;
+      gap: $padding * $small-modifier * $small-modifier;
+    }
+
+    .list-item-trailing {
+      width: 100%;
+      text-align: left;
+    }
+  }
+}

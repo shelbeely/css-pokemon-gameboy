@@ -130,3 +130,35 @@ const toastDangerBtn  = document.getElementById('toastDangerBtn');
 toastNeutralBtn?.addEventListener('click', () => showToast('Picked up a Potion!', 'neutral'));
 toastPrimaryBtn?.addEventListener('click', () => showToast('Pokémon caught!', 'primary'));
 toastDangerBtn?.addEventListener('click',  () => showToast('Your Pokémon fainted!', 'danger'));
+
+// ── Filter chip toggle demo ────────────────────────────────────────────────────
+const demoChipGroup = document.getElementById('demoChipGroup');
+if (demoChipGroup) {
+  demoChipGroup.querySelectorAll<HTMLButtonElement>('.chip.filter').forEach(chip => {
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('selected');
+    });
+  });
+}
+
+// ── Input chip remove demo ────────────────────────────────────────────────────
+const demoInputChips = document.getElementById('demoInputChips');
+if (demoInputChips) {
+  demoInputChips.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.chip-remove');
+    if (btn) btn.closest('.chip')?.remove();
+  });
+}
+
+// ── Segmented button demo (single-select) ─────────────────────────────────────
+document.querySelectorAll<HTMLElement>('.segmented-buttons').forEach(group => {
+  const isMulti = group.dataset.multi === 'true';
+  group.querySelectorAll<HTMLButtonElement>('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!isMulti) {
+        group.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      }
+      btn.classList.toggle('active');
+    });
+  });
+});

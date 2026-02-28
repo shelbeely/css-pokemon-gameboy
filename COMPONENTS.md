@@ -34,6 +34,14 @@ All styling is applied automatically to standard HTML elements once you include 
 26. [Divider](#26-divider)
 27. [Breadcrumb](#27-breadcrumb)
 28. [Toggle](#28-toggle)
+29. [Chips](#29-chips)
+30. [Slider](#30-slider)
+31. [Segmented Button](#31-segmented-button)
+32. [Floating Action Button (FAB)](#32-floating-action-button-fab)
+33. [List](#33-list)
+34. [Navigation Bar](#34-navigation-bar)
+35. [Navigation Rail](#35-navigation-rail)
+36. [App Bar](#36-app-bar)
 
 ---
 
@@ -1190,3 +1198,284 @@ Pixel-art ON / OFF toggle — faithful to the Gen 1 Options screen where setting
 | `.toggle-off` | `<span>` | "OFF" label — highlighted (inverted) when unchecked |
 | `.toggle-on` | `<span>` | "ON" label — highlighted (inverted) when checked |
 | `input[disabled]` | `<input>` | Dims the track; cursor changes to not-allowed |
+
+---
+
+## 29. Chips
+
+Compact interactive labels — like the move-type tags shown on the Pokédex entry screen. Three flavours: **filter** (toggleable selection), **input** (dismissible tag), and **suggestion** (one-shot action shortcut). Wrap multiple chips in `.chip-group` for automatic wrapping and spacing.
+
+```html
+<!-- Chip group container -->
+<div class="chip-group">
+  <button class="chip filter selected">Grass</button>
+  <button class="chip filter">Fire</button>
+  <button class="chip filter" disabled>Dragon</button>
+</div>
+
+<!-- Input chip (dismissible) -->
+<span class="chip input">
+  Bulbasaur
+  <button class="chip-remove" aria-label="Remove">×</button>
+</span>
+
+<!-- Suggestion chip (one-shot) -->
+<button class="chip suggestion">Use Potion</button>
+
+<!-- Colour variants -->
+<button class="chip primary selected">HP Full</button>
+<button class="chip secondary selected">HP Mid</button>
+<button class="chip danger selected">HP Low</button>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.chip-group` | Any | Flex row with wrapping and gap spacing |
+| `.chip` | `<button>` / `<span>` | Base chip — bordered label, uppercase font |
+| `.chip.selected` | — | Inverted (dark background, light text) |
+| `.chip.filter` | `<button>` | Toggleable filter chip |
+| `.chip.input` | `<span>` | Dismissible input tag; contains `.chip-remove` |
+| `.chip.suggestion` | `<button>` | One-shot suggestion shortcut |
+| `.chip-remove` | `<button>` | Remove button inside an input chip |
+| `.chip.primary` | — | Green border/text; filled green when selected |
+| `.chip.secondary` | — | Orange border/text; filled orange when selected |
+| `.chip.danger` | — | Red border/text; filled red when selected |
+| `[disabled]` | — | Dims border and text; cursor not-allowed |
+
+---
+
+## 30. Slider
+
+Pixel-art `<input type="range">` — like the volume / brightness controls on the Gen 1 Options screen. Hard-edged track with a blocky square thumb; no rounding or smooth gradients.
+
+```html
+<!-- Default -->
+<input type="range" min="0" max="100" value="60">
+
+<!-- Colour variants -->
+<input type="range" class="primary"   min="0" max="100" value="80">
+<input type="range" class="secondary" min="0" max="100" value="45">
+<input type="range" class="danger"    min="0" max="100" value="18">
+
+<!-- Disabled -->
+<input type="range" disabled min="0" max="100" value="40">
+```
+
+| Selector | Effect |
+|---|---|
+| `input[type="range"]` | Full-width pixel-art track + square thumb; focus ring on Tab |
+| `.primary` | Green track and thumb border |
+| `.secondary` | Orange track and thumb border |
+| `.danger` | Red track and thumb border |
+| `[disabled]` | Dimmed track; cursor not-allowed |
+
+---
+
+## 31. Segmented Button
+
+A row of related mutually-exclusive (or multi-select) toggle buttons — like the text-speed selector (FAST / MED / SLOW) or the battle-style toggle (SET / SHIFT) on the Gen 1/2 Options screen. All segments share a single outer border.
+
+```html
+<!-- Single-select (add/remove .active with JS) -->
+<div class="segmented-buttons" role="group" aria-label="Text speed">
+  <button class="active">Fast</button>
+  <button>Med</button>
+  <button>Slow</button>
+</div>
+
+<!-- Colour variants -->
+<div class="segmented-buttons primary" role="group">
+  <button class="active">Set</button>
+  <button>Shift</button>
+</div>
+
+<!-- Disabled segment -->
+<div class="segmented-buttons" role="group">
+  <button class="active">On</button>
+  <button disabled>Off</button>
+</div>
+```
+
+| Class | Effect |
+|---|---|
+| `.segmented-buttons` | Inline-flex bordered group; no gap between segments |
+| `.active` | On `<button>` — inverted (dark bg, light text) |
+| `.primary` | On group — green border; green fill for active |
+| `.secondary` | On group — orange border; orange fill for active |
+| `.danger` | On group — red border; red fill for active |
+| `[disabled]` | On `<button>` — dimmed; cursor not-allowed |
+
+---
+
+## 32. Floating Action Button (FAB)
+
+The primary on-screen shortcut — always prominent and ready to tap, like the SELECT-button item shortcut registered in the Gen 2 item screen. The base `.fab` produces a styled square button; add `position: fixed` (or a fixed-position wrapper) to anchor it to a viewport corner.
+
+```html
+<!-- Default -->
+<button class="fab">+</button>
+
+<!-- Extended (icon + text) -->
+<button class="fab fab-extended">+ New Game</button>
+
+<!-- Sizes -->
+<button class="fab fab-sm">+</button>
+<button class="fab fab-lg">+</button>
+
+<!-- Colour variants -->
+<button class="fab primary">+</button>
+<button class="fab secondary">+</button>
+<button class="fab danger">!</button>
+
+<!-- Fixed to viewport (typical usage) -->
+<button class="fab primary" style="position:fixed;bottom:2em;right:2em;">+</button>
+```
+
+| Class | Effect |
+|---|---|
+| `.fab` | Square button, inverted colours, pixel drop-shadow |
+| `.fab-extended` | Auto-width with left/right padding and a gap for an icon |
+| `.fab-sm` | Small FAB (2.2 em) |
+| `.fab-lg` | Large FAB (4 em) |
+| `.primary` | Green background |
+| `.secondary` | Orange background |
+| `.danger` | Red background |
+
+---
+
+## 33. List
+
+Structured list rows — like the item browser inside the Bag, the Pokédex entry list, or the PC Box. Each row can contain an optional leading slot (icon / sprite), a body area (title + subtitle), and an optional trailing slot (meta text, badge, or action).
+
+```html
+<ul class="list">
+  <li class="list-item">
+    <span class="list-item-leading">🌿</span>
+    <span class="list-item-content">
+      <span class="list-item-title">Bulbasaur</span>
+      <span class="list-item-subtitle">#001 — Seed Pokémon</span>
+    </span>
+    <span class="list-item-trailing">Lv.5</span>
+  </li>
+  <li class="list-item">
+    <span class="list-item-content">
+      <span class="list-item-title">Poké Ball ×5</span>
+    </span>
+    <span class="list-item-trailing">Bag · Poké Balls</span>
+  </li>
+</ul>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.list` | `<ul>` | Full-width bordered list; pixel separators between rows |
+| `.list-item` | `<li>` | Flex row; hover darkens the background |
+| `.list-item-leading` | `<span>` | Left slot — icon / sprite (flex-shrink: 0) |
+| `.list-item-content` | `<span>` | Body — grows to fill remaining width |
+| `.list-item-title` | `<span>` | Primary text — uppercase, truncates with ellipsis |
+| `.list-item-subtitle` | `<span>` | Secondary text — dimmed, smaller, truncates |
+| `.list-item-trailing` | `<span>` | Right slot — meta text, badge, or action |
+
+---
+
+## 34. Navigation Bar
+
+Bottom navigation bar — like the quick-action tray that anchors to the bottom of the screen in later Pokémon titles, rendered in Gen 1/2 pixel art. Each item shows an icon and a short label. By default the element flows with the document; add `position: fixed; bottom: 0; left: 0; right: 0;` to pin it to the viewport.
+
+```html
+<nav class="nav-bar">
+  <a href="#" class="nav-bar-item active">
+    <span class="nav-bar-icon">⚔</span>
+    <span class="nav-bar-label">Fight</span>
+  </a>
+  <a href="#" class="nav-bar-item">
+    <span class="nav-bar-icon">🎒</span>
+    <span class="nav-bar-label">Bag</span>
+  </a>
+  <a href="#" class="nav-bar-item">
+    <span class="nav-bar-icon">🐾</span>
+    <span class="nav-bar-label">Pokémon</span>
+  </a>
+  <a href="#" class="nav-bar-item">
+    <span class="nav-bar-icon">▶</span>
+    <span class="nav-bar-label">Run</span>
+  </a>
+</nav>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.nav-bar` | `<nav>` | Full-width flex row; top border |
+| `.nav-bar-item` | `<a>` | Flex column; dimmed by default |
+| `.nav-bar-item.active` | — | Full contrast; top accent border |
+| `.nav-bar-icon` | `<span>` | Large icon slot |
+| `.nav-bar-label` | `<span>` | Uppercase micro-font label |
+
+---
+
+## 35. Navigation Rail
+
+Vertical side navigation — like the location sidebar or Pokégear map tabs in Gen 2. Intended for medium-to-large viewports; collapses to a horizontal bar on small screens (≤ 768 px).
+
+```html
+<nav class="nav-rail">
+  <a href="#" class="nav-rail-item active">
+    <span class="nav-rail-icon">⚔</span>
+    <span class="nav-rail-label">Fight</span>
+  </a>
+  <a href="#" class="nav-rail-item">
+    <span class="nav-rail-icon">🎒</span>
+    <span class="nav-rail-label">Bag</span>
+  </a>
+  <a href="#" class="nav-rail-item">
+    <span class="nav-rail-icon">⚙</span>
+    <span class="nav-rail-label">Options</span>
+  </a>
+</nav>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.nav-rail` | `<nav>` | 5 em wide flex column; right border |
+| `.nav-rail-item` | `<a>` | Stacked icon + label; dimmed by default |
+| `.nav-rail-item.active` | — | Full contrast; left accent border |
+| `.nav-rail-icon` | `<span>` | Icon slot |
+| `.nav-rail-label` | `<span>` | Uppercase micro-font label |
+
+---
+
+## 36. App Bar
+
+Top application bar — like the area name header (*PALLET TOWN*) shown at the top of the screen when you enter a new location in Gen 1 & 2. Contains an optional back/nav button on the left, a title in the centre, and optional action buttons on the right.
+
+```html
+<!-- Default (dark background) -->
+<header class="app-bar">
+  <button class="app-bar-nav" aria-label="Back">◀</button>
+  <span class="app-bar-title">Pokédex</span>
+  <div class="app-bar-actions">
+    <button aria-label="Search">🔍</button>
+    <button aria-label="Settings">⚙</button>
+  </div>
+</header>
+
+<!-- Elevated (light background) -->
+<header class="app-bar elevated">
+  <span class="app-bar-title">Party</span>
+</header>
+
+<!-- Small / compact -->
+<header class="app-bar app-bar-sm">
+  <button class="app-bar-nav" aria-label="Back">◀</button>
+  <span class="app-bar-title">Options</span>
+</header>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.app-bar` | `<header>` | Full-width dark bar; flex row |
+| `.app-bar-nav` | `<button>` | Back / menu button; light text on dark bg |
+| `.app-bar-title` | `<span>` | Heading-font title; truncates with ellipsis |
+| `.app-bar-actions` | `<div>` | Right-aligned icon button row |
+| `.elevated` | On `.app-bar` | Light background, dark text (inverted) |
+| `.app-bar-sm` | On `.app-bar` | Compact padding and smaller title |

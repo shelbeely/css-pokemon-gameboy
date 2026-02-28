@@ -1,0 +1,152 @@
+@import '_variables.scss';
+
+// ─── Chips ────────────────────────────────────────────────────────────────────
+// Compact interactive labels — like the move-type tags shown on the Pokédex
+// entry screen. Three flavours: filter (toggleable selection), input
+// (dismissible tag), and suggestion (one-shot action shortcut).
+//
+//   <!-- Chip group container -->
+//   <div class="chip-group">
+//     <button class="chip">Normal</button>
+//     <button class="chip selected">Fire</button>
+//     <button class="chip" disabled>Water</button>
+//   </div>
+//
+//   <!-- Filter chip (toggle — add/remove .selected via JS) -->
+//   <button class="chip filter">Grass</button>
+//   <button class="chip filter selected">Poison</button>
+//
+//   <!-- Input chip (dismissible tag) -->
+//   <span class="chip input">
+//     Charmander
+//     <button class="chip-remove" aria-label="Remove">×</button>
+//   </span>
+//
+//   <!-- Suggestion chip (one-shot shortcut) -->
+//   <button class="chip suggestion">Use Potion</button>
+//
+//   <!-- Colour variants -->
+//   <button class="chip primary selected">HP Full</button>
+//   <button class="chip secondary selected">HP Mid</button>
+//   <button class="chip danger selected">HP Low</button>
+
+// ── Chip group ────────────────────────────────────────────────────────────────
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $padding * $small-modifier;
+  align-items: center;
+  margin: $padding * $small-modifier 0;
+}
+
+// ── Base chip ─────────────────────────────────────────────────────────────────
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-family: $font-content;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  padding: 0.3em 0.75em;
+  background: $neutral;
+  color: $contrast;
+  border: 2px solid $contrast;
+  cursor: pointer;
+  white-space: nowrap;
+
+  // Suppress the global hover-arrow that applies to all <button> elements
+  &:hover::before {
+    display: none;
+  }
+
+  &:hover:not(:disabled) {
+    background: darken($neutral, 8%);
+  }
+
+  // Selected / active state — inverted (dark background, light text)
+  &.selected {
+    background: $contrast;
+    color: $neutral;
+  }
+
+  // Disabled state
+  &:disabled {
+    color: $dimmed;
+    border-color: $dimmed;
+    cursor: not-allowed;
+
+    &.selected {
+      background: darken($neutral, 10%);
+      color: $dimmed;
+    }
+  }
+
+  // Focus ring
+  &:focus {
+    outline: 2px solid $primary-accent;
+    outline-offset: 2px;
+  }
+
+  // ── Remove button (inside .chip.input) ──────────────────────────────────
+  .chip-remove {
+    background: none;
+    border: none;
+    font-family: $font-content;
+    font-size: 1em;
+    cursor: pointer;
+    padding: 0;
+    color: inherit;
+    line-height: 1;
+    margin-left: 0.1em;
+
+    &:hover::before {
+      display: none;
+    }
+  }
+
+  // ── Colour variants ───────────────────────────────────────────────────────
+
+  &.primary {
+    border-color: $primary-accent;
+    color: $primary-accent;
+
+    &.selected {
+      background: $primary-accent;
+      color: $neutral;
+    }
+
+    &:hover:not(:disabled):not(.selected) {
+      background: mix($primary-accent, $neutral, 12%);
+    }
+  }
+
+  &.secondary {
+    border-color: $secondary-accent;
+    color: $secondary-accent;
+
+    &.selected {
+      background: $secondary-accent;
+      color: $neutral;
+    }
+
+    &:hover:not(:disabled):not(.selected) {
+      background: mix($secondary-accent, $neutral, 12%);
+    }
+  }
+
+  &.danger {
+    border-color: $danger-accent;
+    color: $danger-accent;
+
+    &.selected {
+      background: $danger-accent;
+      color: $neutral;
+    }
+
+    &:hover:not(:disabled):not(.selected) {
+      background: mix($danger-accent, $neutral, 12%);
+    }
+  }
+}

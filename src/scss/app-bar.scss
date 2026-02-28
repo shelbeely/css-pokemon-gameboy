@@ -1,0 +1,137 @@
+@import '_variables.scss';
+@import '_mixins.scss';
+
+// ─── App Bar ──────────────────────────────────────────────────────────────────
+// Top application bar — like the area name header ("PALLET TOWN") that appears
+// at the top of the screen when you enter a new location in Gen 1 & 2. Contains
+// an optional back/menu button on the left, a centred title, and optional action
+// buttons on the right.
+//
+//   <!-- Default (dark) app bar -->
+//   <header class="app-bar">
+//     <button class="app-bar-nav" aria-label="Back">◀</button>
+//     <span class="app-bar-title">Pokédex</span>
+//     <div class="app-bar-actions">
+//       <button aria-label="Search">🔍</button>
+//       <button aria-label="Settings">⚙</button>
+//     </div>
+//   </header>
+//
+//   <!-- Elevated variant (light) -->
+//   <header class="app-bar elevated">
+//     <span class="app-bar-title">Party</span>
+//   </header>
+//
+//   <!-- Small variant -->
+//   <header class="app-bar app-bar-sm">
+//     <span class="app-bar-title">Options</span>
+//   </header>
+
+.app-bar {
+  display: flex;
+  align-items: center;
+  gap: $padding * $small-modifier;
+  padding: $padding * $small-modifier $padding;
+  background: $contrast;
+  color: $neutral;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 4px solid darken($contrast, 5%);
+
+  // ── Navigation button (back / menu) ───────────────────────────────────────
+  .app-bar-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: $font-content;
+    font-size: 0.9em;
+    background: none;
+    border: none;
+    color: $neutral;
+    cursor: pointer;
+    padding: 0 $padding * $small-modifier;
+    flex-shrink: 0;
+
+    &:hover::before {
+      display: none;
+    }
+
+    &:focus {
+      outline: 2px solid $primary-accent;
+      outline-offset: 2px;
+    }
+  }
+
+  // ── Title ─────────────────────────────────────────────────────────────────
+  .app-bar-title {
+    flex: 1;
+    font-family: $font-heading;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  // ── Action buttons (right side) ───────────────────────────────────────────
+  .app-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: $padding * $small-modifier;
+    flex-shrink: 0;
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: $font-content;
+      font-size: 0.85em;
+      background: none;
+      border: none;
+      color: $neutral;
+      cursor: pointer;
+      padding: 0 $padding * $small-modifier;
+
+      &:hover::before {
+        display: none;
+      }
+
+      &:focus {
+        outline: 2px solid $primary-accent;
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  // ── Elevated variant (light background, dark text) ────────────────────────
+  &.elevated {
+    background: $neutral;
+    color: $contrast;
+    border-bottom-color: $contrast;
+
+    .app-bar-nav {
+      color: $contrast;
+    }
+
+    .app-bar-actions button {
+      color: $contrast;
+    }
+  }
+
+  // ── Small / compact variant ───────────────────────────────────────────────
+  &.app-bar-sm {
+    padding: $padding * $small-modifier * $small-modifier $padding * $small-modifier;
+
+    .app-bar-title {
+      font-size: 0.6em;
+    }
+  }
+
+  @media screen and (max-width: $medium) {
+    padding: $padding * $small-modifier;
+
+    .app-bar-title {
+      font-size: 0.6em;
+    }
+  }
+}

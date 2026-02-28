@@ -1,0 +1,90 @@
+@import '_variables.scss';
+
+// ─── Navigation Rail ──────────────────────────────────────────────────────────
+// Vertical side navigation — like the location sidebar or Pokégear map screen
+// tabs in Gen 2. Intended for medium-to-large viewports; collapses to a compact
+// strip on small screens.
+//
+//   <nav class="nav-rail">
+//     <a href="#" class="nav-rail-item active">
+//       <span class="nav-rail-icon">⚔</span>
+//       <span class="nav-rail-label">Fight</span>
+//     </a>
+//     <a href="#" class="nav-rail-item">
+//       <span class="nav-rail-icon">🎒</span>
+//       <span class="nav-rail-label">Bag</span>
+//     </a>
+//     <a href="#" class="nav-rail-item">
+//       <span class="nav-rail-icon">⚙</span>
+//       <span class="nav-rail-label">Options</span>
+//     </a>
+//   </nav>
+
+.nav-rail {
+  display: flex;
+  flex-direction: column;
+  width: 5em;
+  background: $neutral;
+  border-right: 4px solid $contrast;
+  padding: $padding * $small-modifier 0;
+  box-sizing: border-box;
+
+  .nav-rail-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: $padding * $small-modifier;
+    text-decoration: none;
+    color: $dimmed;
+    gap: 0.2em;
+
+    &.active {
+      color: $contrast;
+      background: darken($neutral, 8%);
+      border-left: 4px solid $contrast;
+      padding-left: calc(#{$padding * $small-modifier} - 4px);
+    }
+
+    &:hover {
+      background: darken($neutral, 5%);
+      color: $contrast;
+    }
+
+    &:focus {
+      outline: 2px solid $primary-accent;
+      outline-offset: -2px;
+    }
+  }
+
+  .nav-rail-icon {
+    font-size: 1.2em;
+    line-height: 1;
+  }
+
+  .nav-rail-label {
+    font-family: $font-content;
+    font-size: 0.5em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  @media screen and (max-width: $medium) {
+    flex-direction: row;
+    width: 100%;
+    border-right: none;
+    border-bottom: 4px solid $contrast;
+    padding: 0;
+
+    .nav-rail-item {
+      flex: 1;
+
+      &.active {
+        border-left: none;
+        border-top: 4px solid $contrast;
+        margin-top: -4px;
+        padding-left: $padding * $small-modifier;
+      }
+    }
+  }
+}

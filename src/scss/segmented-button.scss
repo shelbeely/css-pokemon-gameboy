@@ -1,0 +1,153 @@
+@import '_variables.scss';
+
+// ─── Segmented Button ─────────────────────────────────────────────────────────
+// A row of related mutually-exclusive (or multi-select) toggle buttons — like
+// the text-speed selector (FAST / MED / SLOW) or the battle-animation toggle
+// (ON / OFF) on the Gen 1 Options screen. All segments share a single border.
+//
+//   <!-- Single-select (radio behaviour — one .active at a time) -->
+//   <div class="segmented-buttons" role="group" aria-label="Text speed">
+//     <button class="active">Fast</button>
+//     <button>Med</button>
+//     <button>Slow</button>
+//   </div>
+//
+//   <!-- Multi-select (checkbox behaviour — any number active) -->
+//   <div class="segmented-buttons" role="group" aria-label="Move types">
+//     <button class="active">Fire</button>
+//     <button class="active">Water</button>
+//     <button>Grass</button>
+//   </div>
+//
+//   <!-- Colour variants -->
+//   <div class="segmented-buttons primary"> … </div>
+//   <div class="segmented-buttons danger">  … </div>
+//
+//   <!-- Disabled individual segment -->
+//   <div class="segmented-buttons">
+//     <button class="active">On</button>
+//     <button disabled>Off</button>
+//   </div>
+
+.segmented-buttons {
+  display: inline-flex;
+  border: 2px solid $contrast;
+  margin: $padding * $small-modifier 0;
+
+  button,
+  a.button {
+    flex: 1;
+    font-family: $font-content;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    padding: $padding * $small-modifier $padding;
+    background: $neutral;
+    color: $contrast;
+    border: none;
+    border-right: 2px solid $contrast;
+    cursor: pointer;
+    white-space: nowrap;
+    text-align: center;
+
+    &:last-child {
+      border-right: none;
+    }
+
+    // Suppress the global hover-arrow on <button>
+    &:hover::before {
+      display: none;
+    }
+
+    &:hover:not(.active):not(:disabled) {
+      background: darken($neutral, 8%);
+    }
+
+    &.active {
+      background: $contrast;
+      color: $neutral;
+    }
+
+    &:disabled {
+      color: $dimmed;
+      cursor: not-allowed;
+
+      &.active {
+        background: darken($neutral, 10%);
+        color: $dimmed;
+      }
+    }
+
+    &:focus {
+      outline: 2px solid $primary-accent;
+      outline-offset: -2px;
+    }
+  }
+
+  // ── Colour variants ───────────────────────────────────────────────────────
+
+  &.primary {
+    border-color: $primary-accent;
+
+    button,
+    a.button {
+      border-right-color: $primary-accent;
+      color: $primary-accent;
+
+      &.active {
+        background: $primary-accent;
+        color: $neutral;
+      }
+
+      &:hover:not(.active):not(:disabled) {
+        background: mix($primary-accent, $neutral, 12%);
+      }
+    }
+  }
+
+  &.secondary {
+    border-color: $secondary-accent;
+
+    button,
+    a.button {
+      border-right-color: $secondary-accent;
+      color: $secondary-accent;
+
+      &.active {
+        background: $secondary-accent;
+        color: $neutral;
+      }
+
+      &:hover:not(.active):not(:disabled) {
+        background: mix($secondary-accent, $neutral, 12%);
+      }
+    }
+  }
+
+  &.danger {
+    border-color: $danger-accent;
+
+    button,
+    a.button {
+      border-right-color: $danger-accent;
+      color: $danger-accent;
+
+      &.active {
+        background: $danger-accent;
+        color: $neutral;
+      }
+
+      &:hover:not(.active):not(:disabled) {
+        background: mix($danger-accent, $neutral, 12%);
+      }
+    }
+  }
+
+  @media screen and (max-width: $medium) {
+    width: 100%;
+
+    button,
+    a.button {
+      flex: 1;
+    }
+  }
+}
