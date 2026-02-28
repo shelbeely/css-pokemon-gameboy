@@ -2,6 +2,7 @@ import Prism from 'prismjs';
 import 'prismjs/components/prism-markup';
 import 'prismjs/themes/prism.min.css';
 import redent from 'redent';
+import { Pokedex } from 'pokeapi-js-wrapper';
 
 import './scss/main.scss'
 import './scss/demo.scss'
@@ -180,6 +181,8 @@ const STAT_LABEL: Record<string, string> = {
   'speed':           'SPD',
 };
 
+const P = new Pokedex();
+
 function escHtml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
@@ -189,14 +192,7 @@ async function lookupPokemon(nameOrId: string | number): Promise<void> {
   const resultEl = pokemonLookupResult;
   resultEl.innerHTML = '<span class="spinner primary spinner-sm"></span>';
   try {
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${nameOrId}/`);
-    if (!res.ok) throw new Error('not found');
-    const data = await res.json() as {
-      id: number;
-      name: string;
-      types: { type: { name: string } }[];
-      stats: { stat: { name: string }; base_stat: number }[];
-    };
+    const data = await P.getPokemonByName(nameOrId);
     const id    = data.id;
     const name  = escHtml(data.name);
     const types = data.types.map(t => escHtml(t.type.name));
