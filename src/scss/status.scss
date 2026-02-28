@@ -1,0 +1,36 @@
+@import '_variables.scss';
+
+// ─── Status-condition badge ───────────────────────────────────────────────────
+// Inline chip showing a Pokémon's non-volatile status condition, exactly as
+// displayed in the Gen 2 battle and summary screens.
+//
+// Conditions: PSN · SLP · BRN · FRZ · PAR · FNT
+//
+// Usage:
+//   <span class="status-badge psn">PSN</span>
+//   <span class="status-badge slp">SLP</span>
+
+.status-badge {
+  display: inline-block;
+  font-family: $font-content;
+  font-size: 0.55em;
+  text-transform: uppercase;
+  padding: 0.15em 0.45em;
+  border: 2px solid;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  @each $condition, $color in $status-colors {
+    &.#{$condition} {
+      background: $color;
+      border-color: darken($color, 20%);
+
+      // Light colours get dark text
+      @if $condition == 'frz' or $condition == 'par' {
+        color: $contrast;
+      } @else {
+        color: $neutral;
+      }
+    }
+  }
+}
