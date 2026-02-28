@@ -30,6 +30,7 @@
   background: $neutral;
   border-top: 4px solid $contrast;
   box-sizing: border-box;
+  padding-bottom: env(safe-area-inset-bottom, 0);
 
   .nav-bar-item {
     flex: 1;

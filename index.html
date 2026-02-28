@@ -80,39 +80,41 @@
 
       <section class="framed contains-code">
         <h2>Tables</h2>
-        <p>Tables are styled with pixel borders to fit the overall aesthetic.</p>
+        <p>Tables are styled with pixel borders to fit the overall aesthetic. Wrap in <code>.table-scroll</code> to enable horizontal scrolling on small screens.</p>
 
         <div class="viewable-code">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Pokémon</th>
-                <th>Type</th>
-                <th>HP</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>001</td>
-                <td>Bulbasaur</td>
-                <td>Grass / Poison</td>
-                <td>45</td>
-              </tr>
-              <tr>
-                <td>004</td>
-                <td>Charmander</td>
-                <td>Fire</td>
-                <td>39</td>
-              </tr>
-              <tr>
-                <td>007</td>
-                <td>Squirtle</td>
-                <td>Water</td>
-                <td>44</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Pokémon</th>
+                  <th>Type</th>
+                  <th>HP</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>001</td>
+                  <td>Bulbasaur</td>
+                  <td>Grass / Poison</td>
+                  <td>45</td>
+                </tr>
+                <tr>
+                  <td>004</td>
+                  <td>Charmander</td>
+                  <td>Fire</td>
+                  <td>39</td>
+                </tr>
+                <tr>
+                  <td>007</td>
+                  <td>Squirtle</td>
+                  <td>Water</td>
+                  <td>44</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
@@ -994,6 +996,28 @@
             <div class="phone-call-footer">
               <button>Sure!</button>
               <button>OK!</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Bottom Sheet</h2>
+        <p>A panel that slides up from the bottom of the screen — like the in-game context menu or options panel. Add <code>position: fixed; bottom: 0; left: 0; right: 0;</code> to pin it to the viewport. Dismiss by adding <code>.bottom-sheet-hide</code>.</p>
+
+        <div class="viewable-code">
+          <div class="bottom-sheet" style="position:relative;">
+            <div class="bottom-sheet-handle"></div>
+            <div class="bottom-sheet-header">
+              <span class="bottom-sheet-title">OPTIONS</span>
+              <button class="bottom-sheet-close">✕</button>
+            </div>
+            <div class="bottom-sheet-body">
+              <ul class="framed buttons">
+                <li><button>Pokédex</button></li>
+                <li><button>Pokémon</button></li>
+                <li><button>Save</button></li>
+              </ul>
             </div>
           </div>
         </div>
