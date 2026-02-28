@@ -1,0 +1,70 @@
+@import '_variables.scss';
+
+// ─── Gym Badge Case ───────────────────────────────────────────────────────────
+// Displays collected gym badges in a grid, like the badge case screen in Gen 2
+// (Gold/Silver/Crystal). Each badge slot is either earned (filled) or empty.
+// Johto has 8 gym badges; the Kanto post-game adds 8 more.
+//
+// Usage:
+//   <div class="badge-case">
+//     <div class="badge-case-title">JOHTO BADGES</div>
+//     <div class="badge-case-grid">
+//       <div class="badge-slot earned" title="Zephyr Badge">🏅</div>
+//       <div class="badge-slot earned" title="Hive Badge">🏅</div>
+//       <div class="badge-slot earned" title="Plain Badge">🏅</div>
+//       <div class="badge-slot earned" title="Fog Badge">🏅</div>
+//       <div class="badge-slot" title="Storm Badge"></div>
+//       <div class="badge-slot" title="Mineral Badge"></div>
+//       <div class="badge-slot" title="Glacier Badge"></div>
+//       <div class="badge-slot" title="Rising Badge"></div>
+//     </div>
+//   </div>
+
+.badge-case {
+  display: inline-block;
+  background: $neutral;
+  border: 4px solid $contrast;
+  padding: $padding * $small-modifier $padding;
+  box-sizing: border-box;
+  font-family: $font-content;
+
+  // ── Section title ─────────────────────────────────────────────────────────
+  .badge-case-title {
+    font-family: $font-heading;
+    font-size: 0.6em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: $padding * $small-modifier;
+    border-bottom: 2px solid $contrast;
+    padding-bottom: $padding * $small-modifier * 0.5;
+  }
+
+  // ── 4-column badge grid ───────────────────────────────────────────────────
+  .badge-case-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $padding * $small-modifier;
+  }
+
+  // ── Individual badge slot ─────────────────────────────────────────────────
+  .badge-slot {
+    width: 2.5em;
+    height: 2.5em;
+    border: 2px solid $contrast;
+    background: darken($neutral, 8%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1em;
+    box-sizing: border-box;
+
+    &.earned {
+      background: $neutral;
+      border-color: $primary-accent;
+    }
+  }
+
+  @media screen and (max-width: $medium) {
+    width: 100%;
+  }
+}

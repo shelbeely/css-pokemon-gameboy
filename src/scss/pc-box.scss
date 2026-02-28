@@ -1,0 +1,98 @@
+@import '_variables.scss';
+
+// ─── PC Box ───────────────────────────────────────────────────────────────────
+// Pokémon PC storage box — introduced in Gen 1 and redesigned in Gen 2
+// (Gold/Silver/Crystal) with box names and a 5×4 (20-slot) grid.
+// Use .occupied on a slot to mark it as containing a Pokémon.
+//
+// Usage:
+//   <div class="pc-box">
+//     <div class="pc-box-header">
+//       <button class="pc-box-nav">◀</button>
+//       <span class="pc-box-name">BOX 1</span>
+//       <button class="pc-box-nav">▶</button>
+//     </div>
+//     <div class="pc-box-grid">
+//       <div class="pc-box-slot occupied">🌿</div>
+//       <div class="pc-box-slot occupied">🔥</div>
+//       <div class="pc-box-slot occupied">💧</div>
+//       <div class="pc-box-slot"></div>
+//       <!-- up to 20 slots total (5 columns × 4 rows) -->
+//     </div>
+//   </div>
+
+.pc-box {
+  display: inline-flex;
+  flex-direction: column;
+  background: $neutral;
+  border: 4px solid $contrast;
+  box-sizing: border-box;
+  font-family: $font-content;
+  min-width: 220px;
+
+  // ── Box header with name and navigation ───────────────────────────────────
+  .pc-box-header {
+    background: $contrast;
+    color: $neutral;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $padding * $small-modifier;
+
+    .pc-box-name {
+      font-family: $font-heading;
+      font-size: 0.6em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .pc-box-nav {
+      font-family: $font-content;
+      font-size: 0.75em;
+      background: none;
+      border: 2px solid $neutral;
+      color: $neutral;
+      cursor: pointer;
+      padding: 0 0.3em;
+
+      &:hover::before {
+        display: none;
+      }
+    }
+  }
+
+  // ── 5-column slot grid ────────────────────────────────────────────────────
+  .pc-box-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    padding: $padding * $small-modifier;
+  }
+
+  // ── Individual Pokémon slot ───────────────────────────────────────────────
+  .pc-box-slot {
+    width: 2.2em;
+    height: 2.2em;
+    border: 2px solid $contrast;
+    background: darken($neutral, 6%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    box-sizing: border-box;
+
+    &.occupied {
+      background: $neutral;
+      cursor: pointer;
+
+      &:hover {
+        background: darken($neutral, 10%);
+      }
+    }
+  }
+
+  @media screen and (max-width: $medium) {
+    width: 100%;
+    min-width: 0;
+  }
+}

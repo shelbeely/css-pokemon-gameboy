@@ -1,0 +1,44 @@
+@import '_variables.scss';
+
+// ─── Time-of-Day Badge ────────────────────────────────────────────────────────
+// Gen 2 (Gold/Silver/Crystal) introduced a real-time clock with three time
+// periods: DAY (6:00–17:59), EVENING / DUSK (18:00–19:59), and NIGHT (20:00–5:59).
+// Wild Pokémon availability and events change based on the current period.
+//
+// Usage:
+//   <span class="time-badge day">DAY</span>
+//   <span class="time-badge eve">EVE</span>
+//   <span class="time-badge night">NIGHT</span>
+
+$time-day:     #F0C040;   // warm yellow — daytime
+$time-evening: #D07030;   // amber/orange — evening / dusk
+$time-night:   #283858;   // dark blue — night
+
+.time-badge {
+  display: inline-block;
+  font-family: $font-content;
+  font-size: 0.55em;
+  text-transform: uppercase;
+  padding: 0.2em 0.6em;
+  border: 2px solid;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  &.day {
+    background: $time-day;
+    color: $contrast;
+    border-color: darken($time-day, 25%);
+  }
+
+  &.eve {
+    background: $time-evening;
+    color: $neutral;
+    border-color: darken($time-evening, 20%);
+  }
+
+  &.night {
+    background: $time-night;
+    color: $neutral;
+    border-color: darken($time-night, 10%);
+  }
+}
