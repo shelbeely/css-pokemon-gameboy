@@ -13,6 +13,8 @@
     "dev": "vite --config vite.demo.config.js",
     "build": "tsc && vite build --config vite.demo.config.js",
     "preview": "vite preview --config vite.demo.config.js",
+    "build:scss": "sass src/scss/main.scss dist-lib/css-pokemon-gameboy.css --style=compressed",
+    "build:scss:full": "sass src/scss/main.scss dist-lib/css-pokemon-gameboy.css --style=expanded --no-source-map",
     "build:css": "tsc && vite build --config vite.lib.config.js",
     "build:css:full": "tsc && vite build --config vite.lib.full.config.js",
     "licenses": "npx license-checker-rseidelsohn --plainVertical --excludePackages css-pokemon-gameboy --out LICENSES-THIRD-PARTY.md"
