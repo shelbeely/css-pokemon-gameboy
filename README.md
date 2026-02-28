@@ -100,3 +100,24 @@ npm install
 The images and style in this project are the property of Nintendo.
 
 Third-party code licenses are listed in [LICENSES-THIRD-PARTY.md](LICENSES-THIRD-PARTY.md).
+
+## Sprite sources
+
+Pokémon sprites used in this project are sourced from **[Bulbagarden Archives](https://archives.bulbagarden.net)**, the official Bulbapedia media repository.
+
+| Sprite type | Source category |
+|---|---|
+| Crystal front sprites | [Category:Crystal_sprites](https://archives.bulbagarden.net/wiki/Category:Crystal_sprites) |
+| Crystal back sprites | [Category:Crystal_back_sprites](https://archives.bulbagarden.net/wiki/Category:Crystal_back_sprites) |
+| Generation II item bag sprites | [Category:Generation_II_item_bag_sprites](https://archives.bulbagarden.net/wiki/Category:Generation_II_item_bag_sprites) |
+
+Sprites are the intellectual property of Nintendo / Game Freak. Bulbagarden Archives content is made available under the [Creative Commons Attribution-NonCommercial-ShareAlike 2.5](https://creativecommons.org/licenses/by-nc-sa/2.5/) license unless otherwise noted. See [Bulbagarden Archives:Copyrights](https://archives.bulbagarden.net/wiki/Bulbagarden_Archives:Copyrights) for details.
+
+To download the sprites locally, run the helper script:
+
+```sh
+pip install requests beautifulsoup4
+python tools/scrape_sprites.py --out-dir ./crystal_sprites
+```
+
+The script downloads all three categories into `crystal_sprites/pokemon/front/`, `crystal_sprites/pokemon/back/`, and `crystal_sprites/items/`, and writes a `SOURCES.txt` attribution file in each sub-directory.

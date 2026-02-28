@@ -1,0 +1,6 @@
+Sprites sourced from PokeAPI/sprites — https://github.com/PokeAPI/sprites
+Original sprites © Nintendo / Game Freak.
+PokeAPI sprite repository is MIT-licensed for the data structure;
+individual sprites are used under fair use for fan/educational projects.
+
+Source: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/
