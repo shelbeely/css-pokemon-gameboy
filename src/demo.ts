@@ -241,3 +241,45 @@ if (pokemonRandomBtn) {
     lookupPokemon(Math.floor(Math.random() * GEN2_MAX) + 1);
   });
 }
+
+// ── Gym Badge Case sprites (PokeAPI) ──────────────────────────────────────────
+async function loadItemSprite(itemName: string): Promise<string | null> {
+  try {
+    const data = await P.getItemByName(itemName);
+    return data.sprites.default;
+  } catch {
+    return null;
+  }
+}
+
+async function initBadgeCaseSprites(): Promise<void> {
+  const slots = document.querySelectorAll<HTMLElement>('.badge-slot[data-badge-name]');
+  await Promise.all(Array.from(slots).map(async (slot) => {
+    const spriteUrl = await loadItemSprite(slot.dataset.badgeName!);
+    if (spriteUrl) {
+      const img = document.createElement('img');
+      img.src = spriteUrl;
+      img.alt = slot.title;
+      slot.appendChild(img);
+    }
+  }));
+}
+
+// ── Held Item sprites (PokeAPI) ───────────────────────────────────────────────
+async function initHeldItemSprites(): Promise<void> {
+  const items = document.querySelectorAll<HTMLElement>('.held-item[data-item-name]');
+  await Promise.all(Array.from(items).map(async (heldItem) => {
+    const iconEl = heldItem.querySelector<HTMLElement>('.held-item-icon');
+    if (!iconEl) return;
+    const spriteUrl = await loadItemSprite(heldItem.dataset.itemName!);
+    if (spriteUrl) {
+      const img = document.createElement('img');
+      img.src = spriteUrl;
+      img.alt = heldItem.querySelector('.held-item-name')?.textContent?.trim() ?? heldItem.dataset.itemName!;
+      iconEl.appendChild(img);
+    }
+  }));
+}
+
+initBadgeCaseSprites();
+initHeldItemSprites();
