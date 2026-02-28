@@ -80,3 +80,52 @@ if (battleFlashBtn) {
     battleFlashBtn.disabled = false;
   });
 }
+
+// ── Tabs demo ─────────────────────────────────────────────────────────────────
+const demoTabs = document.getElementById('demoTabs');
+if (demoTabs) {
+  const tabButtons = demoTabs.querySelectorAll<HTMLElement>('.tab button, .tab a');
+  const panels = demoTabs.querySelectorAll<HTMLElement>('.tab-panel');
+  tabButtons.forEach((btn, i) => {
+    btn.addEventListener('click', () => {
+      demoTabs.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.closest('.tab')!.classList.add('active');
+      panels[i]?.classList.add('active');
+    });
+  });
+}
+
+// ── Accordion demo ────────────────────────────────────────────────────────────
+const demoAccordion = document.getElementById('demoAccordion');
+if (demoAccordion) {
+  demoAccordion.querySelectorAll<HTMLElement>('.accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const item = header.closest('.accordion-item')!;
+      item.classList.toggle('open');
+    });
+  });
+}
+
+// ── Toast demo ────────────────────────────────────────────────────────────────
+function showToast(message: string, variant: string) {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+  const toast = document.createElement('div');
+  toast.className = `toast${variant ? ' ' + variant : ''}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add('toast-hide');
+    toast.addEventListener('animationend', () => toast.remove(), { once: true });
+    // Fallback removal if animation doesn't fire
+    setTimeout(() => toast.remove(), 500);
+  }, 2500);
+}
+
+const toastNeutralBtn = document.getElementById('toastNeutralBtn');
+const toastPrimaryBtn = document.getElementById('toastPrimaryBtn');
+const toastDangerBtn  = document.getElementById('toastDangerBtn');
+toastNeutralBtn?.addEventListener('click', () => showToast('Picked up a Potion!', 'neutral'));
+toastPrimaryBtn?.addEventListener('click', () => showToast('Pokémon caught!', 'primary'));
+toastDangerBtn?.addEventListener('click',  () => showToast('Your Pokémon fainted!', 'danger'));

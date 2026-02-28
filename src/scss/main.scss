@@ -16,6 +16,16 @@
 @import 'battle-hud.scss';
 @import 'dialog.scss';
 @import 'animations.scss';
+@import 'tooltip.scss';
+@import 'spinner.scss';
+@import 'toast.scss';
+@import 'tabs.scss';
+@import 'card.scss';
+@import 'stepper.scss';
+@import 'accordion.scss';
+@import 'divider.scss';
+@import 'breadcrumb.scss';
+@import 'toggle.scss';
 
 body {
   font-family: $font-content;

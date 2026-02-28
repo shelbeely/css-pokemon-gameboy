@@ -446,6 +446,276 @@
           <span class="badge secondary">badge</span>
         </div>
       </section>
+
+      <section class="framed contains-code">
+        <h2>Tooltip</h2>
+        <p>Pixel-art hover tooltips — styled like the item-description pop-ups in Gen 1 &amp; 2. Add <code>data-tooltip="…"</code> to any <code>.tooltip</code> element.</p>
+
+        <div class="viewable-code">
+          <p>
+            Hover over:
+            <span class="tooltip" data-tooltip="Route 1 → Viridian City">Pallet Town</span>,
+            <span class="tooltip tooltip-bottom" data-tooltip="HP: 45 / ATK: 49">Bulbasaur</span>,
+            <span class="tooltip tooltip-right" data-tooltip="Generation I Starter">Charmander</span>.
+          </p>
+          <p>
+            <span class="badge primary tooltip" data-tooltip="Grass type bonus">GRASS</span>
+            <span class="badge danger tooltip" data-tooltip="Super effective!">FIRE</span>
+          </p>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Spinner</h2>
+        <p>Pixel-art loading indicator — a stepped rotating L-shape, faithful to the frame-by-frame animations of Gen 1 &amp; 2.</p>
+
+        <div class="viewable-code">
+          <p>
+            Default: <span class="spinner"></span>
+            &nbsp;
+            Small: <span class="spinner spinner-sm"></span>
+            &nbsp;
+            Large: <span class="spinner spinner-lg"></span>
+          </p>
+          <p>
+            Primary: <span class="spinner primary"></span>
+            &nbsp;
+            Secondary: <span class="spinner secondary"></span>
+            &nbsp;
+            Danger: <span class="spinner danger"></span>
+          </p>
+          <p>Loading Pokédex data… <span class="spinner primary spinner-sm"></span></p>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Toast Notifications</h2>
+        <p>Temporary pop-up messages — like the "Got <em>ITEM</em>!" notifications in Gen 1 &amp; 2. Click a button to show a toast.</p>
+
+        <div class="viewable-code">
+          <button id="toastNeutralBtn">Show neutral toast</button>
+          <button id="toastPrimaryBtn">Show primary toast</button>
+          <button id="toastDangerBtn">Show danger toast</button>
+
+          <div class="toast-container" id="toastContainer"></div>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Tabs</h2>
+        <p>Tab navigation — inspired by the multi-page Pokémon summary and PC box screens in Gen 1 &amp; 2.</p>
+
+        <div class="viewable-code">
+          <div class="tabs" id="demoTabs">
+            <ul class="tab-list">
+              <li class="tab active"><button>Info</button></li>
+              <li class="tab"><button>Moves</button></li>
+              <li class="tab"><button>Stats</button></li>
+            </ul>
+            <div class="tab-panel active">
+              <p><strong>Bulbasaur</strong> — #001 Seed Pokémon. A strange seed was planted on its back at birth.</p>
+            </div>
+            <div class="tab-panel">
+              <ul>
+                <li>Tackle</li>
+                <li>Growl</li>
+                <li>Vine Whip</li>
+                <li>Leech Seed</li>
+              </ul>
+            </div>
+            <div class="tab-panel">
+              <p>HP: 45 / ATK: 49 / DEF: 49 / SPD: 45 / SPC: 65</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Card</h2>
+        <p>Pokémon portrait cards — like the stat and info panels shown on the party and Pokédex screens.</p>
+
+        <div class="viewable-code">
+          <div class="row">
+            <div class="col-4">
+              <div class="card primary">
+                <div class="card-image">
+                  <span style="font-size:3em">🌿</span>
+                </div>
+                <div class="card-body">
+                  <h3 class="card-title">Bulbasaur</h3>
+                  <p class="card-subtitle">#001 — Seed Pokémon</p>
+                  <p><span class="type-badge grass">Grass</span> <span class="type-badge poison">Poison</span></p>
+                </div>
+                <div class="card-footer">
+                  <button>Select</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="card secondary">
+                <div class="card-image">
+                  <span style="font-size:3em">🔥</span>
+                </div>
+                <div class="card-body">
+                  <h3 class="card-title">Charmander</h3>
+                  <p class="card-subtitle">#004 — Lizard Pokémon</p>
+                  <p><span class="type-badge fire">Fire</span></p>
+                </div>
+                <div class="card-footer">
+                  <button>Select</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="card">
+                <div class="card-image">
+                  <span style="font-size:3em">💧</span>
+                </div>
+                <div class="card-body">
+                  <h3 class="card-title">Squirtle</h3>
+                  <p class="card-subtitle">#007 — Tiny Turtle Pokémon</p>
+                  <p><span class="type-badge water">Water</span></p>
+                </div>
+                <div class="card-footer">
+                  <button>Select</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Stepper</h2>
+        <p>Multi-step progress indicator — like the stages of a new-game setup: choose name, choose starter, receive Pokédex.</p>
+
+        <div class="viewable-code">
+          <ol class="stepper">
+            <li class="step done">Choose Name</li>
+            <li class="step done">Choose Starter</li>
+            <li class="step active">Get Pokédex</li>
+            <li class="step">First Gym</li>
+            <li class="step">Elite Four</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Accordion</h2>
+        <p>Collapsible sections — like the expandable move or item categories in the Gen 1 &amp; 2 bag and move-list screens.</p>
+
+        <div class="viewable-code">
+          <div class="accordion" id="demoAccordion">
+            <div class="accordion-item open">
+              <button class="accordion-header">Bulbasaur Moves</button>
+              <div class="accordion-body">
+                <ul>
+                  <li>Tackle</li>
+                  <li>Growl</li>
+                  <li>Vine Whip</li>
+                </ul>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-header">Charmander Moves</button>
+              <div class="accordion-body">
+                <ul>
+                  <li>Scratch</li>
+                  <li>Growl</li>
+                  <li>Ember</li>
+                </ul>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-header">Squirtle Moves</button>
+              <div class="accordion-body">
+                <ul>
+                  <li>Tackle</li>
+                  <li>Tail Whip</li>
+                  <li>Water Gun</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Divider</h2>
+        <p>Pixel-art horizontal dividers — like the separator lines between menu sections in Gen 1 &amp; 2. Supports an optional centred label.</p>
+
+        <div class="viewable-code">
+          <div class="divider">Kanto Region</div>
+          <p>Pallet Town · Viridian City · Pewter City</p>
+          <div class="divider primary">Johto Region</div>
+          <p>New Bark Town · Cherrygrove City · Violet City</p>
+          <div class="divider danger">Warning</div>
+          <p>Wild Pokémon may appear in tall grass!</p>
+          <div class="divider"></div>
+          <p>Plain divider (no label).</p>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Breadcrumb</h2>
+        <p>Navigation trail using the <strong>▶</strong> cursor — the same arrow used as a selection indicator throughout Gen 1 &amp; 2.</p>
+
+        <div class="viewable-code">
+          <nav class="breadcrumb">
+            <ol>
+              <li><a href="#">Pallet Town</a></li>
+              <li><a href="#">Route 1</a></li>
+              <li><a href="#">Viridian City</a></li>
+              <li>Viridian Forest</li>
+            </ol>
+          </nav>
+          <nav class="breadcrumb">
+            <ol>
+              <li><a href="#">Bag</a></li>
+              <li><a href="#">Poké Balls</a></li>
+              <li>Poké Ball ×5</li>
+            </ol>
+          </nav>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Toggle</h2>
+        <p>Pixel-art ON / OFF toggle — faithful to the Gen 1 Options screen where settings like <em>BATTLE ANIMATION</em> and <em>TEXT SPEED</em> show their state as an inverted block. State changes instantly, just like the game.</p>
+
+        <div class="viewable-code">
+          <p>
+            <label class="toggle">
+              <input type="checkbox" checked>
+              <span class="toggle-track">
+                <span class="toggle-off">OFF</span>
+                <span class="toggle-on">ON</span>
+              </span>
+              Battle Animation
+            </label>
+          </p>
+          <p>
+            <label class="toggle">
+              <input type="checkbox">
+              <span class="toggle-track">
+                <span class="toggle-off">OFF</span>
+                <span class="toggle-on">ON</span>
+              </span>
+              Sound
+            </label>
+          </p>
+          <p>
+            <label class="toggle">
+              <input type="checkbox" disabled>
+              <span class="toggle-track">
+                <span class="toggle-off">OFF</span>
+                <span class="toggle-on">ON</span>
+              </span>
+              Disabled option
+            </label>
+          </p>
+        </div>
+      </section>
     </main>
 
     <div id="githubHint">

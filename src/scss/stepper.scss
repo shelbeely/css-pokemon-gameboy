@@ -1,0 +1,127 @@
+@import '_variables.scss';
+
+// ─── Stepper ──────────────────────────────────────────────────────────────────
+// A multi-step progress indicator — like choosing your starter or naming your
+// character. Marks past steps done and highlights the active step.
+//
+//   <ol class="stepper">
+//     <li class="step done">Choose Starter</li>
+//     <li class="step active">Name Character</li>
+//     <li class="step">Get Pokédex</li>
+//     <li class="step">First Gym</li>
+//   </ol>
+
+.stepper {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: $padding 0;
+  counter-reset: step-counter;
+  gap: 0;
+
+  .step {
+    flex: 1;
+    position: relative;
+    text-align: center;
+    font-family: $font-content;
+    font-size: 0.65em;
+    text-transform: uppercase;
+    padding-top: $padding * 2;
+    padding-bottom: $padding * $small-modifier;
+    min-width: 80px;
+    counter-increment: step-counter;
+
+    // Number bubble
+    &::before {
+      content: counter(step-counter);
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1.8em;
+      height: 1.8em;
+      line-height: 1.6em;
+      text-align: center;
+      border: 3px solid $contrast;
+      background: $neutral;
+      color: $contrast;
+      z-index: 1;
+    }
+
+    // Connector line
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0.9em;
+      left: calc(50% + 1.4em);
+      width: calc(100% - 2.8em);
+      height: 3px;
+      background: $contrast;
+    }
+
+    &:last-child::after {
+      display: none;
+    }
+
+    // Done state — filled bubble
+    &.done::before {
+      background: $contrast;
+      color: $neutral;
+      content: '✓';
+    }
+
+    // Active state — primary accent bubble
+    &.active::before {
+      background: $primary-accent;
+      border-color: $primary-accent;
+      color: $neutral;
+    }
+
+    // Upcoming (default) — dimmed text
+    &:not(.done):not(.active) {
+      color: $dimmed;
+
+      &::before {
+        border-color: $dimmed;
+        color: $dimmed;
+      }
+
+      &::after {
+        background: $dimmed;
+      }
+    }
+  }
+
+  @media screen and (max-width: $medium) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .step {
+      flex: none;
+      width: 100%;
+      text-align: left;
+      padding-top: 0;
+      padding-left: $padding * 2.5;
+      padding-bottom: $padding * $small-modifier * 0.5;
+      min-width: 0;
+
+      &::before {
+        top: 0;
+        left: 0;
+        transform: none;
+      }
+
+      &::after {
+        top: 1.8em;
+        left: 0.9em;
+        width: 3px;
+        height: 100%;
+      }
+
+      &:last-child::after {
+        display: none;
+      }
+    }
+  }
+}

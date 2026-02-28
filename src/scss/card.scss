@@ -1,0 +1,124 @@
+@import '_variables.scss';
+
+// ─── Card ─────────────────────────────────────────────────────────────────────
+// A Pokémon-style portrait card with an optional image, title, subtitle, body,
+// and footer action row.
+//
+//   <div class="card">
+//     <div class="card-image">
+//       <img src="bulbasaur.png" alt="Bulbasaur">
+//     </div>
+//     <div class="card-body">
+//       <h3 class="card-title">Bulbasaur</h3>
+//       <p class="card-subtitle">#001 — Seed Pokémon</p>
+//       <p>A strange seed was planted on its back at birth.</p>
+//     </div>
+//     <div class="card-footer">
+//       <button>Select</button>
+//     </div>
+//   </div>
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: $neutral;
+  color: $contrast;
+  border: 4px solid $contrast;
+  width: 100%;
+  box-sizing: border-box;
+
+  .card-image {
+    background: darken($neutral, 6%);
+    border-bottom: 4px solid $contrast;
+    text-align: center;
+    padding: $padding;
+
+    img {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      image-rendering: pixelated;
+    }
+  }
+
+  .card-body {
+    padding: $padding;
+    flex: 1;
+  }
+
+  .card-title {
+    font-family: $font-heading;
+    font-size: 0.85em;
+    margin: 0 0 ($padding * $small-modifier) 0;
+    font-weight: normal;
+    text-transform: uppercase;
+  }
+
+  .card-subtitle {
+    font-size: 0.7em;
+    color: $dimmed;
+    margin: 0 0 ($padding * $small-modifier) 0;
+    text-transform: uppercase;
+  }
+
+  .card-footer {
+    padding: $padding * $small-modifier $padding;
+    border-top: 4px solid $contrast;
+    display: flex;
+    gap: $padding * $small-modifier;
+    justify-content: flex-end;
+    background: darken($neutral, 4%);
+  }
+
+  // Color variants
+  &.primary {
+    border-color: $primary-accent;
+
+    .card-image {
+      border-bottom-color: $primary-accent;
+      background: mix($primary-accent, $neutral, 20%);
+    }
+
+    .card-footer {
+      border-top-color: $primary-accent;
+    }
+
+    .card-title {
+      color: $primary-accent;
+    }
+  }
+
+  &.secondary {
+    border-color: $secondary-accent;
+
+    .card-image {
+      border-bottom-color: $secondary-accent;
+      background: mix($secondary-accent, $neutral, 20%);
+    }
+
+    .card-footer {
+      border-top-color: $secondary-accent;
+    }
+
+    .card-title {
+      color: $secondary-accent;
+    }
+  }
+
+  &.danger {
+    border-color: $danger-accent;
+
+    .card-image {
+      border-bottom-color: $danger-accent;
+      background: mix($danger-accent, $neutral, 20%);
+    }
+
+    .card-footer {
+      border-top-color: $danger-accent;
+    }
+
+    .card-title {
+      color: $danger-accent;
+    }
+  }
+}
