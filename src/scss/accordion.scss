@@ -1,0 +1,88 @@
+@import '_variables.scss';
+
+// ─── Accordion ────────────────────────────────────────────────────────────────
+// Collapsible sections. Each .accordion-item contains a .accordion-header
+// (acts as the toggle) and a .accordion-body (the collapsible content).
+// Add the .open class to an .accordion-item to expand it.
+//
+//   <div class="accordion">
+//     <div class="accordion-item open">
+//       <button class="accordion-header">Bulbasaur moves ▶</button>
+//       <div class="accordion-body">
+//         <ul><li>Tackle</li><li>Growl</li></ul>
+//       </div>
+//     </div>
+//     <div class="accordion-item">
+//       <button class="accordion-header">Charmander moves</button>
+//       <div class="accordion-body">
+//         <ul><li>Scratch</li><li>Growl</li></ul>
+//       </div>
+//     </div>
+//   </div>
+
+.accordion {
+  width: 100%;
+  margin: $padding 0;
+  border: 2px solid $contrast;
+
+  .accordion-item {
+    border-bottom: 2px solid $contrast;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    // ── Header / trigger ─────────────────────────────────────────────────
+    .accordion-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: $padding * $small-modifier $padding;
+      font-family: $font-content;
+      font-size: 0.8em;
+      text-transform: uppercase;
+      text-align: left;
+      background: darken($neutral, 5%);
+      color: $contrast;
+      border: none;
+      cursor: pointer;
+
+      // Suppress global hover arrow on accordion header buttons
+      &:hover::before {
+        display: none;
+      }
+
+      &:hover {
+        background: darken($neutral, 10%);
+      }
+
+      // Pixel chevron via ::after pseudo-element
+      &::after {
+        content: '▶';
+        font-size: 0.7em;
+        flex-shrink: 0;
+        margin-left: $padding * $small-modifier;
+      }
+    }
+
+    // ── Body / content ───────────────────────────────────────────────────
+    .accordion-body {
+      display: none;
+      padding: $padding;
+      border-top: 2px solid $contrast;
+      background: $neutral;
+    }
+
+    // ── Open state ───────────────────────────────────────────────────────
+    &.open {
+      .accordion-header::after {
+        content: '▼';
+      }
+
+      .accordion-body {
+        display: block;
+      }
+    }
+  }
+}

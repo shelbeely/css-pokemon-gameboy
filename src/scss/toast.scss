@@ -1,0 +1,72 @@
+@import '_variables.scss';
+
+// ─── Toast Notifications ──────────────────────────────────────────────────────
+// Temporary pop-up notification messages anchored to the bottom-right corner
+// of the viewport — like the "Got [ITEM]!" or "POKÉMON was caught!" messages
+// that appear on-screen in Gen 1 & 2.
+// The @keyframes (pgb-toast-in / pgb-toast-out) and animation rules live in
+// animations.scss.
+//
+//   <div class="toast-container">
+//     <div class="toast primary">New Pokémon caught!</div>
+//     <div class="toast danger">A wild Gengar appeared!</div>
+//   </div>
+//
+// To dismiss a toast: add the .toast-hide class (JS removes it after animation).
+
+.toast-container {
+  position: fixed;
+  bottom: $medium-padding;
+  right: $medium-padding;
+  display: flex;
+  flex-direction: column;
+  gap: $padding * $small-modifier;
+  z-index: 200;
+  pointer-events: none;
+
+  @media screen and (max-width: $medium) {
+    right: $padding;
+    bottom: $padding;
+    left: $padding;
+  }
+}
+
+.toast {
+  font-family: $font-content;
+  font-size: 0.75em;
+  text-transform: uppercase;
+  padding: $padding * $small-modifier $padding;
+  background: $contrast;
+  color: $neutral;
+  border-left: 4px solid $neutral;
+  max-width: 320px;
+  pointer-events: auto;
+
+  &.primary {
+    background: $primary-accent;
+    color: $neutral;
+    border-left-color: darken($primary-accent, 20%);
+  }
+
+  &.secondary {
+    background: $secondary-accent;
+    color: $neutral;
+    border-left-color: darken($secondary-accent, 20%);
+  }
+
+  &.danger {
+    background: $danger-accent;
+    color: $neutral;
+    border-left-color: darken($danger-accent, 20%);
+  }
+
+  &.neutral {
+    background: $neutral;
+    color: $contrast;
+    border-left-color: $contrast;
+  }
+
+  @media screen and (max-width: $medium) {
+    max-width: 100%;
+  }
+}

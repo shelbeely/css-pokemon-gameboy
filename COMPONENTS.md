@@ -24,6 +24,16 @@ All styling is applied automatically to standard HTML elements once you include 
 16. [Animations](#16-animations)
 17. [Scrollbars](#17-scrollbars)
 18. [JavaScript Utilities](#18-javascript-utilities) *(Gen 2)*
+19. [Tooltip](#19-tooltip)
+20. [Spinner](#20-spinner)
+21. [Toast Notifications](#21-toast-notifications)
+22. [Tabs](#22-tabs)
+23. [Card](#23-card)
+24. [Stepper](#24-stepper)
+25. [Accordion](#25-accordion)
+26. [Divider](#26-divider)
+27. [Breadcrumb](#27-breadcrumb)
+28. [Toggle](#28-toggle)
 
 ---
 
@@ -857,3 +867,326 @@ await battleFlash(document.getElementById('battle-area')!);
 |---|---|---|---|
 | `containerEl` | `HTMLElement` | `document.body` | Element to flash |
 
+
+---
+
+## 19. Tooltip
+
+Pixel-art hover tooltip — styled like the item-description and move-info pop-ups shown in Gen 1 & 2. Add a `data-tooltip="…"` attribute to any `.tooltip` element; the tooltip appears above the element by default.
+
+```html
+<!-- Default (appears above) -->
+<span class="tooltip" data-tooltip="Route 1 → Viridian City">Pallet Town</span>
+
+<!-- Placement modifiers -->
+<span class="tooltip tooltip-bottom" data-tooltip="HP: 45">Bulbasaur</span>
+<span class="tooltip tooltip-left"  data-tooltip="Grass / Poison">Type</span>
+<span class="tooltip tooltip-right" data-tooltip="Generation I">Gen 1</span>
+
+<!-- Works on any element -->
+<span class="badge primary tooltip" data-tooltip="Super effective!">GRASS</span>
+```
+
+| Class | Effect |
+|---|---|
+| `.tooltip` | Enables tooltip; default placement is above the element |
+| `.tooltip-bottom` | Places tooltip below the element |
+| `.tooltip-left` | Places tooltip to the left |
+| `.tooltip-right` | Places tooltip to the right |
+| `data-tooltip="…"` | The tooltip text (required) |
+
+---
+
+## 20. Spinner
+
+Pixel-art loading indicator — a stepped rotating L-shape faithful to the chunky, frame-by-frame animation style of Gen 1 & 2 Pokémon games. The element animates automatically; no extra class is needed.
+
+```html
+<!-- Sizes -->
+<span class="spinner"></span>
+<span class="spinner spinner-sm"></span>
+<span class="spinner spinner-lg"></span>
+
+<!-- Color variants -->
+<span class="spinner primary"></span>
+<span class="spinner secondary"></span>
+<span class="spinner danger"></span>
+
+<!-- Inline with text -->
+<p>Loading Pokédex data… <span class="spinner primary spinner-sm"></span></p>
+```
+
+| Class | Effect |
+|---|---|
+| `.spinner` | Base spinner — default size, rotates in 8 discrete steps |
+| `.spinner-sm` | Smaller spinner (0.75 em) |
+| `.spinner-lg` | Larger spinner (1.5 em) |
+| `.primary` | Primary green accent color |
+| `.secondary` | Secondary orange accent color |
+| `.danger` | Danger red accent color |
+
+---
+
+## 21. Toast Notifications
+
+Temporary pop-up notification messages anchored to the bottom-right corner of the viewport — like the "Got *ITEM*!" or "Pokémon was caught!" messages in Gen 1 & 2. Slide in automatically; add `.toast-hide` to dismiss.
+
+```html
+<!-- Container (append to <body>) -->
+<div class="toast-container">
+  <div class="toast">Picked up a Potion!</div>
+  <div class="toast primary">Pokémon caught!</div>
+  <div class="toast secondary">Used a Full Heal.</div>
+  <div class="toast danger">Your Pokémon fainted!</div>
+  <div class="toast neutral">Saved the game.</div>
+</div>
+```
+
+```ts
+// Create and auto-dismiss a toast (example)
+const toast = document.createElement('div');
+toast.className = 'toast primary';
+toast.textContent = 'Pokémon caught!';
+document.querySelector('.toast-container').appendChild(toast);
+setTimeout(() => {
+  toast.classList.add('toast-hide');
+  toast.addEventListener('animationend', () => toast.remove(), { once: true });
+}, 2500);
+```
+
+| Class | Effect |
+|---|---|
+| `.toast-container` | Fixed viewport container (bottom-right) for toast items |
+| `.toast` | Base toast — dark background, light text, slides in from right |
+| `.primary` | Green background |
+| `.secondary` | Orange background |
+| `.danger` | Red background |
+| `.neutral` | Neutral background with contrast text and border |
+| `.toast-hide` | Triggers the slide-out dismiss animation |
+
+---
+
+## 22. Tabs
+
+Tab navigation component — inspired by the multi-page Pokémon summary and PC box screens in Gen 1 & 2. Add the `.active` class to both the `.tab` list item and its corresponding `.tab-panel` to show it.
+
+```html
+<div class="tabs">
+  <ul class="tab-list">
+    <li class="tab active"><button>Info</button></li>
+    <li class="tab"><button>Moves</button></li>
+    <li class="tab"><button>Stats</button></li>
+  </ul>
+  <div class="tab-panel active">
+    <p>Bulbasaur — #001 Seed Pokémon</p>
+  </div>
+  <div class="tab-panel">
+    <ul><li>Tackle</li><li>Vine Whip</li></ul>
+  </div>
+  <div class="tab-panel">
+    <p>HP: 45 / ATK: 49 / DEF: 49</p>
+  </div>
+</div>
+```
+
+| Class | Effect |
+|---|---|
+| `.tabs` | Outer wrapper |
+| `.tab-list` | Flex row of tab triggers; underlined by a 4 px border |
+| `.tab` | Individual tab trigger wrapper |
+| `.tab.active` | Active tab — raised above the border line |
+| `.tab-panel` | Hidden content panel (`display: none`) |
+| `.tab-panel.active` | Visible content panel (`display: block`) |
+
+---
+
+## 23. Card
+
+Pokémon portrait card with an optional image area, title, subtitle, body content, and footer action row — like the stat and info panels on the party screen and Pokédex.
+
+```html
+<div class="card primary">
+  <div class="card-image">
+    <img src="bulbasaur.png" alt="Bulbasaur">
+  </div>
+  <div class="card-body">
+    <h3 class="card-title">Bulbasaur</h3>
+    <p class="card-subtitle">#001 — Seed Pokémon</p>
+    <p>A strange seed was planted on its back at birth.</p>
+  </div>
+  <div class="card-footer">
+    <button>Select</button>
+  </div>
+</div>
+```
+
+| Class | Effect |
+|---|---|
+| `.card` | Base card — 4 px solid border, flex column |
+| `.card-image` | Top image area with slightly darker background |
+| `.card-body` | Padded content area; grows to fill available height |
+| `.card-title` | Heading in the heading font (`Press Start 2P`), uppercase |
+| `.card-subtitle` | Dimmed sub-label (Pokédex number / category) |
+| `.card-footer` | Right-aligned action button row with top border |
+| `.primary` | Green accent border, title, image tint |
+| `.secondary` | Orange accent border, title, image tint |
+| `.danger` | Red accent border, title, image tint |
+
+---
+
+## 24. Stepper
+
+Multi-step progress indicator — like the sequential stages of a new-game setup (choose name → choose starter → receive Pokédex). Mark completed steps `.done` and the current step `.active`.
+
+```html
+<ol class="stepper">
+  <li class="step done">Choose Name</li>
+  <li class="step done">Choose Starter</li>
+  <li class="step active">Get Pokédex</li>
+  <li class="step">First Gym</li>
+  <li class="step">Elite Four</li>
+</ol>
+```
+
+| Class | Effect |
+|---|---|
+| `.stepper` | Flex row of step items with counter-reset |
+| `.step` | Individual step — numbered bubble + connector line |
+| `.step.done` | Filled bubble with ✓ checkmark |
+| `.step.active` | Primary green bubble indicating the current step |
+| `.step` (no modifier) | Upcoming step — dimmed text and bubble |
+
+---
+
+## 25. Accordion
+
+Collapsible content sections — like the expandable categories in the Gen 1 & 2 bag or move list. Add `.open` to an `.accordion-item` to expand it. The `▶` / `▼` pixel cursor indicates collapsed / expanded state.
+
+```html
+<div class="accordion">
+  <div class="accordion-item open">
+    <button class="accordion-header">Bulbasaur Moves</button>
+    <div class="accordion-body">
+      <ul><li>Tackle</li><li>Vine Whip</li></ul>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <button class="accordion-header">Charmander Moves</button>
+    <div class="accordion-body">
+      <ul><li>Scratch</li><li>Ember</li></ul>
+    </div>
+  </div>
+</div>
+```
+
+| Class | Effect |
+|---|---|
+| `.accordion` | Outer bordered container |
+| `.accordion-item` | Individual section with a header and body |
+| `.accordion-item.open` | Expanded state — shows body, ▼ indicator |
+| `.accordion-header` | Clickable trigger button (`display: flex`, uppercase) |
+| `.accordion-body` | Hidden content area; shown when parent has `.open` |
+
+---
+
+## 26. Divider
+
+Pixel-art horizontal dividers — like the 4 px separator lines between sections in the Gen 1 & 2 menus and summary screens. An optional centred text label splits the line.
+
+```html
+<!-- Plain divider -->
+<div class="divider"></div>
+
+<!-- With label -->
+<div class="divider">Kanto Region</div>
+
+<!-- Accent variants -->
+<div class="divider primary">Health</div>
+<div class="divider secondary">Items</div>
+<div class="divider danger">Warning</div>
+<div class="divider neutral">Neutral</div>
+
+<!-- Plain <hr> also styled -->
+<hr class="divider">
+```
+
+| Class | Effect |
+|---|---|
+| `.divider` | Flex row with 4 px solid lines on each side of the label |
+| `.primary` | Primary green lines and text |
+| `.secondary` | Secondary orange lines and text |
+| `.danger` | Danger red lines and text |
+| `.neutral` | Contrast lines and text (explicit neutral) |
+| `hr.divider` | Full-width 4 px solid bar (no label support) |
+
+---
+
+## 27. Breadcrumb
+
+Navigation trail using the `▶` cursor as a separator — the same arrow used as the selection indicator throughout Gen 1 & 2. The current (last) item is automatically dimmed and non-interactive.
+
+```html
+<nav class="breadcrumb">
+  <ol>
+    <li><a href="#">Pallet Town</a></li>
+    <li><a href="#">Route 1</a></li>
+    <li><a href="#">Viridian City</a></li>
+    <li>Viridian Forest</li>  <!-- current page: no link, dimmed -->
+  </ol>
+</nav>
+```
+
+| Element / Class | Effect |
+|---|---|
+| `nav.breadcrumb` | Outer wrapper; sets font, uppercase, spacing |
+| `ol` | Flex row of breadcrumb items |
+| `li` | Individual breadcrumb item |
+| `li + li::before` | `▶` separator injected between items |
+| `li:last-child` | Current page — dimmed, no pointer events |
+| `a` | Link; hover turns primary green |
+
+---
+
+## 28. Toggle
+
+Pixel-art ON / OFF toggle — faithful to the Gen 1 Options screen where settings like **BATTLE ANIMATION** and **TEXT SPEED** display their state as an inverted (dark background, light text) block. The state change is instantaneous, just like the game.
+
+```html
+<!-- Checked = ON highlighted -->
+<label class="toggle">
+  <input type="checkbox" checked>
+  <span class="toggle-track">
+    <span class="toggle-off">OFF</span>
+    <span class="toggle-on">ON</span>
+  </span>
+  Battle Animation
+</label>
+
+<!-- Unchecked = OFF highlighted -->
+<label class="toggle">
+  <input type="checkbox">
+  <span class="toggle-track">
+    <span class="toggle-off">OFF</span>
+    <span class="toggle-on">ON</span>
+  </span>
+  Sound
+</label>
+
+<!-- Disabled -->
+<label class="toggle">
+  <input type="checkbox" disabled>
+  <span class="toggle-track">
+    <span class="toggle-off">OFF</span>
+    <span class="toggle-on">ON</span>
+  </span>
+  Disabled option
+</label>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `label.toggle` | `<label>` | Flex row wrapping the hidden checkbox + track |
+| `.toggle-track` | `<span>` | The visible bordered ON / OFF pill |
+| `.toggle-off` | `<span>` | "OFF" label — highlighted (inverted) when unchecked |
+| `.toggle-on` | `<span>` | "ON" label — highlighted (inverted) when checked |
+| `input[disabled]` | `<input>` | Dims the track; cursor changes to not-allowed |

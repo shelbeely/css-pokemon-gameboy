@@ -1,0 +1,96 @@
+@import '_variables.scss';
+
+// ─── Divider ──────────────────────────────────────────────────────────────────
+// Pixel-art horizontal dividers — styled like the separator lines between
+// sections in the Gen 1/2 Pokémon menu and summary screens.
+//
+//   <!-- Plain divider -->
+//   <hr class="divider">
+//
+//   <!-- Divider with centred label -->
+//   <div class="divider">Route 1</div>
+//
+//   <!-- Accent variants -->
+//   <div class="divider primary">Health</div>
+//   <div class="divider danger">Warning</div>
+
+.divider {
+  display: flex;
+  align-items: center;
+  font-family: $font-content;
+  font-size: 0.65em;
+  text-transform: uppercase;
+  color: $contrast;
+  margin: $padding 0;
+  gap: $padding * $small-modifier;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 4px;
+    background: $contrast;
+  }
+
+  &:empty {
+    &::before {
+      flex: none;
+      width: 100%;
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+
+  // Accent variants
+  &.primary {
+    color: $primary-accent;
+
+    &::before,
+    &::after {
+      background: $primary-accent;
+    }
+  }
+
+  &.secondary {
+    color: $secondary-accent;
+
+    &::before,
+    &::after {
+      background: $secondary-accent;
+    }
+  }
+
+  &.danger {
+    color: $danger-accent;
+
+    &::before,
+    &::after {
+      background: $danger-accent;
+    }
+  }
+
+  &.neutral {
+    color: $contrast;
+
+    &::before,
+    &::after {
+      background: $contrast;
+    }
+  }
+}
+
+// Plain <hr> dividers also get the pixel-art treatment (4 px solid, no taper)
+hr.divider {
+  border: none;
+  height: 4px;
+  background: $contrast;
+  display: block;
+  margin: $padding 0;
+
+  &::before,
+  &::after {
+    display: none;
+  }
+}

@@ -1,0 +1,111 @@
+@import '_variables.scss';
+
+// ─── Tabs ─────────────────────────────────────────────────────────────────────
+// Tab navigation reminiscent of the Pokémon summary / PC box screen.
+//
+//   <div class="tabs">
+//     <ul class="tab-list">
+//       <li class="tab active"><button>Info</button></li>
+//       <li class="tab"><button>Skills</button></li>
+//       <li class="tab"><button>Moves</button></li>
+//     </ul>
+//     <div class="tab-panel active">Info panel content</div>
+//     <div class="tab-panel">Skills panel content</div>
+//     <div class="tab-panel">Moves panel content</div>
+//   </div>
+
+.tabs {
+  width: 100%;
+
+  // ── Tab strip ────────────────────────────────────────────────────────────
+  .tab-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-bottom: 4px solid $contrast;
+    gap: 0;
+  }
+
+  .tab {
+    margin: 0;
+
+    button,
+    a.button {
+      font-family: $font-content;
+      font-size: 0.75em;
+      text-transform: uppercase;
+      padding: $padding * $small-modifier $padding;
+      background: darken($neutral, 8%);
+      color: $contrast;
+      border: 2px solid $contrast;
+      border-bottom: none;
+      cursor: pointer;
+      display: block;
+      white-space: nowrap;
+
+      // Suppress the global hover arrow for tab buttons
+      &:hover::before {
+        display: none;
+      }
+
+      &:hover {
+        background: darken($neutral, 14%);
+      }
+    }
+
+    &.active button,
+    &.active a.button {
+      background: $neutral;
+      border-bottom: 4px solid $neutral;
+      margin-bottom: -4px;
+      font-weight: bold;
+      color: $contrast;
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  // ── Tab panels ───────────────────────────────────────────────────────────
+  .tab-panel {
+    display: none;
+    padding: $padding;
+    border: 2px solid $contrast;
+    border-top: none;
+
+    &.active {
+      display: block;
+    }
+  }
+
+  @media screen and (max-width: $medium) {
+    .tab-list {
+      flex-direction: column;
+      border-bottom: none;
+      border-right: 4px solid $contrast;
+    }
+
+    .tab {
+      button,
+      a.button {
+        border-bottom: 2px solid $contrast;
+        border-right: none;
+        width: 100%;
+      }
+
+      &.active button,
+      &.active a.button {
+        border-right: 4px solid $neutral;
+        margin-right: -4px;
+        border-bottom: 2px solid $contrast;
+        margin-bottom: 0;
+      }
+    }
+
+    .tab-panel {
+      border: 2px solid $contrast;
+      border-left: none;
+    }
+  }
+}

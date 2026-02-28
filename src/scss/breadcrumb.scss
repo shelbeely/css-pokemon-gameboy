@@ -1,0 +1,74 @@
+@import '_variables.scss';
+
+// ─── Breadcrumb ───────────────────────────────────────────────────────────────
+// Navigation trail styled like the location names shown on the overworld map
+// in Gen 1 & 2. Each item is separated by the ▶ cursor symbol used throughout
+// the games.
+//
+//   <nav class="breadcrumb">
+//     <ol>
+//       <li><a href="#">Pallet Town</a></li>
+//       <li><a href="#">Route 1</a></li>
+//       <li>Viridian City</li>
+//     </ol>
+//   </nav>
+
+.breadcrumb {
+  font-family: $font-content;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  margin: $padding 0;
+
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.3em;
+    align-items: center;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+    margin: 0;
+
+    // ▶ separator — injected between items via ::before on every item after first
+    & + li::before {
+      content: '▶';
+      font-size: 0.7em;
+      color: $dimmed;
+    }
+
+    // Current page — no underline, slightly dimmed
+    &:last-child {
+      color: $dimmed;
+
+      a {
+        color: $dimmed;
+        text-decoration: none;
+        pointer-events: none;
+      }
+    }
+  }
+
+  a {
+    color: $contrast;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+
+    &:hover {
+      color: $primary-accent;
+    }
+  }
+
+  @media screen and (max-width: $medium) {
+    ol {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}

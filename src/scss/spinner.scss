@@ -1,0 +1,51 @@
+@import '_variables.scss';
+
+// ─── Spinner / Loading indicator ──────────────────────────────────────────────
+// Pixel-art loading spinner — four thick borders rotate in 8 discrete steps,
+// giving the chunky frame-by-frame look of Gen 1 & 2 Pokémon animations.
+// The @keyframes (pgb-spin) and animation rule live in animations.scss.
+//
+//   <span class="spinner"></span>
+//   <span class="spinner spinner-sm"></span>
+//   <span class="spinner spinner-lg"></span>
+//   <span class="spinner primary"></span>
+
+.spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  font-size: 1em;
+  box-sizing: border-box;
+  // Two sides colored (top + right) form the rotating "L" — no border-radius needed
+  border: 3px solid darken($neutral, 15%);
+  border-top-color: $contrast;
+  border-right-color: $contrast;
+  vertical-align: middle;
+
+  &.spinner-sm {
+    width: 0.75em;
+    height: 0.75em;
+    border-width: 2px;
+  }
+
+  &.spinner-lg {
+    width: 1.5em;
+    height: 1.5em;
+    border-width: 4px;
+  }
+
+  &.primary {
+    border-top-color: $primary-accent;
+    border-right-color: $primary-accent;
+  }
+
+  &.secondary {
+    border-top-color: $secondary-accent;
+    border-right-color: $secondary-accent;
+  }
+
+  &.danger {
+    border-top-color: $danger-accent;
+    border-right-color: $danger-accent;
+  }
+}
