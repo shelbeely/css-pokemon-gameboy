@@ -1,0 +1,196 @@
+@import '_variables.scss';
+@import '_mixins.scss';
+
+// ─── Battle HUD ───────────────────────────────────────────────────────────────
+// Replicates the Gen 2 (Gold/Silver/Crystal) in-battle status panels.
+//
+// Enemy panel (top-left in battle):
+//   <div class="battle-hud enemy">
+//     <div class="hud-name-row">
+//       <span class="hud-name">FERALIGATR</span>
+//       <span class="hud-gender male">♂</span>
+//       <span class="hud-level">:L52</span>
+//     </div>
+//     <div class="hud-hp-row">
+//       <span class="hud-hp-label">HP</span>
+//       <div class="progress-bar-container"><div class="progress-bar p68"></div></div>
+//     </div>
+//   </div>
+//
+// Ally panel (bottom-right in battle, adds HP numbers and EXP bar):
+//   <div class="battle-hud ally">
+//     <div class="hud-name-row">
+//       <span class="hud-name">TOTODILE</span>
+//       <span class="hud-gender male">♂</span>
+//       <span class="hud-level">:L15</span>
+//     </div>
+//     <div class="hud-hp-row">
+//       <span class="hud-hp-label">HP</span>
+//       <div class="progress-bar-container"><div class="progress-bar p80"></div></div>
+//     </div>
+//     <div class="hud-hp-numbers">
+//       <span class="hud-hp-current">42</span>
+//       <span class="hud-hp-max">53</span>
+//     </div>
+//     <div class="hud-exp-row">
+//       <span class="hud-exp-label">EXP</span>
+//       <div class="progress-bar-container"><div class="progress-bar primary p40"></div></div>
+//     </div>
+//   </div>
+
+.battle-hud {
+  display: inline-block;
+  background: $neutral;
+  border: 4px solid $contrast;
+  padding: $padding * $small-modifier $padding;
+  position: relative;
+  min-width: 200px;
+  box-sizing: border-box;
+
+  // ── Enemy panel: open bottom-right corner (Gen 2 style cutaway) ──────────
+  &.enemy {
+    border-bottom-right-radius: 0;
+    border-bottom: none;
+    border-right: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      bottom: -4px;
+      width: 12px;
+      height: 12px;
+      background: transparent;
+      border-right: 4px solid $contrast;
+      border-bottom: 4px solid $contrast;
+    }
+  }
+
+  // ── Ally panel: open top-left corner ─────────────────────────────────────
+  &.ally {
+    border-top: none;
+    border-left: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: -4px;
+      width: 12px;
+      height: 12px;
+      background: transparent;
+      border-left: 4px solid $contrast;
+      border-top: 4px solid $contrast;
+    }
+  }
+
+  // ── Name row ─────────────────────────────────────────────────────────────
+  .hud-name-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3em;
+    margin-bottom: $padding * $small-modifier * 0.5;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    line-height: 1.2;
+  }
+
+  .hud-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hud-gender {
+    font-size: 0.9em;
+    flex-shrink: 0;
+
+    &.male   { color: #6890F0; }
+    &.female { color: #F85888; }
+  }
+
+  .hud-level {
+    font-size: 0.8em;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  // ── Status badge slot ─────────────────────────────────────────────────────
+  .hud-status {
+    display: inline-block;
+    margin-right: $padding * $small-modifier * 0.5;
+  }
+
+  // ── HP bar row ────────────────────────────────────────────────────────────
+  .hud-hp-row {
+    display: flex;
+    align-items: center;
+    gap: $padding * $small-modifier * 0.5;
+    margin-bottom: 2px;
+
+    .hud-hp-label {
+      font-size: 0.7em;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .progress-bar-container {
+      flex: 1;
+      margin: 0;
+    }
+  }
+
+  // ── HP numbers (ally only) ────────────────────────────────────────────────
+  .hud-hp-numbers {
+    text-align: right;
+    font-size: 0.7em;
+    margin-bottom: $padding * $small-modifier * 0.5;
+
+    .hud-hp-max::before {
+      content: '/';
+    }
+  }
+
+  // ── EXP bar row (Gen 2 exclusive — ally panel only) ───────────────────────
+  .hud-exp-row {
+    display: flex;
+    align-items: center;
+    gap: $padding * $small-modifier * 0.5;
+    margin-top: 2px;
+
+    .hud-exp-label {
+      font-size: 0.6em;
+      flex-shrink: 0;
+    }
+
+    .progress-bar-container {
+      flex: 1;
+      margin: 0;
+
+      .progress-bar {
+        height: 2px; // EXP bar is thinner than the HP bar
+      }
+    }
+  }
+}
+
+// ─── Full battle scene wrapper ────────────────────────────────────────────────
+// Positions enemy HUD top-left and ally HUD bottom-right, mimicking Gen 2.
+//
+//   <div class="battle-scene">
+//     <div class="battle-hud enemy">…</div>
+//     <div class="battle-hud ally">…</div>
+//   </div>
+
+.battle-scene {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: $padding 0;
+  gap: $padding;
+  flex-wrap: wrap;
+
+  .battle-hud.enemy { align-self: flex-start; }
+  .battle-hud.ally  { align-self: flex-end; }
+}
