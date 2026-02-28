@@ -21,7 +21,7 @@
     /* ── App layout ──────────────────────────────────────────────────────── */
     #pokedex-app {
       display: flex;
-      height: calc(100dvh - 3rem);
+      height: calc(100dvh - 4rem);
       overflow: hidden;
     }
 
@@ -44,7 +44,7 @@
       white-space: nowrap;
       flex-shrink: 0;
       padding: 0.35em 0.5em;
-      border-bottom: 2px solid color-mix(in srgb, var(--pgb-color-neutral) 20%, var(--pgb-color-contrast));
+      border-bottom: 2px solid rgba(128,128,128,0.35);
       scrollbar-width: none;
     }
     #type-filter-strip::-webkit-scrollbar { display: none; }
@@ -57,7 +57,7 @@
       margin-right: 0.4em;
       background: transparent;
       color: var(--pgb-color-neutral);
-      border: 1px solid color-mix(in srgb, var(--pgb-color-neutral) 40%, var(--pgb-color-contrast));
+      border: 1px solid rgba(128,128,128,0.5);
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 0.02em;
@@ -74,8 +74,8 @@
       flex-direction: column;
       align-items: center;
       padding: 0.5em 0.4em 0.4em;
-      background: color-mix(in srgb, var(--pgb-color-neutral) 12%, var(--pgb-color-contrast));
-      border-bottom: 2px solid color-mix(in srgb, var(--pgb-color-neutral) 20%, var(--pgb-color-contrast));
+      background: rgba(128,128,128,0.18);
+      border-bottom: 2px solid rgba(128,128,128,0.35);
       min-height: 70px;
     }
     #list-preview img {
@@ -103,7 +103,7 @@
       overflow-y: auto;
       overflow-x: hidden;
       scrollbar-width: thin;
-      scrollbar-color: color-mix(in srgb, var(--pgb-color-neutral) 30%, var(--pgb-color-contrast)) transparent;
+      scrollbar-color: rgba(128,128,128,0.4) transparent;
     }
 
     .list-row {
@@ -119,7 +119,7 @@
       user-select: none;
     }
     .list-row:hover {
-      background: color-mix(in srgb, var(--pgb-color-neutral) 15%, var(--pgb-color-contrast));
+      background: rgba(128,128,128,0.2);
     }
     .list-row.active {
       background: var(--pgb-color-neutral);
@@ -189,7 +189,7 @@
       flex-direction: column;
       align-items: center;
       border-right: 2px solid var(--pgb-color-contrast);
-      background: color-mix(in srgb, var(--pgb-color-contrast) 4%, var(--pgb-color-neutral));
+      background: rgba(128,128,128,0.07);
     }
 
     #detail-front {
@@ -263,7 +263,7 @@
     /* ── Mobile layout ───────────────────────────────────────────────────── */
     @media screen and (max-width: 768px) {
       #pokedex-app {
-        height: calc(100dvh - 3rem);
+        height: calc(100dvh - 4rem);
         position: relative;
       }
 
@@ -618,14 +618,15 @@
     // ── Utilities ──────────────────────────────────────────────────────────────
     function pad(n, len) { return String(n).padStart(len || 3, "0"); }
 
-    function cmToFtIn(decimeters) {
-      const cm = decimeters * 10;
-      const totalIn = Math.round(cm / 2.54);
+    const HG_PER_LB = 4.536;
+
+    function dmToFtIn(decimeters) {
+      const totalIn = Math.round(decimeters * 3.937);
       return `${Math.floor(totalIn / 12)}\'${String(totalIn % 12).padStart(2,"0")}"`;
     }
 
     function hgToLbs(hectograms) {
-      return (hectograms / 4.536).toFixed(1) + "lb";
+      return (hectograms / HG_PER_LB).toFixed(1) + "lb";
     }
 
     // ── State ──────────────────────────────────────────────────────────────────
@@ -682,7 +683,7 @@
       }
 
       for (const i of visibleIndices) {
-        const [id, name] = POKEMON[i];
+        const [id, name, /* types */] = POKEMON[i];
         const row = document.createElement("div");
         row.className = "list-row" + (i === selectedIdx ? " active" : "");
         row.setAttribute("role", "option");
@@ -759,7 +760,7 @@
 
       if (pk) {
         document.getElementById("detail-species").textContent = pk[2].toUpperCase();
-        document.getElementById("detail-ht").textContent = `HT  ${cmToFtIn(pk[0])}`;
+        document.getElementById("detail-ht").textContent = `HT  ${dmToFtIn(pk[0])}`;
         document.getElementById("detail-wt").textContent = `WT  ${hgToLbs(pk[1])}`;
         document.getElementById("detail-flavor").textContent = pk[3].toUpperCase();
       }
@@ -791,6 +792,7 @@
     const backBtn  = document.getElementById("back-btn");
     const homeLink = document.getElementById("home-link");
 
+    // Keep in sync with @media (max-width: 768px) in <style>
     const MOBILE_BREAKPOINT = 768;
 
     function updateAppBar() {
@@ -804,6 +806,7 @@
     const observer = new MutationObserver(updateAppBar);
     observer.observe(appEl, { attributes: true, attributeFilter: ["class"] });
     window.addEventListener("resize", updateAppBar);
+    window.addEventListener("pagehide", () => observer.disconnect(), { once: true });
 
     // ── Init ───────────────────────────────────────────────────────────────────
     renderList();
