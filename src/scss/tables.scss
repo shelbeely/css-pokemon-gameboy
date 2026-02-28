@@ -1,0 +1,59 @@
+@import '_variables.scss';
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: $font-content;
+  font-size: 0.9em;
+  margin: $padding 0;
+
+  thead {
+    background: $contrast;
+    color: $neutral;
+
+    th {
+      padding: $padding * $small-modifier $padding;
+      text-align: left;
+      font-weight: normal;
+      text-transform: uppercase;
+      border-right: 2px solid $neutral;
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 2px solid $contrast;
+
+      &:nth-child(even) {
+        background: darken($neutral, 5%);
+      }
+
+      &:hover {
+        background: darken($neutral, 10%);
+      }
+
+      td {
+        padding: $padding * $small-modifier $padding;
+        border-right: 2px solid $contrast;
+
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
+  }
+
+  tfoot {
+    background: darken($neutral, 8%);
+    font-style: italic;
+
+    td {
+      padding: $padding * $small-modifier $padding;
+      border-top: 4px solid $contrast;
+    }
+  }
+}

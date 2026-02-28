@@ -1,0 +1,89 @@
+@import '_variables.scss';
+
+// ─── Spacing helpers ──────────────────────────────────────────────────────────
+// m = margin, p = padding
+// t = top, b = bottom, l = left, r = right, x = horizontal, y = vertical
+// 0 = 0, sm = $padding*0.5, md = $padding, lg = $medium-padding, xl = $big-padding
+
+$spacing-scale: (
+  '0':  0,
+  'sm': $padding * $small-modifier,
+  'md': $padding,
+  'lg': $medium-padding,
+  'xl': $big-padding,
+);
+
+@each $name, $value in $spacing-scale {
+  .m-#{$name}  { margin: $value !important; }
+  .mx-#{$name} { margin-left: $value !important; margin-right: $value !important; }
+  .my-#{$name} { margin-top: $value !important; margin-bottom: $value !important; }
+  .mt-#{$name} { margin-top: $value !important; }
+  .mb-#{$name} { margin-bottom: $value !important; }
+  .ml-#{$name} { margin-left: $value !important; }
+  .mr-#{$name} { margin-right: $value !important; }
+
+  .p-#{$name}  { padding: $value !important; }
+  .px-#{$name} { padding-left: $value !important; padding-right: $value !important; }
+  .py-#{$name} { padding-top: $value !important; padding-bottom: $value !important; }
+  .pt-#{$name} { padding-top: $value !important; }
+  .pb-#{$name} { padding-bottom: $value !important; }
+  .pl-#{$name} { padding-left: $value !important; }
+  .pr-#{$name} { padding-right: $value !important; }
+}
+
+// ─── Text helpers ─────────────────────────────────────────────────────────────
+
+.text-left    { text-align: left !important; }
+.text-center  { text-align: center !important; }
+.text-right   { text-align: right !important; }
+
+.text-upper   { text-transform: uppercase !important; }
+.text-lower   { text-transform: lowercase !important; }
+
+.text-sm      { font-size: 0.75em !important; }
+.text-md      { font-size: 1em !important; }
+.text-lg      { font-size: 1.25em !important; }
+.text-xl      { font-size: 1.5em !important; }
+
+.text-bold    { font-weight: bold !important; }
+.text-normal  { font-weight: normal !important; }
+
+.text-muted   { color: $dimmed !important; }
+.text-primary { color: $primary-accent !important; }
+.text-danger  { color: $danger-accent !important; }
+
+.text-truncate {
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+}
+
+// ─── Display helpers ──────────────────────────────────────────────────────────
+
+.d-none    { display: none !important; }
+.d-block   { display: block !important; }
+.d-inline  { display: inline !important; }
+.d-flex    { display: flex !important; }
+.d-grid    { display: grid !important; }
+
+.hidden    { visibility: hidden !important; }
+.visible   { visibility: visible !important; }
+
+@media screen and (max-width: $medium) {
+  .d-none-sm  { display: none !important; }
+  .d-block-sm { display: block !important; }
+}
+
+// ─── Background color helpers ─────────────────────────────────────────────────
+
+.bg-neutral   { background-color: $neutral !important; }
+.bg-primary   { background-color: $primary-accent !important; color: $neutral !important; }
+.bg-secondary { background-color: $secondary-accent !important; color: $neutral !important; }
+.bg-danger    { background-color: $danger-accent !important; color: $neutral !important; }
+
+// ─── Width / height helpers ───────────────────────────────────────────────────
+
+.w-full  { width: 100% !important; }
+.w-auto  { width: auto !important; }
+.h-full  { height: 100% !important; }
+.h-auto  { height: auto !important; }

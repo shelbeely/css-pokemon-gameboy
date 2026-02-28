@@ -1,0 +1,85 @@
+@import '_variables.scss';
+
+// Links
+a {
+  color: $contrast;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+
+  &:hover {
+    color: $primary-accent;
+  }
+
+  &:visited {
+    color: $dimmed;
+  }
+}
+
+// Blockquotes — styled like an in-game text box
+blockquote {
+  position: relative;
+  margin: $padding 0;
+  padding: $padding $padding $padding ($padding * 2);
+  border-left: 4px solid $contrast;
+  background: darken($neutral, 4%);
+  font-style: normal;
+
+  &::before {
+    content: '▶';
+    position: absolute;
+    left: $padding * $small-modifier;
+    top: $padding;
+    font-size: 0.75em;
+  }
+}
+
+// Horizontal rule
+hr {
+  border: none;
+  border-top: 4px solid $contrast;
+  margin: $padding 0;
+}
+
+// Inline code
+code {
+  font-family: $font-content, monospace;
+  background: darken($neutral, 8%);
+  padding: 0.1em 0.4em;
+  border-bottom: 2px solid $contrast;
+  border-right: 2px solid $contrast;
+  font-size: 0.85em;
+}
+
+// Code blocks (pre > code)
+pre {
+  code {
+    display: block;
+    padding: $padding;
+    border: none;
+    overflow-x: auto;
+    white-space: pre;
+    font-size: 0.8em;
+    line-height: 1.6;
+  }
+}
+
+// Lists
+ul:not(.buttons),
+ol {
+  padding-left: $padding * 1.5;
+
+  li {
+    margin-bottom: $padding * $small-modifier;
+  }
+}
+
+ul:not(.buttons) {
+  list-style: none;
+
+  li::before {
+    content: '▶ ';
+    font-size: 0.6em;
+    vertical-align: middle;
+  }
+}

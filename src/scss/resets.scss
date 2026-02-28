@@ -10,3 +10,29 @@ h5,
 h6 {
   margin: 0;
 }
+
+// ─── Pixel-art scrollbars (Chromium / Safari) ─────────────────────────────────
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: $neutral;
+  border-left: 2px solid $contrast;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $contrast;
+  border: 2px solid $neutral;
+
+  &:hover {
+    background: lighten($contrast, 20%);
+  }
+}
+
+// Firefox scrollbar
+* {
+  scrollbar-width: thin;
+  scrollbar-color: $contrast $neutral;
+}

@@ -25,3 +25,27 @@ $small-modifier: 0.5;
 $small: 480px;
 $medium: 768px;
 $large: 1024px;
+
+// CSS custom properties — override these in your project to theme the framework
+:root {
+  --pgb-color-neutral: #{$neutral};
+  --pgb-color-contrast: #{$contrast};
+  --pgb-color-primary: #{$primary-accent};
+  --pgb-color-secondary: #{$secondary-accent};
+  --pgb-color-danger: #{$danger-accent};
+  --pgb-font-content: #{$font-content}, monospace;
+  --pgb-font-heading: #{$font-heading}, monospace;
+}
+
+// ─── Dark mode ────────────────────────────────────────────────────────────────
+// Automatically swap the neutral/contrast palette when the OS is in dark mode.
+// Override any of these custom properties to opt out of auto dark mode.
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pgb-color-neutral: #181010;
+    --pgb-color-contrast: #F8F3F8;
+    --pgb-color-primary: #5AC46A;
+    --pgb-color-secondary: #F0B088;
+    --pgb-color-danger: #E03040;
+  }
+}

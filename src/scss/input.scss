@@ -58,3 +58,105 @@ ul.buttons {
 
 
 }
+
+// Text inputs, selects, and textareas
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="url"],
+input[type="tel"],
+textarea,
+select {
+  font-family: $font-content;
+  font-size: 1em;
+  color: $contrast;
+  background: $neutral;
+  border: none;
+  border-bottom: 4px solid $contrast;
+  border-right: 4px solid $contrast;
+  outline: none;
+  padding: $padding * $small-modifier $padding * $small-modifier;
+  width: 100%;
+  margin-bottom: $padding * $small-modifier;
+  box-shadow: inset -2px -2px 0 darken($neutral, 10%), inset 2px 2px 0 darken($neutral, 5%);
+  image-rendering: pixelated;
+
+  &:focus {
+    border-color: $primary-accent;
+    box-shadow: inset -2px -2px 0 darken($neutral, 10%), inset 2px 2px 0 darken($neutral, 5%);
+  }
+}
+
+textarea {
+  resize: vertical;
+  min-height: 4em;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='6'%3E%3Cpath d='M0 0h2v2H0zM2 2h2v2H2zM4 4h2v2H4z' fill='%23181010'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $padding * $small-modifier center;
+  padding-right: $padding * 2;
+  cursor: pointer;
+}
+
+// Checkboxes and radio buttons
+input[type="checkbox"],
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid $contrast;
+  background: $neutral;
+  margin-right: $padding * $small-modifier;
+  cursor: pointer;
+  vertical-align: middle;
+  position: relative;
+  flex-shrink: 0;
+
+  &:checked {
+    background: $contrast;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 1px;
+      background: $neutral;
+      clip-path: polygon(20% 50%, 40% 70%, 80% 20%, 80% 35%, 40% 85%, 20% 65%);
+    }
+  }
+
+  &:focus {
+    outline: 2px solid $primary-accent;
+    outline-offset: 1px;
+  }
+}
+
+input[type="radio"] {
+  border-radius: 50%;
+
+  &:checked::after {
+    border-radius: 50%;
+    clip-path: none;
+    inset: 2px;
+    background: $contrast;
+  }
+}
+
+// Pair label + control on a single line
+label {
+  display: block;
+  margin-bottom: $padding * $small-modifier;
+  cursor: pointer;
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    margin-bottom: 0;
+  }
+}

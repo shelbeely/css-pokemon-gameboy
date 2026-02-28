@@ -1,0 +1,62 @@
+@import '_variables.scss';
+@import '_mixins.scss';
+
+// ─── Base alert ───────────────────────────────────────────────────────────────
+
+.alert {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: $padding * $small-modifier;
+  padding: $padding;
+  margin: $padding 0;
+  border-left: 6px solid $contrast;
+  background: darken($neutral, 4%);
+  color: $contrast;
+
+  // Dismiss button
+  .alert-close {
+    position: absolute;
+    top: $padding * $small-modifier;
+    right: $padding * $small-modifier;
+    background: none;
+    border: none;
+    font-family: $font-content;
+    font-size: 0.8em;
+    cursor: pointer;
+    padding: 0 $padding * $small-modifier;
+    text-transform: uppercase;
+
+    &:hover::before {
+      display: none; // suppress the global button arrow on this small control
+    }
+  }
+
+  &.has-close {
+    padding-right: $padding * 3;
+  }
+
+  // Variants
+  &.primary {
+    border-left-color: $primary-accent;
+    background: mix($primary-accent, $neutral, 12%);
+    color: $contrast;
+  }
+
+  &.secondary {
+    border-left-color: $secondary-accent;
+    background: mix($secondary-accent, $neutral, 12%);
+    color: $contrast;
+  }
+
+  &.danger {
+    border-left-color: $danger-accent;
+    background: mix($danger-accent, $neutral, 12%);
+    color: $contrast;
+  }
+
+  &.neutral {
+    border-left-color: $contrast;
+    background: darken($neutral, 4%);
+  }
+}
