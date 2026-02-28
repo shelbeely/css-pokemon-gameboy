@@ -221,8 +221,8 @@ async function lookupPokemon(nameOrId: string | number): Promise<void> {
           <span class="summary-name">${name.toUpperCase()}</span>
           <span class="summary-level">#${String(id).padStart(3, '0')}</span>
         </div>
-        <div style="display:flex;gap:0.75em;align-items:flex-start;padding:0.5em 0">
-          <img src="${CRYSTAL_SPRITE_BASE}/${id}.png" alt="${name}" width="64" height="64" style="image-rendering:pixelated">
+        <div class="pokemon-lookup-sprite-row">
+          <img src="${CRYSTAL_SPRITE_BASE}/${id}.png" alt="${name}" width="64" height="64">
           <div class="summary-types">${typeBadges}</div>
         </div>
         <div class="summary-stats">${statBars}</div>
