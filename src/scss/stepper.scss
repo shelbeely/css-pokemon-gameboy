@@ -103,7 +103,7 @@
       text-align: left;
       padding-top: 0;
       padding-left: $padding * 2.5;
-      padding-bottom: $padding * $small-modifier * 0.5;
+      padding-bottom: $padding * $small-modifier * $small-modifier;
       min-width: 0;
 
       &::before {

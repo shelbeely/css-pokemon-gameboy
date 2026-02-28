@@ -27,3 +27,6 @@ dist-ssr
 dist
 dist-lib
 dist-release
+
+# npm lockfile (project uses bun.lock)
+package-lock.json

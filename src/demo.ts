@@ -90,7 +90,8 @@ if (demoTabs) {
     btn.addEventListener('click', () => {
       demoTabs.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       panels.forEach(p => p.classList.remove('active'));
-      btn.closest('.tab')!.classList.add('active');
+      const tab = btn.closest('.tab');
+      if (tab) tab.classList.add('active');
       panels[i]?.classList.add('active');
     });
   });
@@ -101,8 +102,8 @@ const demoAccordion = document.getElementById('demoAccordion');
 if (demoAccordion) {
   demoAccordion.querySelectorAll<HTMLElement>('.accordion-header').forEach(header => {
     header.addEventListener('click', () => {
-      const item = header.closest('.accordion-item')!;
-      item.classList.toggle('open');
+      const item = header.closest('.accordion-item');
+      if (item) item.classList.toggle('open');
     });
   });
 }

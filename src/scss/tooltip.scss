@@ -27,7 +27,7 @@
     color: $neutral;
     background: $contrast;
     padding: 0.3em 0.6em;
-    border: 2px solid $neutral;
+    border: 2px solid $neutral; // $neutral on $contrast bg gives a visible outline
     pointer-events: none;
     opacity: 0;
     z-index: 100;
