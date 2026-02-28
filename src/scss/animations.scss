@@ -76,3 +76,39 @@
   margin-left: 0.3em;
   animation: pgb-blink 0.8s step-end infinite;
 }
+
+// ─── Battle-entry screen flash (Gen 2 style) ─────────────────────────────────
+// Apply to the outermost container or <body> when a battle begins.
+@keyframes pgb-battle-flash {
+  0%        { filter: invert(0); }
+  16.666%   { filter: invert(1); }
+  33.333%   { filter: invert(0); }
+  50%       { filter: invert(1); }
+  66.666%   { filter: invert(0); }
+  83.333%   { filter: invert(1); }
+  100%      { filter: invert(0); }
+}
+
+.animate-battle-flash {
+  animation: pgb-battle-flash 0.5s steps(1) 1;
+}
+
+// ─── Walk cycle (two-frame pixel-art step) ────────────────────────────────────
+@keyframes pgb-walk {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-2px); }
+}
+
+.animate-walk {
+  animation: pgb-walk 0.4s steps(2) infinite;
+}
+
+// ─── Slide up from bottom ─────────────────────────────────────────────────────
+@keyframes pgb-slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: pgb-slide-up 0.25s ease-out forwards;
+}

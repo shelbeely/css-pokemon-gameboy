@@ -17,9 +17,13 @@ All styling is applied automatically to standard HTML elements once you include 
 9. [Utility Classes](#9-utility-classes)
 10. [Alerts](#10-alerts)
 11. [Badges](#11-badges)
-12. [Dialog / Modal](#12-dialog--modal)
-13. [Animations](#13-animations)
-14. [Scrollbars](#14-scrollbars)
+12. [Type Badges](#12-type-badges) *(Gen 2)*
+13. [Status Conditions](#13-status-conditions) *(Gen 2)*
+14. [Battle HUD](#14-battle-hud) *(Gen 2)*
+15. [Dialog / Modal](#15-dialog--modal)
+16. [Animations](#16-animations)
+17. [Scrollbars](#17-scrollbars)
+18. [JavaScript Utilities](#18-javascript-utilities) *(Gen 2)*
 
 ---
 
@@ -549,7 +553,147 @@ The scale applies to both margin (`m-*`) and padding (`p-*`) with directional va
 
 ---
 
-## 12. Dialog / Modal
+## 12. Type Badges *(Gen 2)*
+
+Colour-coded chips for all 17 Pokémon types from Generations 1 and 2. **Dark** and **Steel** were introduced in Pokémon Gold/Silver/Crystal and are both included.
+
+```html
+<!-- Single type -->
+<span class="type-badge fire">FIRE</span>
+<span class="type-badge water">WATER</span>
+<span class="type-badge grass">GRASS</span>
+
+<!-- Dual type — inline pair -->
+<span class="type-badge rock">ROCK</span>
+<span class="type-badge dark">DARK</span>
+
+<!-- Gen 2 new types -->
+<span class="type-badge dark">DARK</span>
+<span class="type-badge steel">STEEL</span>
+```
+
+| Class | Type | Background |
+|---|---|---|
+| `.type-badge.normal` | Normal | `#A8A878` |
+| `.type-badge.fire` | Fire | `#F08030` |
+| `.type-badge.water` | Water | `#6890F0` |
+| `.type-badge.electric` | Electric | `#F8D030` |
+| `.type-badge.grass` | Grass | `#78C850` |
+| `.type-badge.ice` | Ice | `#98D8D8` |
+| `.type-badge.fighting` | Fighting | `#C03028` |
+| `.type-badge.poison` | Poison | `#A040A0` |
+| `.type-badge.ground` | Ground | `#E0C068` |
+| `.type-badge.flying` | Flying | `#A890F0` |
+| `.type-badge.psychic` | Psychic | `#F85888` |
+| `.type-badge.bug` | Bug | `#A8B820` |
+| `.type-badge.rock` | Rock | `#B8A038` |
+| `.type-badge.ghost` | Ghost | `#705898` |
+| `.type-badge.dragon` | Dragon | `#7038F8` |
+| `.type-badge.dark` | Dark *(Gen 2)* | `#705848` |
+| `.type-badge.steel` | Steel *(Gen 2)* | `#B8B8D0` |
+
+Light types (`electric`, `ice`, `ground`, `steel`) automatically use dark text instead of the outlined white text.
+
+---
+
+## 13. Status Conditions *(Gen 2)*
+
+Inline chips matching the status-condition display in Gen 2 battle and Pokémon summary screens.
+
+```html
+<span class="status-badge psn">PSN</span>  <!-- Poisoned -->
+<span class="status-badge slp">SLP</span>  <!-- Asleep -->
+<span class="status-badge brn">BRN</span>  <!-- Burned -->
+<span class="status-badge frz">FRZ</span>  <!-- Frozen -->
+<span class="status-badge par">PAR</span>  <!-- Paralyzed -->
+<span class="status-badge fnt">FNT</span>  <!-- Fainted -->
+```
+
+| Class | Condition | Color |
+|---|---|---|
+| `.status-badge.psn` | Poisoned | Purple `#A040A0` |
+| `.status-badge.slp` | Asleep | Gray-brown `#7B7368` |
+| `.status-badge.brn` | Burned | Orange-red `#D84C28` |
+| `.status-badge.frz` | Frozen | Ice blue `#98D8D8` (dark text) |
+| `.status-badge.par` | Paralyzed | Yellow `#F8D030` (dark text) |
+| `.status-badge.fnt` | Fainted | Red `#B3181C` |
+
+---
+
+## 14. Battle HUD *(Gen 2)*
+
+Replicates the Gen 2 in-battle status panels. The **enemy** panel (top) omits HP numbers; the **ally** panel (bottom) adds current/max HP and the EXP bar introduced in Gold/Silver/Crystal.
+
+```html
+<!-- Full battle scene: enemy top-left, ally bottom-right -->
+<div class="battle-scene">
+
+  <!-- Enemy panel -->
+  <div class="battle-hud enemy">
+    <div class="hud-name-row">
+      <span class="hud-name">FERALIGATR</span>
+      <span class="hud-gender male">♂</span>
+      <span class="hud-level">:L52</span>
+    </div>
+    <div class="hud-hp-row">
+      <span class="hud-hp-label">HP</span>
+      <div class="progress-bar-container">
+        <div class="progress-bar p68"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ally panel (with HP numbers + EXP bar) -->
+  <div class="battle-hud ally">
+    <div class="hud-name-row">
+      <span class="hud-status"><span class="status-badge psn">PSN</span></span>
+      <span class="hud-name">TOTODILE</span>
+      <span class="hud-gender male">♂</span>
+      <span class="hud-level">:L15</span>
+    </div>
+    <div class="hud-hp-row">
+      <span class="hud-hp-label">HP</span>
+      <div class="progress-bar-container">
+        <div class="progress-bar p45"></div>
+      </div>
+    </div>
+    <div class="hud-hp-numbers">
+      <span class="hud-hp-current">24</span>
+      <span class="hud-hp-max">53</span>
+    </div>
+    <div class="hud-exp-row">
+      <span class="hud-exp-label">EXP</span>
+      <div class="progress-bar-container">
+        <div class="progress-bar primary p60"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.battle-scene` | wrapper `<div>` | Flex row placing enemy top-left, ally bottom-right |
+| `.battle-hud` | panel `<div>` | Base bordered panel |
+| `.battle-hud.enemy` | panel | Open bottom-right corner (Gen 2 cut-away style) |
+| `.battle-hud.ally` | panel | Open top-left corner |
+| `.hud-name-row` | row | Flex row: name + gender + level |
+| `.hud-name` | `<span>` | Pokémon name (uppercase, truncated) |
+| `.hud-gender.male` / `.female` | `<span>` | ♂ (blue) / ♀ (pink) gender symbol |
+| `.hud-level` | `<span>` | Level number prefixed with `:L` |
+| `.hud-status` | `<span>` | Slot for a `.status-badge` |
+| `.hud-hp-row` | row | "HP" label + progress bar |
+| `.hud-hp-label` | `<span>` | Bold "HP" label |
+| `.hud-hp-numbers` | row | Right-aligned `current / max` HP display |
+| `.hud-hp-current` | `<span>` | Current HP value |
+| `.hud-hp-max` | `<span>` | Max HP value (prefixed `/`) |
+| `.hud-exp-row` | row | "EXP" label + EXP progress bar (ally only) |
+| `.hud-exp-label` | `<span>` | "EXP" label |
+
+---
+
+## 15. Dialog / Modal
 
 The native `<dialog>` element is styled like an in-game dialogue box. Open it with `dialog.showModal()` or the `open` attribute. The backdrop is automatically darkened.
 
@@ -582,7 +726,7 @@ The native `<dialog>` element is styled like an in-game dialogue box. Open it wi
 
 ---
 
-## 13. Animations
+## 16. Animations
 
 Six `@keyframes` animations are available as utility classes; `.cursor-blink` appends a blinking `▼` indicator to any element.
 
@@ -605,6 +749,15 @@ Six `@keyframes` animations are available as utility classes; `.cursor-blink` ap
 <!-- Fade in -->
 <div class="animate-fade-in">Scene loaded.</div>
 
+<!-- Slide up from below (Gen 2 HUD enter) -->
+<div class="framed animate-slide-up">EXP Gained!</div>
+
+<!-- Battle-entry screen flash (Gen 2) -->
+<div class="animate-battle-flash">…</div>
+
+<!-- Walk cycle (trainer sprite) -->
+<img src="trainer.png" class="animate-walk" alt="Trainer">
+
 <!-- Blinking element -->
 <span class="animate-blink">▼</span>
 ```
@@ -617,10 +770,90 @@ Six `@keyframes` animations are available as utility classes; `.cursor-blink` ap
 | `pgb-flash` | `.animate-flash` | Opacity flash (hit), 0.6 s, 3 times |
 | `pgb-slide-in` | `.animate-slide-in` | Slide up from 100 % translateY, 0.3 s, once |
 | `pgb-fade-in` | `.animate-fade-in` | Fade from opacity 0, 0.4 s, once |
+| `pgb-battle-flash` | `.animate-battle-flash` | White screen flash (battle entry), 0.5 s, once *(Gen 2)* |
+| `pgb-walk` | `.animate-walk` | Two-frame vertical walk-cycle, infinite *(Gen 2)* |
+| `pgb-slide-up` | `.animate-slide-up` | Slide up 20 px from below, 0.25 s, once *(Gen 2)* |
 | `pgb-blink` | `.cursor-blink` | Appends a blinking `▼` via `::after` pseudo-element |
 
 ---
 
-## 14. Scrollbars
+## 17. Scrollbars
 
 Pixel-art scrollbars are applied automatically to all elements — no classes are needed. Chromium and Safari receive styled `::-webkit-scrollbar` tracks and thumbs; Firefox receives `scrollbar-width: thin` with matching colors. The scrollbar colors follow the neutral/contrast palette and update automatically in dark mode.
+
+---
+
+## 18. JavaScript Utilities *(Gen 2)*
+
+Optional JS helpers that complement the CSS framework. Import from `pgb.ts` (or the compiled output):
+
+```ts
+import { typewriter, initMenuKeyboard, animateHpBar, battleFlash } from 'css-pokemon-gameboy/pgb';
+```
+
+### `typewriter(el, text, charDelay?)`
+
+Writes `text` into `el` one character at a time, mimicking the scrolling dialogue speed of Gen 1/2 games. Returns a `Promise` that resolves when the last character is written.
+
+```ts
+const dialogue = document.querySelector('blockquote')!;
+await typewriter(dialogue, "There's a time and place for everything, but not now.", 45);
+dialogue.classList.add('cursor-blink'); // show ▼ when done
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `el` | `HTMLElement` | — | Target element (text content replaced) |
+| `text` | `string` | — | Full string to reveal |
+| `charDelay` | `number` | `40` | ms between characters |
+
+---
+
+### `initMenuKeyboard(menuEl)`
+
+Enables **↑ / ↓** (and **W / S**) keyboard navigation on a `.buttons` list. Focus wraps around. Returns a cleanup function that removes the listener.
+
+```ts
+const menu = document.querySelector('ul.buttons')!;
+const cleanup = initMenuKeyboard(menu);
+// later: cleanup();
+```
+
+| Parameter | Type | Description |
+|---|---|---|
+| `menuEl` | `HTMLElement` | The `<ul class="buttons">` container |
+
+---
+
+### `animateHpBar(barEl, fromPct, toPct, duration?)`
+
+Smoothly steps a `.progress-bar` element from `fromPct` → `toPct` (0–100) by cycling `.p{N}` classes each frame. Returns a `Promise` that resolves on completion.
+
+```ts
+const bar = document.getElementById('hp-bar')!;
+await animateHpBar(bar, 100, 28, 800); // drain from 100% to 28% over 800 ms
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `barEl` | `HTMLElement` | — | The `.progress-bar` div |
+| `fromPct` | `number` | — | Starting fill (0–100) |
+| `toPct` | `number` | — | Ending fill (0–100) |
+| `duration` | `number` | `1000` | Animation duration in ms |
+
+---
+
+### `battleFlash(containerEl?)`
+
+Plays the Gen 2 battle-entry screen flash by adding `.animate-battle-flash` to `containerEl` and waiting for the animation to finish. Returns a `Promise`.
+
+```ts
+await battleFlash(document.body); // flash the whole screen
+// or scope it to a single panel:
+await battleFlash(document.getElementById('battle-area')!);
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `containerEl` | `HTMLElement` | `document.body` | Element to flash |
+

@@ -310,6 +310,129 @@
       </section>
 
       <section class="framed contains-code">
+        <h2>Type Badges</h2>
+        <p>Colour-coded chips for all 17 Gen 1 &amp; 2 Pokémon types. Dark and Steel were introduced in Gold/Silver/Crystal.</p>
+
+        <div class="viewable-code">
+          <p>
+            <span class="type-badge normal">Normal</span>
+            <span class="type-badge fire">Fire</span>
+            <span class="type-badge water">Water</span>
+            <span class="type-badge electric">Electric</span>
+            <span class="type-badge grass">Grass</span>
+            <span class="type-badge ice">Ice</span>
+          </p>
+          <p>
+            <span class="type-badge fighting">Fighting</span>
+            <span class="type-badge poison">Poison</span>
+            <span class="type-badge ground">Ground</span>
+            <span class="type-badge flying">Flying</span>
+            <span class="type-badge psychic">Psychic</span>
+            <span class="type-badge bug">Bug</span>
+          </p>
+          <p>
+            <span class="type-badge rock">Rock</span>
+            <span class="type-badge ghost">Ghost</span>
+            <span class="type-badge dragon">Dragon</span>
+            <span class="type-badge dark">Dark</span>
+            <span class="type-badge steel">Steel</span>
+          </p>
+          <p>Tyranitar <span class="type-badge rock">Rock</span> <span class="type-badge dark">Dark</span> — a new Gen 2 dual-type combination.</p>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Status Conditions</h2>
+        <p>Inline badges for Pokémon non-volatile status conditions, exactly as shown in Gen 2 battle and summary screens.</p>
+
+        <div class="viewable-code">
+          <p>
+            <span class="status-badge psn">PSN</span> Poisoned
+            &nbsp;
+            <span class="status-badge slp">SLP</span> Asleep
+            &nbsp;
+            <span class="status-badge brn">BRN</span> Burned
+          </p>
+          <p>
+            <span class="status-badge frz">FRZ</span> Frozen
+            &nbsp;
+            <span class="status-badge par">PAR</span> Paralyzed
+            &nbsp;
+            <span class="status-badge fnt">FNT</span> Fainted
+          </p>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Battle HUD</h2>
+        <p>Gen 2 introduced the EXP bar in the ally panel. Enemy panels omit HP numbers; ally panels show current/max HP and an EXP bar.</p>
+
+        <div class="viewable-code">
+          <div class="battle-scene">
+            <div class="battle-hud enemy">
+              <div class="hud-name-row">
+                <span class="hud-name">FERALIGATR</span>
+                <span class="hud-gender male">♂</span>
+                <span class="hud-level">:L52</span>
+              </div>
+              <div class="hud-hp-row">
+                <span class="hud-hp-label">HP</span>
+                <div class="progress-bar-container">
+                  <div class="progress-bar p68"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="battle-hud ally">
+              <div class="hud-name-row">
+                <span class="hud-status"><span class="status-badge psn">PSN</span></span>
+                <span class="hud-name">TOTODILE</span>
+                <span class="hud-gender male">♂</span>
+                <span class="hud-level">:L15</span>
+              </div>
+              <div class="hud-hp-row">
+                <span class="hud-hp-label">HP</span>
+                <div class="progress-bar-container">
+                  <div class="progress-bar p45"></div>
+                </div>
+              </div>
+              <div class="hud-hp-numbers">
+                <span class="hud-hp-current">24</span>
+                <span class="hud-hp-max">53</span>
+              </div>
+              <div class="hud-exp-row">
+                <span class="hud-exp-label">EXP</span>
+                <div class="progress-bar-container">
+                  <div class="progress-bar primary p60"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>JavaScript Utilities</h2>
+        <p>Optional JS helpers that complement the CSS framework. Import them from <code>pgb.ts</code>.</p>
+
+        <div class="viewable-code">
+          <h3>Typewriter Dialogue</h3>
+          <blockquote id="typewriterDemo">Click the button below to start…</blockquote>
+          <button id="typewriterBtn">Play dialogue</button>
+
+          <h3>Animated HP Bar</h3>
+          <div class="progress-bar-container">
+            <label>HP:</label>
+            <div class="progress-bar p100" id="hpAnimBar"></div>
+          </div>
+          <button id="hpDrainBtn">Drain HP</button>
+
+          <h3>Battle Flash</h3>
+          <button id="battleFlashBtn">Trigger battle flash</button>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
         <h2>Utility Classes</h2>
         <p>Spacing, text alignment, display, color, and sizing helpers.</p>
 

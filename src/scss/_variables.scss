@@ -11,6 +11,37 @@ $danger-accent: #B3181C;
 $dimmed: change-color($contrast, $alpha: 0.6);
 $dimmed-light: change-color($neutral, $alpha: 0.6);
 
+// Pokémon type colours (Gen 1 & 2 — Dark and Steel introduced in Gen 2)
+$type-colors: (
+  'normal':   #A8A878,
+  'fire':     #F08030,
+  'water':    #6890F0,
+  'electric': #F8D030,
+  'grass':    #78C850,
+  'ice':      #98D8D8,
+  'fighting': #C03028,
+  'poison':   #A040A0,
+  'ground':   #E0C068,
+  'flying':   #A890F0,
+  'psychic':  #F85888,
+  'bug':      #A8B820,
+  'rock':     #B8A038,
+  'ghost':    #705898,
+  'dragon':   #7038F8,
+  'dark':     #705848,
+  'steel':    #B8B8D0,
+);
+
+// Status-condition colours
+$status-colors: (
+  'psn': #A040A0,
+  'slp': #7B7368,
+  'brn': #D84C28,
+  'frz': #98D8D8,
+  'par': #F8D030,
+  'fnt': #B3181C,
+);
+
 $min-width: 320px;
 $size: 2em;
 
