@@ -31,6 +31,7 @@
     "vite": "^5.4.8"
   },
   "dependencies": {
+    "pokeapi-js-wrapper": "^1.2.8",
     "prismjs": "^1.29.0",
     "redent": "^4.0.0"
   }

@@ -406,7 +406,8 @@
 
   <script type="module" src="/src/pokedex.ts"></script>
 
-  <script>
+  <script type="module">
+    import { Pokedex } from 'pokeapi-js-wrapper';
     // ── Pokémon data: [id, name, types[]] ──────────────────────────────────────
     const POKEMON = [
       [1,"Bulbasaur",["grass","poison"]],
@@ -835,27 +836,15 @@
 
     // ── Evolution chain ────────────────────────────────────────────────────────
     let _currentEvoId = 0;
-    const _evoSpeciesCache = {};  // pokemonId -> chainUrl
-    const _evoChainCache   = {};  // chainUrl  -> parsed stages
+    const P = new Pokedex();
 
     async function getEvolutionChain(pokemonId) {
-      if (!_evoSpeciesCache[pokemonId]) {
-        try {
-          const r = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}/`);
-          const d = await r.json();
-          _evoSpeciesCache[pokemonId] = d.evolution_chain.url;
-        } catch (e) { console.error('PokeAPI species fetch failed', e); _evoSpeciesCache[pokemonId] = null; }
-      }
-      const chainUrl = _evoSpeciesCache[pokemonId];
-      if (!chainUrl) return null;
-      if (!_evoChainCache[chainUrl]) {
-        try {
-          const r = await fetch(chainUrl);
-          const d = await r.json();
-          _evoChainCache[chainUrl] = parseEvoStages(d.chain);
-        } catch (e) { console.error('PokeAPI evolution chain fetch failed', e); _evoChainCache[chainUrl] = null; }
-      }
-      return _evoChainCache[chainUrl];
+      try {
+        const species = await P.getPokemonSpeciesByName(pokemonId);
+        const chainId = parseInt(species.evolution_chain.url.split('/').filter(Boolean).pop());
+        const chainData = await P.getEvolutionChainById(chainId);
+        return parseEvoStages(chainData.chain);
+      } catch (e) { console.error('PokeAPI evolution chain fetch failed', e); return null; }
     }
 
     function parseEvoStages(node, stages = [], depth = 0) {
