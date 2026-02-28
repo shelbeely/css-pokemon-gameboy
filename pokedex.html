@@ -16,51 +16,286 @@
   <link rel="manifest" href="src/site.webmanifest">
 
   <style>
-    body { padding: 0; }
+    body { padding: 0; margin: 0; }
 
-    #pokedex-content {
-      padding: 1em 2em 3em;
-      max-width: 1200px;
-      margin: 0 auto;
+    /* ── App layout ──────────────────────────────────────────────────────── */
+    #pokedex-app {
+      display: flex;
+      height: calc(100dvh - 3rem);
+      overflow: hidden;
     }
 
-    #type-filter { margin: 1em 0 0.5em; flex-wrap: wrap; }
+    /* ── Left panel ──────────────────────────────────────────────────────── */
+    #list-panel {
+      display: flex;
+      flex-direction: column;
+      width: 260px;
+      min-width: 220px;
+      max-width: 260px;
+      flex-shrink: 0;
+      background: var(--pgb-color-contrast);
+      color: var(--pgb-color-neutral);
+      overflow: hidden;
+    }
 
-    #pokedex-grid {
+    /* Type filter strip */
+    #type-filter-strip {
+      overflow-x: auto;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 0.35em 0.5em;
+      border-bottom: 2px solid color-mix(in srgb, var(--pgb-color-neutral) 20%, var(--pgb-color-contrast));
+      scrollbar-width: none;
+    }
+    #type-filter-strip::-webkit-scrollbar { display: none; }
+
+    #type-filter-strip button {
+      display: inline-block;
+      font-family: var(--pgb-font-content, monospace);
+      font-size: 0.5em;
+      padding: 0.2em 0.5em;
+      margin-right: 0.4em;
+      background: transparent;
+      color: var(--pgb-color-neutral);
+      border: 1px solid color-mix(in srgb, var(--pgb-color-neutral) 40%, var(--pgb-color-contrast));
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    #type-filter-strip button.active {
+      background: var(--pgb-color-neutral);
+      color: var(--pgb-color-contrast);
+    }
+
+    /* Preview thumbnail */
+    #list-preview {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.5em 0.4em 0.4em;
+      background: color-mix(in srgb, var(--pgb-color-neutral) 12%, var(--pgb-color-contrast));
+      border-bottom: 2px solid color-mix(in srgb, var(--pgb-color-neutral) 20%, var(--pgb-color-contrast));
+      min-height: 70px;
+    }
+    #list-preview img {
+      width: 40px;
+      height: 40px;
+      image-rendering: pixelated;
+      object-fit: contain;
+    }
+    #list-preview-label {
+      font-family: var(--pgb-font-content, monospace);
+      font-size: 0.45em;
+      text-transform: uppercase;
+      color: var(--pgb-color-neutral);
+      margin-top: 0.3em;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    /* Scrollable list */
+    #pokemon-list {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: color-mix(in srgb, var(--pgb-color-neutral) 30%, var(--pgb-color-contrast)) transparent;
+    }
+
+    .list-row {
+      display: flex;
+      align-items: center;
+      font-family: var(--pgb-font-content, monospace);
+      font-size: 0.6em;
+      text-transform: uppercase;
+      padding: 0.4em 0.75em;
+      cursor: pointer;
+      white-space: nowrap;
+      color: var(--pgb-color-neutral);
+      user-select: none;
+    }
+    .list-row:hover {
+      background: color-mix(in srgb, var(--pgb-color-neutral) 15%, var(--pgb-color-contrast));
+    }
+    .list-row.active {
+      background: var(--pgb-color-neutral);
+      color: var(--pgb-color-contrast);
+    }
+    .list-row .cursor {
+      display: inline-block;
+      width: 1em;
+      visibility: hidden;
+      flex-shrink: 0;
+    }
+    .list-row.active .cursor {
+      visibility: visible;
+    }
+    .list-row .row-num {
+      display: inline-block;
+      width: 2.5em;
+      flex-shrink: 0;
+      opacity: 0.75;
+    }
+    .list-row.active .row-num {
+      opacity: 1;
+    }
+    .list-row .row-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── Right panel ─────────────────────────────────────────────────────── */
+    #detail-panel {
+      flex: 1;
+      background: var(--pgb-color-neutral);
+      color: var(--pgb-color-contrast);
+      overflow-y: auto;
+      font-family: var(--pgb-font-content, monospace);
+    }
+
+    #detail-inner {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    /* Entry header */
+    #detail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--pgb-color-contrast);
+      color: var(--pgb-color-neutral);
+      padding: 0.5em 0.75em;
+      font-size: 0.6em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    /* Sprite + types grid */
+    #detail-sprite-area {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
-      gap: 0.65em;
-      margin-top: 0.75em;
+      grid-template-columns: 120px 1fr;
+      flex-shrink: 0;
+      border-bottom: 2px solid var(--pgb-color-contrast);
     }
 
-    #pokedex-grid .card { cursor: default; }
-    #pokedex-grid .card-image { padding: 0.5em; min-height: 64px; display: flex; align-items: center; justify-content: center; }
-    #pokedex-grid .card-image img { max-width: 56px; max-height: 56px; }
-    #pokedex-grid .card-body { padding: 0.35em 0.5em 0.5em; }
-    #pokedex-grid .card-subtitle { font-size: 0.6em; margin-bottom: 0.25em; }
-    #pokedex-grid .card-title { font-size: 0.5em; margin-bottom: 0.35em; }
-    #pokedex-grid .type-badge { font-size: 0.5em; }
+    #detail-sprites {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-right: 2px solid var(--pgb-color-contrast);
+      background: color-mix(in srgb, var(--pgb-color-contrast) 4%, var(--pgb-color-neutral));
+    }
 
-    #no-results { display: none; text-align: center; margin-top: 2em; }
-    #no-results.visible { display: block; }
+    #detail-front {
+      width: 96px;
+      height: 96px;
+      image-rendering: pixelated;
+      object-fit: contain;
+      border-bottom: 2px solid var(--pgb-color-contrast);
+      padding: 4px;
+    }
 
+    #detail-back {
+      width: 64px;
+      height: 64px;
+      image-rendering: pixelated;
+      object-fit: contain;
+      padding: 4px;
+    }
+
+    #detail-types {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      padding: 0.75em 0.5em;
+    }
+
+    /* Info row */
+    #detail-info {
+      font-size: 0.55em;
+      text-transform: uppercase;
+      padding: 0.5em 0.75em;
+      border-bottom: 2px solid var(--pgb-color-contrast);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4em;
+    }
+
+    #detail-ht-wt {
+      display: flex;
+      gap: 1.5em;
+    }
+
+    /* Flavor text */
+    #detail-flavor {
+      font-size: 0.6em;
+      text-transform: uppercase;
+      padding: 0.75em;
+      line-height: 1.8;
+      flex: 1;
+    }
+
+    /* Search input */
     .app-bar-search {
       font-family: var(--pgb-font-content, monospace);
       font-size: 0.6em;
-      width: 10em;
+      width: 9em;
       padding: 0.3em 0.5em;
       background: var(--pgb-color-neutral);
       color: var(--pgb-color-contrast);
       border: 2px solid var(--pgb-color-neutral);
       outline: none;
     }
-
     .app-bar-search:focus {
       border-color: var(--pgb-color-primary);
     }
 
-    @media screen and (max-width: 480px) {
-      #pokedex-content { padding: 0.75em 0.75em 2em; }
+    /* Back button (hidden on desktop) */
+    #back-btn { display: none; }
+
+    /* ── Mobile layout ───────────────────────────────────────────────────── */
+    @media screen and (max-width: 768px) {
+      #pokedex-app {
+        height: calc(100dvh - 3rem);
+        position: relative;
+      }
+
+      #list-panel {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 2;
+        transition: transform 0.2s ease;
+      }
+
+      #detail-panel {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 1;
+        transform: translateX(100%);
+        transition: transform 0.2s ease;
+      }
+
+      #pokedex-app.detail-view #list-panel {
+        transform: translateX(-100%);
+      }
+
+      #pokedex-app.detail-view #detail-panel {
+        transform: translateX(0);
+        z-index: 3;
+      }
+
+      #back-btn { display: inline-flex; }
+
       .app-bar-search { width: 7em; }
     }
   </style>
@@ -68,7 +303,8 @@
 
 <body>
   <header class="app-bar">
-    <a href="index.html" class="app-bar-nav" title="Back to demo">◀</a>
+    <button id="back-btn" class="app-bar-nav" aria-label="Back to list">◀</button>
+    <a href="index.html" class="app-bar-nav" id="home-link" title="Back to demo">◀</a>
     <span class="app-bar-title">POKÉDEX</span>
     <div class="app-bar-actions">
       <input type="search" id="pokedex-search" class="app-bar-search"
@@ -76,10 +312,41 @@
     </div>
   </header>
 
-  <div id="pokedex-content">
-    <div class="chip-group" id="type-filter" role="group" aria-label="Filter by type"></div>
-    <p id="no-results">No Pokémon found.</p>
-    <div id="pokedex-grid" aria-live="polite"></div>
+  <div id="pokedex-app">
+    <!-- Left panel: type filter + preview + list -->
+    <div id="list-panel" tabindex="0" aria-label="Pokémon list">
+      <div id="type-filter-strip" role="group" aria-label="Filter by type"></div>
+      <div id="list-preview">
+        <img id="preview-img" src="" alt="" width="40" height="40">
+        <div id="list-preview-label"></div>
+      </div>
+      <div id="pokemon-list" role="listbox" aria-label="Pokémon"></div>
+    </div>
+
+    <!-- Right panel: Pokédex entry detail -->
+    <div id="detail-panel" aria-live="polite">
+      <div id="detail-inner">
+        <div id="detail-header">
+          <span id="detail-num"></span>
+          <span id="detail-name"></span>
+        </div>
+        <div id="detail-sprite-area">
+          <div id="detail-sprites">
+            <img id="detail-front" src="" alt="" width="96" height="96">
+            <img id="detail-back" src="" alt="" width="64" height="64">
+          </div>
+          <div id="detail-types"></div>
+        </div>
+        <div id="detail-info">
+          <div id="detail-species"></div>
+          <div id="detail-ht-wt">
+            <span id="detail-ht"></span>
+            <span id="detail-wt"></span>
+          </div>
+        </div>
+        <div id="detail-flavor"></div>
+      </div>
+    </div>
   </div>
 
   <script type="module" src="/src/pokedex.ts"></script>
@@ -340,88 +607,209 @@
       [251,"Celebi",["psychic","grass"]]
     ];
 
+    const PKDATA = [[7,69,"Seed Pokémon","While it is young, it uses the nutrients that are stored in the seeds on its back in order to grow."],[10,130,"Seed Pokémon","The bulb on its back grows as it absorbs nutrients. The bulb gives off a pleasant aroma when it blooms."],[20,1000,"Seed Pokémon","As it warms it­ self and absorbs the sunlight, its flower petals release a pleasant fragrance."],[6,85,"Lizard Pokémon","If it's healthy, the flame on the tip of its tail will burn vigor­ ously, even if it gets a bit wet."],[11,190,"Flame Pokémon","If it becomes agitated during battle, it spouts intense flames, incinerating its surroundings."],[17,905,"Flame Pokémon","It uses its wings to fly high. The temperature of its fire increases as it gains exper­ ience in battle."],[5,90,"Tiny Turtle Pokémon","When it feels threatened, it draws its legs inside its shell and sprays water from its mouth."],[10,225,"Turtle Pokémon","Its long, furry tail is a symbol of longevity, making it quite popular among older people."],[16,855,"Shellfish Pokémon","It firmly plants its feet on the ground before shooting water from the jets on its back."],[3,29,"Worm Pokémon","It crawls into foliage where it camouflages itself among leaves that are the same color as its body."],[7,99,"Cocoon Pokémon","This is its pre- evolved form. At this stage, it can only harden, so it remains motionless to avoid attack."],[11,320,"Butterfly Pokémon","It flits from flower to flower, collecting honey. It can even identify distant flowers in bloom."],[3,32,"Hairy Bug Pokémon","The barb on top of its head secretes a strong poison. It uses this toxic barb to protect itself."],[6,100,"Cocoon Pokémon","Nearly incapable of movement, it leans against stout trees while waiting for its evolution."],[10,295,"Poison Bee Pokémon","It uses sharp, poisonous stings to defeat prey, then takes the victim back to its nest for food."],[3,18,"Tiny Bird Pokémon","It rapidly flaps its wings in the grass, stirring up a dust cloud that drives insect prey out into the open."],[11,300,"Bird Pokémon","It slowly flies in a circular pat­ tern, all the while keeping a sharp lookout for prey."],[15,395,"Bird Pokémon","Its outstanding vision allows it to spot splashing MAGIKARP, even while flying at 3300 feet."],[3,35,"Mouse Pokémon","This POKéMON's impressive vital­ ity allows it to live anywhere. It also multiplies very quickly."],[7,185,"Mouse Pokémon","The webs on its hind legs enable it to cross rivers. It search­ es wide areas for food."],[3,20,"Tiny Bird Pokémon","To protect its territory, it flies around ceaselessly, making high- pitched cries."],[12,380,"Beak Pokémon","It uses its long beak to attack. It has a surprisingly long reach, so it must be treated with caution."],[20,69,"Snake Pokémon","It flutters the tip of its tongue to seek out the scent of prey, then swallows the prey whole."],[35,650,"Cobra Pokémon","To intimidate foes, it spreads its chest wide and makes eerie sounds by expelling air from its mouth."],[4,60,"Mouse Pokémon","When it is anger­ ed, it immediately discharges the energy stored in the pouches in its cheeks."],[8,300,"Mouse Pokémon","If its electric pouches run empty, it raises its tail to gather electri­ city from the atmosphere."],[6,120,"Mouse Pokémon","It prefers dry, sandy places because it uses the sand to protect itself when threatened."],[10,295,"Mouse Pokémon","Adept at climbing trees, it rolls into a spiny ball, then attacks its enemies from above."],[4,70,"Poison Pin Pokémon","Small and very docile, it pro­ tects itself with its small, poison­ ous horn when attacked."],[8,200,"Poison Pin Pokémon","It has a docile nature. If it is threatened with attack, it raises the barbs that are all over its body."],[13,600,"Drill Pokémon","The hard scales that cover its strong body serve as excellent protection from any attack."],[5,90,"Poison Pin Pokémon","It constantly moves its large ears in many directions in order to detect danger right away."],[9,195,"Poison Pin Pokémon","It is easily agitated and uses its horn for offense as soon as it notices an attacker."],[14,620,"Drill Pokémon","It uses its thick arms, legs and tail to attack forcefully. Melee combat is its specialty."],[6,75,"Fairy Pokémon","Though rarely seen, it becomes easier to spot, for some reason, on the night of a  full moon."],[13,400,"Fairy Pokémon","Said to live in quiet, remote mountains, this type of fairy has a strong aversion to being seen."],[6,99,"Fox Pokémon","As its body grows larger, its six warm tails become more beautiful, with a more luxur­ ious coat of fur."],[11,199,"Fox Pokémon","It is said to live a thousand years, and each of its tails is loaded with supernatural powers."],[5,55,"Balloon Pokémon","It rolls its cute eyes as it sings a soothing lullaby. Its gentle song puts anyone who hears it to sleep."],[10,120,"Balloon Pokémon","The rich, fluffy fur that covers its body feels so good that anyone who feels it can't stop touching it."],[8,75,"Bat Pokémon","During the day, it gathers with others and hangs from the ceilings of old buildings and caves."],[16,550,"Bat Pokémon","When it plunges its fangs into its prey, it instantly draws and gulps down more than ten ounces of blood."],[5,54,"Weed Pokémon","During the day, it stays in the cold underground to avoid the sun. It grows by bath­ ing in moonlight."],[8,86,"Weed Pokémon","The smell from its drool-like syrup and the pollen on its petals is so bad, it may make opponents faint."],[12,186,"Flower Pokémon","By shaking its big petals, it scat­ ters toxic pollen into the air, turning the air yellow."],[3,54,"Mushroom Pokémon","The tochukaso growing on this POKéMON's back orders it to extract juice from tree trunks."],[10,295,"Mushroom Pokémon","When nothing's left to extract from the bug, the mushrooms on its back leave spores on the bug's egg."],[10,300,"Insect Pokémon","The small bugs it eats appear only at night, so it sleeps in a hole in a tree until night falls."],[15,125,"Poison Moth Pokémon","The scales it scatters will paralyze anyone who touches them, making that person unable to stand."],[2,8,"Mole Pokémon","It digs under­ ground and chews on tree roots, sticking its head out only when the sun isn't bright."],[7,333,"Mole Pokémon","These DIGLETT triplets dig over 60 miles below sea level. No one knows what it's like underground."],[4,42,"Scratch Cat Pokémon","It loves things that sparkle. When it sees a shiny object, the gold coin on its head shines too."],[10,320,"Classy Cat Pokémon","Behind its lithe, elegant appearance lies a barbaric side. It will tear apart its prey on a mere whim."],[8,196,"Duck Pokémon","The only time it can use its psy­ chic power is when its sleeping brain cells happen to wake."],[17,766,"Duck Pokémon","It swims grace­ fully along on the quiet, slow-moving rivers and lakes of which it is so fond."],[5,280,"Pig Monkey Pokémon","It lives in groups in the treetops. If it loses sight of its group, it becomes infuriated by its loneliness."],[10,320,"Pig Monkey Pokémon","It will beat up anyone who makes it mad, even if it has to chase them until the end of the world."],[7,190,"Puppy Pokémon","It controls a big territory. If it detects an unknown smell, it roars loudly to force out the intruder."],[19,1550,"Legendary Pokémon","An ancient picture scroll shows that people were attracted to its movement as it ran through prairies."],[6,124,"Tadpole Pokémon","The swirl on its belly is its insides showing through the skin. It looks clearer after it eats."],[10,200,"Tadpole Pokémon","Though it is skilled at walk­ ing, it prefers to live underwater where there is less danger."],[13,540,"Tadpole Pokémon","It can use its well-developed arms and legs to run on the surface of the water for a split second."],[9,195,"Psi Pokémon","It hypnotizes itself so that it can teleport away when it senses danger, even if it is asleep."],[13,565,"Psi Pokémon","When it closes its eyes, twice as many alpha parti­ cles come out of the surface of its body."],[15,480,"Psi Pokémon","It has an IQ of 5000. It calcu­ lates many things in order to gain the edge in every battle."],[8,195,"Superpower Pokémon","It trains by lifting rocks in the mountains. It can even pick up a GRAVELER with ease."],[15,705,"Superpower Pokémon","This tough POKéMON always stays in the zone. Its muscles become thicker after every battle."],[16,1300,"Superpower Pokémon","With four arms that react more quickly than it can think, it can execute many punches at once."],[7,40,"Flower Pokémon","If it notices anything that moves, it immediately flings its vine at the object."],[10,64,"Flycatcher Pokémon","When it's hungry, it swings its razor-sharp leaves, slicing up any unlucky object nearby for food."],[17,155,"Flycatcher Pokémon","Once ingested into this POKéMON's body, even the hardest object will melt into nothing."],[9,455,"Jellyfish Pokémon","As it floats along on the waves, it uses its toxic feelers to stab anything it touches."],[16,550,"Jellyfish Pokémon","When its 80 feel­ ers absorb water, it stretches to become like a net to entangle its prey."],[4,200,"Rock Pokémon","Proud of their sturdy bodies, they bash against each other in a contest to prove whose is harder."],[10,1050,"Rock Pokémon","It travels by rol­ ling on mountain paths. If it gains too much speed, it stops by running into huge rocks."],[14,3000,"Megaton Pokémon","Its rock-like body is so durable, even high-powered dynamite blasts fail to scratch its rugged hide."],[10,300,"Fire Horse Pokémon","Training by jumping over grass that grows longer every day has made it a world-class jumper."],[17,950,"Fire Horse Pokémon","It just loves to gallop. The faster it goes, the long­ er the swaying flames of its mane will become."],[12,360,"Dopey Pokémon","It is always so absent-minded that it won't react, even if its flavorful tail is bitten."],[16,785,"Hermit Crab Pokémon","An attached SHELLDER won't let go because of the tasty flavor that oozes out of its tail."],[3,60,"Magnet Pokémon","The electricity emitted by the units on each side of its body cause it to become a strong magnet."],[10,600,"Magnet Pokémon","When many MAGNETON gather together, the resulting magnetic storm disrupts radio waves."],[8,150,"Wild Duck Pokémon","In order to pre­ vent their extinction, more people have made an effort to breed these POKéMON."],[14,392,"Twin Bird Pokémon","It lives on a grassy plain where it can see a long way. If it sees an enemy, it runs away at 60 mph."],[18,852,"Triple Bird Pokémon","An enemy that takes its eyes off any of the three heads--even for a second--will get pecked severely."],[11,900,"Sea Lion Pokémon","The light blue fur that covers it keeps it protected against the cold. It loves iceberg- filled oceans."],[17,1200,"Sea Lion Pokémon","It sleeps under shallow ocean waters during the day, then looks for food at night when it's cold."],[9,300,"Sludge Pokémon","When two of these POKéMON's bodies are combined together, new poisons are created."],[12,300,"Sludge Pokémon","As it moves, a very strong poison leaks from it, making the ground there barren for three years."],[3,40,"Bivalve Pokémon","Clamping on to an opponent reveals its vulnerable parts, so it uses this move only as a last resort."],[15,1325,"Bivalve Pokémon","Even a missile can't break the spikes it uses to stab opponents. They're even hard­ er than its shell."],[13,1,"Gas Pokémon","It wraps its op­ ponent in its gas- like body, slowly weakening its prey by poisoning it through the skin."],[16,1,"Gas Pokémon","It hides in the dark, planning to take the life of the next living thing that wanders close by."],[15,405,"Shadow Pokémon","Hiding in people's shadows at night, it absorbs their heat. The chill it causes makes the victims shake."],[88,2100,"Rock Snake Pokémon","As it digs through the ground, it absorbs many hard objects. This is what makes its body so solid."],[10,324,"Hypnosis Pokémon","When it twitches its nose, it can tell where someone is sleeping and what that person is dreaming about."],[16,756,"Hypnosis Pokémon","The longer it swings its pendulum, the longer the effects of its hypnosis last."],[4,65,"River Crab Pokémon","If it is unable to find food, it will absorb nutrients by swallowing a mouthful of sand."],[13,600,"Pincer Pokémon","Its oversized claw is very powerful, but when it's not in battle, the claw just gets in the way."],[5,104,"Ball Pokémon","During the study of this POKéMON, it was discovered that its compo­ nents are not found in nature."],[12,666,"Ball Pokémon","The more energy it charges up, the faster it gets. But this also makes it more likely to explode."],[4,25,"Egg Pokémon","If even one is separated from the group, the energy bond between the six will make them rejoin instantly."],[20,1200,"Coconut Pokémon","Living in a good environment makes it grow lots of heads. A head that drops off becomes an EXEGGCUTE."],[4,65,"Lonely Pokémon","It lost its mother after its birth. It wears its mother's skull, never revealing its true face."],[10,450,"Bone Keeper Pokémon","Somewhere in the world is a ceme­ tery just for MAROWAK. It gets its bones from those graves."],[15,498,"Kicking Pokémon","It is also called the Kick Master. It uses its elastic legs to execute every known kick."],[14,502,"Punching Pokémon","To increase the strength of all its punch moves, it spins its arms just before making contact."],[12,655,"Licking Pokémon","It has a tongue that is over 6’6’’ long. It uses this long tongue to lick its body clean."],[6,10,"Poison Gas Pokémon","If one gets close enough to it when it expels poison­ ous gas, the gas swirling inside it can be seen."],[12,95,"Poison Gas Pokémon","When it inhales poisonous gases from garbage, its body expands, and its insides smell much worse."],[10,1150,"Spikes Pokémon","It can remember only one thing at a time. Once it starts rushing, it forgets why it started."],[19,1200,"Drill Pokémon","By lightly spin­ ning its drill- like horn, it can easily shatter even a diamond in the rough."],[11,346,"Egg Pokémon","People try to catch it for its extremely nutritious eggs, but it rarely can be found."],[10,350,"Vine Pokémon","During battle, it constantly moves the vines that cover its body in order to annoy its opponent."],[22,800,"Parent Pokémon","To avoid crushing the baby it carries in its pouch, it always sleeps standing up."],[4,80,"Dragon Pokémon","When they're in a safe location, they can be seen playfully tangling their tails together."],[12,250,"Dragon Pokémon","The male raises the young. If it is approached, it uses its toxic spikes to fend off the intruder."],[6,150,"Goldfish Pokémon","During spawning season, they swim gracefully in the water, searching for their perfect mate."],[13,390,"Goldfish Pokémon","When autumn comes, the males patrol the area around their nests in order to protect their offspring."],[8,345,"Star Shape Pokémon","When the stars twinkle at night, it floats up from the sea floor, and its body's center core flickers."],[11,800,"Mysterious Pokémon","It is said that it uses the seven- colored core of its body to send electric waves into outer space."],[13,545,"Barrier Pokémon","It uses the mysterious power it has in its fingers to solidify air into an invisible wall."],[15,560,"Mantis Pokémon","It's very proud of its speed. It moves so fast that its opponent does not even know what knocked it down."],[14,406,"Human Shape Pokémon","It has several different cry pat­ terns, each of which seems to have its own meaning."],[11,300,"Electric Pokémon","When two ELECTABUZZ touch, they control the electric currents to communicate their feelings."],[13,445,"Spitfire Pokémon","It moves more frequently in hot areas. It can heal itself by dipping its wound into lava."],[15,550,"Stag Beetle Pokémon","When the tempera­ ture drops at night, it sleeps on treetops or among roots where it is well hidden."],[14,884,"Wild Bull Pokémon","These violent POKéMON fight with other mem­ bers of their herd in order to prove their strength."],[9,100,"Fish Pokémon","This weak and pathetic POKéMON gets easily pushed along rivers when there are strong currents."],[65,2350,"Atrocious Pokémon","It appears when­ ever there is world conflict, burning down any place it travels through."],[25,2200,"Transport Pokémon","This gentle POKéMON loves to give people rides and provides a ve­ ry comfortable way to get around."],[3,40,"Transform Pokémon","When it encount­ ers another DITTO, it will move faster than normal to duplicate that opponent exactly."],[3,65,"Evolution Pokémon","Its ability to evolve into many forms allows it to adapt smoothly and perfectly to any environment."],[10,290,"Bubble Jet Pokémon","As it uses the fins on the tip of its tail to swim, it blends with the water perfectly."],[8,245,"Lightning Pokémon","The negatively charged ions generated in its fur create a constant sparking noise."],[9,250,"Flame Pokémon","Once it has stored up enough heat, this POKéMON's body temperature can reach up to 1700 degrees."],[8,365,"Virtual Pokémon","An artificial POKéMON created due to extensive research, it can perform only what is in its program."],[4,75,"Spiral Pokémon","In prehistoric times, it swam on the sea floor, eating plankton. Its fossils are sometimes found."],[10,350,"Spiral Pokémon","Its heavy shell allowed it to reach only nearby food. This could be the reason it is extinct."],[5,115,"Shellfish Pokémon","Three hundred million years ago, it hid on the sea floor. It also has eyes on its back that glow."],[13,405,"Shellfish Pokémon","It was able to swim quickly thro­ ugh the water by compactly folding up its razor-sharp sickles."],[18,590,"Fossil Pokémon","In prehistoric times, this POKéMON flew freely and fearlessly through the skies."],[21,4600,"Sleeping Pokémon","This POKéMON's stomach is so strong, even eating moldy or rotten food will not affect it."],[17,554,"Freeze Pokémon","Legendary bird POKéMON. As it flies through the sky, it cools the air, causing snow to fall."],[16,526,"Electric Pokémon","Legendary bird POKéMON. They say lightning caused by the flapping of its wings causes summer storms."],[20,600,"Flame Pokémon","Legendary bird POKéMON. It is said to migrate from the south along with the spring."],[18,33,"Dragon Pokémon","It sheds many lay­ ers of skin as it grows larger. Dur­ ing this process, it is protected by a rapid waterfall."],[40,165,"Dragon Pokémon","It is called the divine POKéMON. When its entire body brightens slightly, the weather changes."],[22,2100,"Dragon Pokémon","It is said that somewhere in the ocean lies an island where these gather. Only they live there."],[20,1220,"Genetic Pokémon","Said to rest qui­ etly in an undiscovered cave, this POKéMON was created solely for battling."],[4,40,"New Species Pokémon","Because it can learn any move, some people began research to see if it is the ancestor of all POKéMON."],[9,64,"Leaf Pokémon","It loves to bask in the sunlight. It uses the leaf on its head to seek out warm places."],[12,158,"Leaf Pokémon","The scent that wafts from the leaves on its neck causes anyone who smells it to become energetic."],[18,1005,"Herb Pokémon","Anyone who stands beside it becomes refreshed, just as if they were relaxing in a sunny forest."],[5,79,"Fire Mouse Pokémon","The fire that spouts from its back burns hottest when it is angry. The flaring flames intimidate foes."],[9,190,"Volcano Pokémon","Before battle, it turns its back on its opponent to demonstrate how ferociously its fire blazes."],[17,795,"Volcano Pokémon","When heat from its body causes the air around it to shimmer, this is a sign that it is ready to battle."],[6,95,"Big Jaw Pokémon","This rough critter chomps at any moving object it sees. Turning your back on it is not recommended."],[11,250,"Big Jaw Pokémon","The tips of its fangs are slanted backward. Once those fangs clamp down, the prey has no hope of escape."],[23,888,"Big Jaw Pokémon","Although it has a massive body, its powerful hind legs enable it to move quickly, even on the ground."],[8,60,"Scout Pokémon","When acting as a lookout, it warns others of danger by screeching and hitting the ground with its tail."],[18,325,"Long Body Pokémon","It lives in narrow burrows that fit its slim body. The deeper the nests go, the more maze­ like they become."],[7,212,"Owl Pokémon","It begins to hoot at the same time every day. Some trainers use them in place of clocks."],[16,408,"Owl Pokémon","Its extremely soft feathers make no sound in flight. It silently sneaks up on prey without being detected."],[10,108,"Five Star Pokémon","It is timid and clusters together with others. The fluid secreted by its feet indicates its location."],[14,356,"Five Star Pokémon","In the daytime when it gets warm, it curls up inside a big leaf and drifts off into a deep slumber."],[5,85,"String Spit Pokémon","If prey becomes ensnared in its nest of spun string, it waits motionlessly until it becomes dark."],[11,335,"Long Leg Pokémon","Rather than mak­ ing a nest in one specific spot, it wanders in search of food after darkness falls."],[18,750,"Bat Pokémon","As a result of its pursuit of faster, yet more silent flight, a new set of wings grew on its hind legs."],[5,120,"Angler Pokémon","Its antennae, whi­ ch evolved from a fin, have both po­ sitive and neg­ ative charges flo­ wing through them."],[12,225,"Light Pokémon","This POKéMON uses the bright part of its body, which changed from a dorsal fin, to lure prey."],[3,20,"Tiny Mouse Pokémon","It is unskilled at storing electric power. Any kind of shock causes it to discharge energy spontaneously."],[3,30,"Star Shape Pokémon","If the impact site of a meteorite is found, this POKéMON is certain to be within the immediate area."],[3,10,"Balloon Pokémon","Instead of walking with its short legs, it moves around by bouncing on its soft, tender body."],[3,15,"Spike Ball Pokémon","It is considered to be a symbol of good luck. Its shell is said to be filled with happiness."],[6,32,"Happiness Pokémon","Although it does not flap its wings very much, it can stay up in the air as it tags along after its trainer."],[2,20,"Tiny Bird Pokémon","It is extremely good at climbing tree trunks and likes to eat the new sprouts on the trees."],[15,150,"Mystic Pokémon","Once it begins to meditate at sun­ rise, the entire day will pass before it will move again."],[6,78,"Wool Pokémon","It stores lots of air in its soft fur, allowing it to stay cool in summer and warm in winter."],[8,133,"Wool Pokémon","Because of its rubbery, electric­ ity-resistant skin, it can store lots of electric­ ity in its fur."],[14,615,"Light Pokémon","When it gets dark, the light from its bright, shiny tail can be seen from far away on the ocean's surface."],[4,58,"Flower Pokémon","When these dance together, their petals rub against each other, making pretty, relaxing sounds."],[4,85,"Aqua Mouse Pokémon","The fur on its body naturally repels water. It can stay dry, even when it plays in the water."],[8,285,"Aqua Rabbit Pokémon","The bubble-like pattern on its stomach helps it camouflage itself when it's in the water."],[12,380,"Imitation Pokémon","If a tree branch shakes when there is no wind, it's a SUDOWOODO, not a tree. It hides from the rain."],[11,339,"Frog Pokémon","When it expands its throat to croak out a tune, nearby POLIWAG and POLIWHIRL gather immediately."],[4,5,"Cottonweed Pokémon","It can be carried away on even the gentlest breeze. It may even float all the way to the next town."],[6,10,"Cottonweed Pokémon","As soon as it rains, it closes its flower and hides in the shade of a tree to avoid getting wet."],[8,30,"Cottonweed Pokémon","Even in the fierc­ est wind, it can control its fluff to make its way to any place in the world it wants."],[8,115,"Long Tail Pokémon","It uses its tail to hang on to tree branches. It uses its momentum to swing from one branch to another."],[3,18,"Seed Pokémon","It is very weak. Its only means of defense is to shake its leaves desperately at its attacker."],[8,85,"Sun Pokémon","As the hot season approaches, the petals on this POKéMON's face become more vivid and lively."],[12,380,"Clear Wing Pokémon","It can see in all directions without moving its big eyes, helping it spot attackers and food right away."],[4,85,"Water Fish Pokémon","A mucous membrane covers its body. Touching it barehanded will cause a shooting pain."],[14,750,"Water Fish Pokémon","Its body is always slimy. It often bangs its head on the river bottom as it swims but seems not to care."],[9,265,"Sun Pokémon","The tip of its forked tail quivers when it is predicting its opponent's next move."],[10,270,"Moonlight Pokémon","On the night of a full moon, or when it gets excited, the ring patterns on its body glow yellow."],[5,21,"Darkness Pokémon","It hides any shiny object it finds in a secret location. MURKROW and MEOWTH loot one another's stashes."],[20,795,"Royal Pokémon","Every time it ya­ wns, SHELLDER injects more poi­ son into it. The poison makes it more intelligent."],[7,10,"Screech Pokémon","It loves to watch people it's scar­ ed. It frightens them by screaming loudly or appear­ ing suddenly."],[5,50,"Symbol Pokémon","Because different types of UNOWN exist, it is said that they must have a variety of abilities."],[13,285,"Patient Pokémon","In order to con­ ceal its black tail, it lives in a dark cave and only moves about at night."],[15,415,"Long Neck Pokémon","When it is in danger, its tail uses some sort of mysterious powers to drive away the enemy."],[6,72,"Bagworm Pokémon","It spits out a fluid that it uses to glue tree bark to its body. The fluid hardens when it touches air."],[12,1258,"Bagworm Pokémon","Usually found hanging on to a fat tree trunk. It shoots out bits of its shell when it sees action."],[15,140,"Land Snake Pokémon","It hides deep inside caves where no light ever reaches it and remains virtually motionless there."],[11,648,"Fly Scorpion Pokémon","It builds its nest on a steep cliff. When it is done gliding, it hops along the ground back to its nest."],[92,4000,"Iron Snake Pokémon","The many small metal particles that cover this POKéMON's body reflect bright light well."],[6,78,"Fairy Pokémon","In truth, it is a cowardly POKéMON. It growls eagerly in order to hide its fear from its opponent."],[14,487,"Fairy Pokémon","It can make most any POKéMON run away simply by opening its mouth wide to reveal its big fangs."],[5,39,"Balloon Pokémon","When faced with a larger opponent, it swallows as much water as it can to match the opponent's size."],[18,1180,"Pincer Pokémon","This POKéMON's pincers, which contain steel, can crush any hard object it gets a hold of into bits."],[6,205,"Mold Pokémon","The fluid secreted by its toes carves holes in rocks for nesting and can be mixed with BERRIES to make a drink."],[15,540,"Single Horn Pokémon","With its Herculean powers, it can easily throw arou­ nd an object that is 100 times its own weight."],[9,280,"Sharp Claw Pokémon","This cunning POKéMON hides under the cover of darkness, waiting to attack its prey."],[6,88,"Little Bear Pokémon","It always licks honey. Its palm tastes sweet because of all the honey it has absorbed."],[18,1258,"Hibernator Pokémon","Although it has a large body, it is quite skilled at climbing trees. It eats and sleeps in the treetops."],[7,350,"Lava Pokémon","These group to­ gether in areas that are hotter than normal. If it cools off, its skin hardens."],[8,550,"Lava Pokémon","Its body is as hot as lava and is always billowing. Flames will occasionally burst from its shell."],[4,65,"Pig Pokémon","It uses the tip of its nose to dig for food. Its nose is so tough that even frozen ground poses no problem."],[11,558,"Swine Pokémon","Although its legs are short, its rugged hooves prevent it from slipping, even on icy ground."],[6,50,"Coral Pokémon","The points on its head absorb nutrients from clean water. They cannot survive in polluted water."],[6,120,"Jet Pokémon","To escape from an attacker, it may shoot water out of its mouth, then use that force to swim backward."],[9,285,"Jet Pokémon","Its instinct is to bury itself in holes. It often steals the nesting holes of others to sleep in them."],[9,160,"Delivery Pokémon","It always carries its food with it, wherever it goes. If attacked, it throws its food at the opponent."],[21,2200,"Kite Pokémon","It swims along freely, eating things that swim into its mouth. Its whole body is very coarse."],[17,505,"Armor Bird Pokémon","The feathers that it sheds are very sharp. It is said that people once used the feathers as swords."],[6,108,"Dark Pokémon","Around dawn, its ominous howl echoes through the area to announce that this is its territory."],[14,350,"Dark Pokémon","The pungent- smelling flame that shoots from its mouth results from toxins burn­ ing in its body."],[18,1520,"Dragon Pokémon","It stores energy by sleeping at underwater depths at which no other life forms can survive."],[5,335,"Long Nose Pokémon","During the desert­ ed morning hours, it comes ashore where it deftly uses its trunk to take a shower."],[11,1200,"Armor Pokémon","Because this POKéMON's skin is so tough, a normal attack won't even leave a scratch on it."],[6,325,"Virtual Pokémon","This manmade POKéMON evolved from the latest technology. It may have unprog­ rammed reactions."],[14,712,"Big Horn Pokémon","The round balls found on the fallen antlers can be ground into a powder that aids in sleeping."],[12,580,"Painter Pokémon","The color of the mysterious fluid secreted from its tail is predeter­ mined for each SMEARGLE."],[7,210,"Scuffle Pokémon","To brush up on its fighting skills, it will challenge anyone. It has a very strong com­ petitive spirit."],[14,480,"Handstand Pokémon","After doing a handstand to throw off the opponent's timing, it presents its fancy kick moves."],[4,60,"Kiss Pokémon","The sensitivity of its lips develops most quickly. It uses them to try to identify unknown objects."],[6,235,"Electric Pokémon","It loves violent thunder. The space between its horns flickers bluish- white when it is charging energy."],[7,214,"Live Coal Pokémon","It naturally spits an 1100-degree flame. It is said when many appear, it heralds a volcanic eruption."],[12,755,"Milk Cow Pokémon","In order to milk a MILTANK, one must have a knack for rhythmically pull­ ing up and down on its udders."],[15,468,"Happiness Pokémon","Biting into one of the delicious eggs that BLISSEY provides will make everyone around smile with joy."],[19,1780,"Thunder Pokémon","This rough POKéMON stores energy inside its body, then sweeps across the land, shooting off electricity."],[21,1980,"Volcano Pokémon","This brawny POKéMON courses around the earth, spouting flames hotter than a volcano's magma."],[20,1870,"Aurora Pokémon","This divine POKéMON blows around the world, always in search of a pure reservoir."],[6,720,"Rock Skin Pokémon","Born deep under­ ground, this POKéMON becomes a pupa after eating enough dirt to make a mountain."],[12,1520,"Hard Shell Pokémon","It will not stay still, even while it's a pupa. It already has arms and legs under its solid shell."],[20,2020,"Armor Pokémon","In just one of its mighty hands, it has the power to make the ground shake and moun­ tains crumble."],[52,2160,"Diving Pokémon","It has an incred­ ible ability to calm raging sto­ rms. It is said that LUGIA appears when storms start."],[38,1990,"Rainbow Pokémon","It will reveal itself before a pure-hearted trainer by shining its bright rain­ bow-colored wings."],[6,50,"Time Travel Pokémon","Revered as a guardian of the forest, CELEBI appears wherever beautiful forests exist."]];
+
     const ALL_TYPES = [
       "normal","fire","water","electric","grass","ice",
       "fighting","poison","ground","flying","psychic","bug",
       "rock","ghost","dragon","dark","steel"
     ];
 
-    // ── State ──────────────────────────────────────────────────────────────────
-    let activeType = "";
-    let searchQuery = "";
+    // ── Utilities ──────────────────────────────────────────────────────────────
+    function pad(n, len) { return String(n).padStart(len || 3, "0"); }
 
-    // ── Build type filter chips ────────────────────────────────────────────────
-    const filterEl = document.getElementById("type-filter");
-
-    const allChip = document.createElement("button");
-    allChip.className = "chip filter selected";
-    allChip.textContent = "All";
-    allChip.dataset.type = "";
-    filterEl.appendChild(allChip);
-
-    for (const t of ALL_TYPES) {
-      const btn = document.createElement("button");
-      btn.className = "chip filter";
-      btn.dataset.type = t;
-      btn.innerHTML = `<span class="type-badge ${t}">${t.charAt(0).toUpperCase() + t.slice(1)}</span>`;
-      filterEl.appendChild(btn);
+    function cmToFtIn(decimeters) {
+      const cm = decimeters * 10;
+      const totalIn = Math.round(cm / 2.54);
+      return `${Math.floor(totalIn / 12)}\'${String(totalIn % 12).padStart(2,"0")}"`;
     }
 
-    filterEl.addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-type]");
-      if (!btn) return;
-      activeType = btn.dataset.type;
-      filterEl.querySelectorAll("button").forEach(b => b.classList.remove("selected"));
-      btn.classList.add("selected");
-      renderGrid();
-    });
+    function hgToLbs(hectograms) {
+      return (hectograms / 4.536).toFixed(1) + "lb";
+    }
+
+    // ── State ──────────────────────────────────────────────────────────────────
+    let selectedIdx = 0;   // index into POKEMON
+    let activeType  = "";
+    let searchQuery = "";
+
+    // Visible rows (indices into POKEMON, updated on filter/search)
+    let visibleIndices = [];
+
+    // ── Build type filter chips ────────────────────────────────────────────────
+    const typeStrip = document.getElementById("type-filter-strip");
+
+    function makeFilterBtn(label, type) {
+      const btn = document.createElement("button");
+      btn.textContent = label;
+      btn.dataset.type = type;
+      if (type === "") btn.classList.add("active");
+      btn.addEventListener("click", () => {
+        activeType = type;
+        typeStrip.querySelectorAll("button").forEach(b => b.classList.toggle("active", b.dataset.type === type));
+        renderList();
+      });
+      return btn;
+    }
+
+    typeStrip.appendChild(makeFilterBtn("ALL", ""));
+    for (const t of ALL_TYPES) {
+      typeStrip.appendChild(makeFilterBtn(t.toUpperCase(), t));
+    }
 
     // ── Search ─────────────────────────────────────────────────────────────────
     document.getElementById("pokedex-search").addEventListener("input", (e) => {
       searchQuery = e.target.value.trim().toLowerCase();
-      renderGrid();
+      renderList();
     });
 
-    // ── Render grid ────────────────────────────────────────────────────────────
-    function pad(n) { return String(n).padStart(3, "0"); }
+    // ── Render list ────────────────────────────────────────────────────────────
+    const listEl = document.getElementById("pokemon-list");
 
-    function renderGrid() {
-      const grid = document.getElementById("pokedex-grid");
-      const noResults = document.getElementById("no-results");
-      const q = searchQuery;
-      let count = 0;
+    function renderList() {
+      listEl.innerHTML = "";
+      visibleIndices = [];
 
-      grid.innerHTML = "";
-
-      for (const [id, name, types] of POKEMON) {
+      for (let i = 0; i < POKEMON.length; i++) {
+        const [id, name, types] = POKEMON[i];
         const num = pad(id);
-
         if (activeType && !types.includes(activeType)) continue;
-        if (q && !name.toLowerCase().includes(q) && !num.includes(q) && !String(id).includes(q)) continue;
-
-        count++;
-        const typeBadges = types.map(t => `<span class="type-badge ${t}">${t}</span>`).join(" ");
-
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML =
-          `<div class="card-image">` +
-            `<img src="crystal_sprites/pokemon/front/${id}.png" alt="${name}" width="56" height="56">` +
-          `</div>` +
-          `<div class="card-body">` +
-            `<p class="card-subtitle">#${num}</p>` +
-            `<h3 class="card-title">${name}</h3>` +
-            `<p style="margin:0">${typeBadges}</p>` +
-          `</div>`;
-
-        grid.appendChild(card);
+        if (searchQuery &&
+            !name.toLowerCase().includes(searchQuery) &&
+            !num.includes(searchQuery) &&
+            !String(id).includes(searchQuery)) continue;
+        visibleIndices.push(i);
       }
 
-      noResults.classList.toggle("visible", count === 0);
+      for (const i of visibleIndices) {
+        const [id, name] = POKEMON[i];
+        const row = document.createElement("div");
+        row.className = "list-row" + (i === selectedIdx ? " active" : "");
+        row.setAttribute("role", "option");
+        row.setAttribute("aria-selected", i === selectedIdx ? "true" : "false");
+        row.dataset.idx = i;
+        row.innerHTML =
+          `<span class="cursor">&#9658;</span>` +
+          `<span class="row-num">${pad(id)}</span>` +
+          `<span class="row-name">${name.toUpperCase()}</span>`;
+        row.addEventListener("click", () => selectPokemon(i));
+        listEl.appendChild(row);
+      }
+
+      // If selectedIdx is no longer visible, select first visible
+      if (visibleIndices.length > 0 && !visibleIndices.includes(selectedIdx)) {
+        selectPokemon(visibleIndices[0], true);
+      } else {
+        scrollActiveIntoView();
+      }
     }
 
-    // Initial render
-    renderGrid();
+    // ── Select a Pokémon ───────────────────────────────────────────────────────
+    function selectPokemon(idx, skipMobileTransition) {
+      selectedIdx = idx;
+
+      // Update list row highlighting
+      listEl.querySelectorAll(".list-row").forEach(row => {
+        const isActive = parseInt(row.dataset.idx) === idx;
+        row.classList.toggle("active", isActive);
+        row.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+
+      scrollActiveIntoView();
+      renderDetail(idx);
+      updatePreview(idx);
+
+      if (!skipMobileTransition) {
+        document.getElementById("pokedex-app").classList.add("detail-view");
+      }
+    }
+
+    function scrollActiveIntoView() {
+      const activeRow = listEl.querySelector(".list-row.active");
+      if (activeRow) activeRow.scrollIntoView({ block: "nearest" });
+    }
+
+    // ── Update left panel preview ──────────────────────────────────────────────
+    function updatePreview(idx) {
+      const [id, name] = POKEMON[idx];
+      const img = document.getElementById("preview-img");
+      img.src = `crystal_sprites/pokemon/front/${id}.png`;
+      img.alt = name;
+      document.getElementById("list-preview-label").textContent = `No.${pad(id)} ${name.toUpperCase()}`;
+    }
+
+    // ── Render detail panel ────────────────────────────────────────────────────
+    function renderDetail(idx) {
+      const [id, name, types] = POKEMON[idx];
+      const pk = PKDATA[idx];
+
+      document.getElementById("detail-num").textContent  = `No.${pad(id)}`;
+      document.getElementById("detail-name").textContent = name.toUpperCase();
+
+      const front = document.getElementById("detail-front");
+      front.src = `crystal_sprites/pokemon/front/${id}.png`;
+      front.alt = name;
+
+      const back = document.getElementById("detail-back");
+      back.src = `crystal_sprites/pokemon/back/${id}.png`;
+      back.alt = `${name} back`;
+
+      document.getElementById("detail-types").innerHTML =
+        types.map(t => `<span class="type-badge ${t}">${t.toUpperCase()}</span>`).join("");
+
+      if (pk) {
+        document.getElementById("detail-species").textContent = pk[2].toUpperCase();
+        document.getElementById("detail-ht").textContent = `HT  ${cmToFtIn(pk[0])}`;
+        document.getElementById("detail-wt").textContent = `WT  ${hgToLbs(pk[1])}`;
+        document.getElementById("detail-flavor").textContent = pk[3].toUpperCase();
+      }
+    }
+
+    // ── Keyboard navigation on list panel ─────────────────────────────────────
+    document.getElementById("list-panel").addEventListener("keydown", (e) => {
+      if (!visibleIndices.length) return;
+      const pos = visibleIndices.indexOf(selectedIdx);
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        const next = pos < visibleIndices.length - 1 ? visibleIndices[pos + 1] : visibleIndices[0];
+        selectPokemon(next, true);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        const prev = pos > 0 ? visibleIndices[pos - 1] : visibleIndices[visibleIndices.length - 1];
+        selectPokemon(prev, true);
+      } else if (e.key === "Enter") {
+        document.getElementById("pokedex-app").classList.add("detail-view");
+      }
+    });
+
+    // ── Back button (mobile) ───────────────────────────────────────────────────
+    document.getElementById("back-btn").addEventListener("click", () => {
+      document.getElementById("pokedex-app").classList.remove("detail-view");
+    });
+
+    // ── Manage back/home button visibility on mobile ───────────────────────────
+    const backBtn  = document.getElementById("back-btn");
+    const homeLink = document.getElementById("home-link");
+
+    const MOBILE_BREAKPOINT = 768;
+
+    function updateAppBar() {
+      const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+      const isDetail = document.getElementById("pokedex-app").classList.contains("detail-view");
+      backBtn.style.display  = (isMobile && isDetail) ? "" : "none";
+      homeLink.style.display = (isMobile && isDetail) ? "none" : "";
+    }
+
+    const appEl = document.getElementById("pokedex-app");
+    const observer = new MutationObserver(updateAppBar);
+    observer.observe(appEl, { attributes: true, attributeFilter: ["class"] });
+    window.addEventListener("resize", updateAppBar);
+
+    // ── Init ───────────────────────────────────────────────────────────────────
+    renderList();
+    updatePreview(0);
+    renderDetail(0);
+    updateAppBar();
   </script>
 </body>
 
