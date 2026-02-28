@@ -275,7 +275,7 @@ async function initHeldItemSprites(): Promise<void> {
     if (spriteUrl) {
       const img = document.createElement('img');
       img.src = spriteUrl;
-      img.alt = heldItem.dataset.itemName!;
+      img.alt = heldItem.querySelector('.held-item-name')?.textContent?.trim() ?? heldItem.dataset.itemName!;
       iconEl.appendChild(img);
     }
   }));
