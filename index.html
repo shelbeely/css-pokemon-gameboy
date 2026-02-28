@@ -716,6 +716,243 @@
           </p>
         </div>
       </section>
+
+      <section class="framed contains-code">
+        <h2>Chips</h2>
+        <p>Compact interactive labels — like the move-type tags shown in the Pokédex. Three flavours: filter (toggleable), input (dismissible), and suggestion (one-shot action).</p>
+
+        <div class="viewable-code">
+          <p>Filter chips (click to toggle):</p>
+          <div class="chip-group" id="demoChipGroup">
+            <button class="chip filter selected">Grass</button>
+            <button class="chip filter">Fire</button>
+            <button class="chip filter">Water</button>
+            <button class="chip filter">Electric</button>
+            <button class="chip filter" disabled>Dragon</button>
+          </div>
+
+          <p>Colour variants:</p>
+          <div class="chip-group">
+            <button class="chip primary selected">HP Full</button>
+            <button class="chip secondary selected">HP Mid</button>
+            <button class="chip danger selected">HP Low</button>
+          </div>
+
+          <p>Input chips (dismissible):</p>
+          <div class="chip-group" id="demoInputChips">
+            <span class="chip input">Bulbasaur <button class="chip-remove" aria-label="Remove">×</button></span>
+            <span class="chip input">Charmander <button class="chip-remove" aria-label="Remove">×</button></span>
+            <span class="chip input">Squirtle <button class="chip-remove" aria-label="Remove">×</button></span>
+          </div>
+
+          <p>Suggestion chips:</p>
+          <div class="chip-group">
+            <button class="chip suggestion">Use Potion</button>
+            <button class="chip suggestion">Throw Poké Ball</button>
+            <button class="chip suggestion">Run Away</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Slider</h2>
+        <p>Pixel-art range input — like the volume / brightness controls on the Gen 1 Options screen: a hard-edged track with a blocky square thumb.</p>
+
+        <div class="viewable-code">
+          <label for="sliderDefault">Default (60%):</label>
+          <input type="range" id="sliderDefault" min="0" max="100" value="60">
+
+          <label for="sliderPrimary">Primary (green, 80%):</label>
+          <input type="range" id="sliderPrimary" class="primary" min="0" max="100" value="80">
+
+          <label for="sliderSecondary">Secondary (orange, 45%):</label>
+          <input type="range" id="sliderSecondary" class="secondary" min="0" max="100" value="45">
+
+          <label for="sliderDanger">Danger (red, 18%):</label>
+          <input type="range" id="sliderDanger" class="danger" min="0" max="100" value="18">
+
+          <label for="sliderDisabled">Disabled:</label>
+          <input type="range" id="sliderDisabled" min="0" max="100" value="40" disabled>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Segmented Button</h2>
+        <p>A row of related toggle buttons — like the text-speed selector (FAST / MED / SLOW) on the Gen 1 Options screen.</p>
+
+        <div class="viewable-code">
+          <p>Single-select (text speed):</p>
+          <div class="segmented-buttons" role="group" aria-label="Text speed" id="demoSegSpeed">
+            <button class="active">Fast</button>
+            <button>Med</button>
+            <button>Slow</button>
+          </div>
+
+          <p>Primary variant (battle style):</p>
+          <div class="segmented-buttons primary" role="group" aria-label="Battle style" id="demoSegBattle">
+            <button class="active">Set</button>
+            <button>Shift</button>
+          </div>
+
+          <p>Danger variant:</p>
+          <div class="segmented-buttons danger" role="group" aria-label="HP colour" id="demoSegDanger">
+            <button>Full</button>
+            <button>Half</button>
+            <button class="active">Low</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Floating Action Button (FAB)</h2>
+        <p>The primary on-screen shortcut — always prominent and ready to tap, like the SELECT-button item shortcut in Gen 2.</p>
+
+        <div class="viewable-code">
+          <p>Sizes:</p>
+          <button class="fab fab-sm">+</button>
+          &nbsp;
+          <button class="fab">+</button>
+          &nbsp;
+          <button class="fab fab-lg">+</button>
+
+          <p>Extended (icon + label):</p>
+          <button class="fab fab-extended">+ New Game</button>
+          &nbsp;
+          <button class="fab fab-extended primary">⚔ Battle</button>
+
+          <p>Colour variants:</p>
+          <button class="fab primary">+</button>
+          &nbsp;
+          <button class="fab secondary">+</button>
+          &nbsp;
+          <button class="fab danger">!</button>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>List</h2>
+        <p>Structured list rows — like the item browser in the Bag, the Pokédex entry list, or the PC Box. Supports optional leading icons, a title &amp; subtitle, and a trailing element.</p>
+
+        <div class="viewable-code">
+          <ul class="list">
+            <li class="list-item">
+              <span class="list-item-leading">🌿</span>
+              <span class="list-item-content">
+                <span class="list-item-title">Bulbasaur</span>
+                <span class="list-item-subtitle">#001 — Seed Pokémon</span>
+              </span>
+              <span class="list-item-trailing">Lv.5</span>
+            </li>
+            <li class="list-item">
+              <span class="list-item-leading">🔥</span>
+              <span class="list-item-content">
+                <span class="list-item-title">Charmander</span>
+                <span class="list-item-subtitle">#004 — Lizard Pokémon</span>
+              </span>
+              <span class="list-item-trailing">Lv.5</span>
+            </li>
+            <li class="list-item">
+              <span class="list-item-leading">💧</span>
+              <span class="list-item-content">
+                <span class="list-item-title">Squirtle</span>
+                <span class="list-item-subtitle">#007 — Tiny Turtle Pokémon</span>
+              </span>
+              <span class="list-item-trailing"><span class="badge danger">Fnt</span></span>
+            </li>
+            <li class="list-item">
+              <span class="list-item-content">
+                <span class="list-item-title">Poké Ball ×5</span>
+              </span>
+              <span class="list-item-trailing">Bag · Poké Balls</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Navigation Bar</h2>
+        <p>Bottom navigation bar — like the quick-action tray that anchors to the bottom of the screen in later Pokémon titles. Each item shows an icon and a short label.</p>
+
+        <div class="viewable-code">
+          <nav class="nav-bar" style="position:relative;border:2px solid;">
+            <a href="#" class="nav-bar-item active">
+              <span class="nav-bar-icon">⚔</span>
+              <span class="nav-bar-label">Fight</span>
+            </a>
+            <a href="#" class="nav-bar-item">
+              <span class="nav-bar-icon">🎒</span>
+              <span class="nav-bar-label">Bag</span>
+            </a>
+            <a href="#" class="nav-bar-item">
+              <span class="nav-bar-icon">🐾</span>
+              <span class="nav-bar-label">Pokémon</span>
+            </a>
+            <a href="#" class="nav-bar-item">
+              <span class="nav-bar-icon">▶</span>
+              <span class="nav-bar-label">Run</span>
+            </a>
+          </nav>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Navigation Rail</h2>
+        <p>Vertical side navigation — like the location sidebar on the Pokégear map screen in Gen 2. Collapses to a horizontal bar on small screens.</p>
+
+        <div class="viewable-code">
+          <div style="display:flex;gap:0;border:2px solid;">
+            <nav class="nav-rail" style="position:relative;">
+              <a href="#" class="nav-rail-item active">
+                <span class="nav-rail-icon">⚔</span>
+                <span class="nav-rail-label">Fight</span>
+              </a>
+              <a href="#" class="nav-rail-item">
+                <span class="nav-rail-icon">🎒</span>
+                <span class="nav-rail-label">Bag</span>
+              </a>
+              <a href="#" class="nav-rail-item">
+                <span class="nav-rail-icon">🐾</span>
+                <span class="nav-rail-label">Pokémon</span>
+              </a>
+              <a href="#" class="nav-rail-item">
+                <span class="nav-rail-icon">⚙</span>
+                <span class="nav-rail-label">Options</span>
+              </a>
+            </nav>
+            <div style="padding:1em;flex:1;">
+              <p>Main content area</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>App Bar</h2>
+        <p>Top application bar — like the area name header (<em>PALLET TOWN</em>) shown at the top of the screen when entering a new location. Supports a back button, title, and action buttons.</p>
+
+        <div class="viewable-code">
+          <header class="app-bar">
+            <button class="app-bar-nav" aria-label="Back">◀</button>
+            <span class="app-bar-title">Pokédex</span>
+            <div class="app-bar-actions">
+              <button aria-label="Search">🔍</button>
+              <button aria-label="Settings">⚙</button>
+            </div>
+          </header>
+
+          <header class="app-bar elevated" style="margin-top:1em;">
+            <span class="app-bar-title">Party</span>
+            <div class="app-bar-actions">
+              <button aria-label="Sort">⇅</button>
+            </div>
+          </header>
+
+          <header class="app-bar app-bar-sm" style="margin-top:1em;">
+            <button class="app-bar-nav" aria-label="Back">◀</button>
+            <span class="app-bar-title">Options</span>
+          </header>
+        </div>
+      </section>
     </main>
 
     <div id="githubHint">
