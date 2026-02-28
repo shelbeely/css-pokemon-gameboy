@@ -2,7 +2,7 @@
 
 Inspired by: https://github.com/nostalgic-css/NES.css
 
-This is a joke CSS-framework and it is not intended for use in production. You can [see a demo here](https://luttje.github.io/css-pokemon-gameboy/). The demo performs poorly on mobile devices or small resolutions.
+A CSS framework inspired by the original Pokémon games for the Game Boy. Brings the classic pixel-art aesthetic to your web projects. You can [see a demo here](https://luttje.github.io/css-pokemon-gameboy/).
 
 ## Using the distribution
 

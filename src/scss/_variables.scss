@@ -25,3 +25,14 @@ $small-modifier: 0.5;
 $small: 480px;
 $medium: 768px;
 $large: 1024px;
+
+// CSS custom properties — override these in your project to theme the framework
+:root {
+  --pgb-color-neutral: #{$neutral};
+  --pgb-color-contrast: #{$contrast};
+  --pgb-color-primary: #{$primary-accent};
+  --pgb-color-secondary: #{$secondary-accent};
+  --pgb-color-danger: #{$danger-accent};
+  --pgb-font-content: #{$font-content}, monospace;
+  --pgb-font-heading: #{$font-heading}, monospace;
+}

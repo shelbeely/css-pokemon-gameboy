@@ -31,10 +31,88 @@
   <div class="wrapper">
     <header>
       <h1>Pokemon GameBoy CSS-Framework</h1>
-      <span>This is a demo of a joke CSS-framework.</span>
+      <span>A CSS framework inspired by the original Pokémon Game Boy games.</span>
     </header>
 
     <main>
+      <section class="framed contains-code">
+        <h2>Typography</h2>
+        <p>Standard HTML text elements are styled to match the pixel-art aesthetic.</p>
+
+        <div class="viewable-code">
+          <p>Regular paragraph text. <strong>Strong text.</strong> <em>Emphasis text.</em></p>
+          <p><a href="#">This is a link</a> — hover to see the cursor indicator.</p>
+          <blockquote>This is a blockquote — perfect for in-game dialogue.</blockquote>
+          <hr>
+          <p>Inline <code>code snippets</code> are styled too.</p>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Form Inputs</h2>
+        <p>Text fields, selects, textareas, checkboxes and radio buttons all adopt the pixel-art style.</p>
+
+        <div class="viewable-code">
+          <label for="demoText">Text input:</label>
+          <input type="text" id="demoText" placeholder="Enter text…">
+
+          <label for="demoSelect">Select:</label>
+          <select id="demoSelect">
+            <option>Bulbasaur</option>
+            <option>Charmander</option>
+            <option>Squirtle</option>
+          </select>
+
+          <label for="demoTextarea">Textarea:</label>
+          <textarea id="demoTextarea" rows="3" placeholder="Write something…"></textarea>
+
+          <label><input type="checkbox" checked> Use HM Surf</label>
+          <label><input type="checkbox"> Use HM Fly</label>
+
+          <label><input type="radio" name="starter" value="grass" checked> Bulbasaur</label>
+          <label><input type="radio" name="starter" value="fire"> Charmander</label>
+          <label><input type="radio" name="starter" value="water"> Squirtle</label>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
+        <h2>Tables</h2>
+        <p>Tables are styled with pixel borders to fit the overall aesthetic.</p>
+
+        <div class="viewable-code">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Pokémon</th>
+                <th>Type</th>
+                <th>HP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>001</td>
+                <td>Bulbasaur</td>
+                <td>Grass / Poison</td>
+                <td>45</td>
+              </tr>
+              <tr>
+                <td>004</td>
+                <td>Charmander</td>
+                <td>Fire</td>
+                <td>39</td>
+              </tr>
+              <tr>
+                <td>007</td>
+                <td>Squirtle</td>
+                <td>Water</td>
+                <td>44</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <section class="framed contains-code">
         <h2>Frames</h2>
         <p>Frames can be used to clearly indicate sections or menu's.</p>

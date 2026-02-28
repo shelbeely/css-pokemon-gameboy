@@ -5,13 +5,14 @@
 @import 'frames.scss';
 @import 'input.scss';
 @import 'progress-bars.scss';
+@import 'typography.scss';
+@import 'tables.scss';
 
 body {
   font-family: $font-content;
   font-smooth: never;
   -webkit-font-smoothing: none;
 
-  min-width: $min-width;
   padding: $big-padding;
   margin: 0;
 
