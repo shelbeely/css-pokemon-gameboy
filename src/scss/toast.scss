@@ -16,7 +16,7 @@
 
 .toast-container {
   position: fixed;
-  bottom: $medium-padding;
+  bottom: calc(#{$medium-padding} + env(safe-area-inset-bottom, 0px));
   right: $medium-padding;
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@
 
   @media screen and (max-width: $medium) {
     right: $padding;
-    bottom: $padding;
+    bottom: calc(#{$padding} + env(safe-area-inset-bottom, 0px));
     left: $padding;
   }
 }

@@ -52,6 +52,7 @@ All styling is applied automatically to standard HTML elements once you include 
 44. [Friendship Meter](#44-friendship-meter) *(Gen 2)*
 45. [Held Item](#45-held-item) *(Gen 2)*
 46. [Summary Screen](#46-summary-screen) *(Gen 2)*
+47. [Bottom Sheet](#47-bottom-sheet)
 
 ---
 
@@ -323,38 +324,42 @@ Standard HTML typographic elements are styled automatically — no extra classes
 
 `<table>` spans full width with an inverted `<thead>`, striped and hover-highlighted `<tbody>` rows, and an optional italic `<tfoot>`.
 
+Wrap any table in `.table-scroll` to enable horizontal scrolling on small screens without breaking the layout.
+
 ```html
-<table>
-  <thead>
-    <tr>
-      <th>Pokémon</th>
-      <th>Type</th>
-      <th>HP</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Bulbasaur</td>
-      <td>Grass / Poison</td>
-      <td>45</td>
-    </tr>
-    <tr>
-      <td>Charmander</td>
-      <td>Fire</td>
-      <td>39</td>
-    </tr>
-    <tr>
-      <td>Squirtle</td>
-      <td>Water</td>
-      <td>44</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="3">Generation I starters</td>
-    </tr>
-  </tfoot>
-</table>
+<div class="table-scroll">
+  <table>
+    <thead>
+      <tr>
+        <th>Pokémon</th>
+        <th>Type</th>
+        <th>HP</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Bulbasaur</td>
+        <td>Grass / Poison</td>
+        <td>45</td>
+      </tr>
+      <tr>
+        <td>Charmander</td>
+        <td>Fire</td>
+        <td>39</td>
+      </tr>
+      <tr>
+        <td>Squirtle</td>
+        <td>Water</td>
+        <td>44</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3">Generation I starters</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
 ```
 
 | Area | Styling |
@@ -363,6 +368,7 @@ Standard HTML typographic elements are styled automatically — no extra classes
 | `<tbody> tr` | 2 px bottom border; even rows slightly darker; hover darkens further |
 | `<tbody> td` | 2 px right border (last child has none) |
 | `<tfoot>` | Italic, slightly darker background, 4 px top border |
+| `.table-scroll` | Horizontal scroll wrapper; adds border and `min-width` on mobile |
 
 ---
 
@@ -504,6 +510,14 @@ The scale applies to both margin (`m-*`) and padding (`p-*`) with directional va
 | `.visible` | `visibility: visible` |
 | `.d-none-sm` | `display: none` below 768 px |
 | `.d-block-sm` | `display: block` below 768 px |
+| `.d-none-xs` | `display: none` below 480 px |
+| `.d-block-xs` | `display: block` below 480 px |
+
+### Touch target helper
+
+| Class | Effect |
+|---|---|
+| `.touch-target` | `min-width: 44px; min-height: 44px` — recommended minimum tap target size for touch screens |
 
 ### Background color helpers
 
@@ -1810,3 +1824,48 @@ Pokémon summary panel showing name, level, gender, type badges, base stats as p
 | `.summary-stat-label` | `<span>` | Stat abbreviation (HP / ATK / DEF…) |
 | `.summary-stat-value` | `<span>` | Numeric stat value |
 | `.summary-ot` | `<div>` | Original Trainer name and ID row |
+
+
+---
+
+## 47. Bottom Sheet
+
+A panel that slides up from the bottom of the screen — like the in-game context menu or options panel in Gen 1 & 2. Flows with the document by default; add `position: fixed; bottom: 0; left: 0; right: 0;` to pin it to the viewport. Respects `safe-area-inset-bottom` automatically for devices with home indicators.
+
+```html
+<!-- Inline (flows with document) -->
+<div class="bottom-sheet">
+  <div class="bottom-sheet-handle"></div>
+  <div class="bottom-sheet-header">
+    <span class="bottom-sheet-title">OPTIONS</span>
+    <button class="bottom-sheet-close">✕</button>
+  </div>
+  <div class="bottom-sheet-body">
+    <ul class="framed buttons">
+      <li><button>Pokédex</button></li>
+      <li><button>Pokémon</button></li>
+      <li><button>Save</button></li>
+    </ul>
+  </div>
+</div>
+
+<!-- Fixed to viewport bottom (typical mobile usage) -->
+<div class="bottom-sheet" style="position:fixed;bottom:0;left:0;right:0;">
+  ...
+</div>
+
+<!-- To dismiss: add .bottom-sheet-hide -->
+<div class="bottom-sheet bottom-sheet-hide" ...>
+  ...
+</div>
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.bottom-sheet` | `<div>` | Panel container; dark top border, neutral background, max-height 80 vh |
+| `.bottom-sheet-handle` | `<div>` | Centered drag handle bar |
+| `.bottom-sheet-header` | `<div>` | Title bar with space-between layout |
+| `.bottom-sheet-title` | `<span>` | Title text in heading font |
+| `.bottom-sheet-close` | `<button>` | Close / dismiss button |
+| `.bottom-sheet-body` | `<div>` | Scrollable content area |
+| `.bottom-sheet-hide` | On `.bottom-sheet` | Plays slide-down dismiss animation |

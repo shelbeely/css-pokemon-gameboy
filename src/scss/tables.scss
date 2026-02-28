@@ -1,5 +1,28 @@
 @import '_variables.scss';
 
+// ─── Table scroll wrapper (mobile) ───────────────────────────────────────────
+// Wrap a <table> in .table-scroll to enable horizontal scrolling on small
+// screens without breaking the layout.
+//
+//   <div class="table-scroll">
+//     <table>...</table>
+//   </div>
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+
+  @media screen and (max-width: $medium) {
+    border: 2px solid $contrast;
+
+    table {
+      min-width: 480px;
+      margin: 0;
+    }
+  }
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

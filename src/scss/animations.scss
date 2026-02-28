@@ -126,8 +126,27 @@
   to   { transform: translateY(0);    opacity: 1; }
 }
 
+// ─── Slide down to bottom (bottom sheet dismiss) ──────────────────────────────
+@keyframes pgb-slide-down {
+  from { transform: translateY(0);    opacity: 1; }
+  to   { transform: translateY(100%); opacity: 0; }
+}
+
 .animate-slide-up {
   animation: pgb-slide-up 0.25s ease-out forwards;
+}
+
+.animate-slide-down {
+  animation: pgb-slide-down 0.3s steps(4) forwards;
+}
+
+// ─── Bottom sheet slide-in / slide-out animations ─────────────────────────────
+.bottom-sheet {
+  animation: pgb-slide-in 0.3s steps(4) forwards;
+}
+
+.bottom-sheet.bottom-sheet-hide {
+  animation: pgb-slide-down 0.3s steps(4) forwards;
 }
 
 // ─── Spinner animation ────────────────────────────────────────────────────────

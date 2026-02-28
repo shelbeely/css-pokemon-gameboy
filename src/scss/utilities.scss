@@ -74,6 +74,23 @@ $spacing-scale: (
   .d-block-sm { display: block !important; }
 }
 
+@media screen and (max-width: $small) {
+  .d-none-xs  { display: none !important; }
+  .d-block-xs { display: block !important; }
+}
+
+// ─── Touch-target minimum size ────────────────────────────────────────────────
+// Ensures interactive elements are at least 44×44 px — the recommended
+// minimum tap-target size for touch screens.
+
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
 // ─── Background color helpers ─────────────────────────────────────────────────
 
 .bg-neutral   { background-color: $neutral !important; }
