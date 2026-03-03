@@ -6,7 +6,7 @@ import { Pokedex } from 'pokeapi-js-wrapper';
 
 import './scss/main.scss'
 import './scss/demo.scss'
-import { typewriter, animateHpBar, battleFlash } from './pgb'
+import { typewriter, animateHpBar, battleFlash, initClockSetup, runSilverIntro } from './pgb'
 
 window.Prism = Prism;
 
@@ -283,3 +283,44 @@ async function initHeldItemSprites(): Promise<void> {
 
 initBadgeCaseSprites();
 initHeldItemSprites();
+
+// ── Silver Intro Wizard (Pokémon Silver new-game sequence) ────────────────────
+const silverIntroEl = document.getElementById('silverIntro') as HTMLElement | null;
+const silverIntroBtn = document.getElementById('silverIntroBtn') as HTMLButtonElement | null;
+if (silverIntroEl && silverIntroBtn) {
+  // Pre-fill the clock with PST time immediately so it's visible before the
+  // adventure starts — the agent always controls the clock value.
+  const clockFields = silverIntroEl.querySelectorAll<HTMLElement>('.clock-field');
+  const nowPst = new Date(Date.now() + -8 * 60 * 60 * 1000);
+  [nowPst.getUTCHours(), nowPst.getUTCMinutes()].forEach((val, idx) => {
+    const valueEl = clockFields[idx]?.querySelector<HTMLElement>('.clock-value');
+    if (valueEl) valueEl.textContent = String(val).padStart(2, '0');
+  });
+
+  silverIntroBtn.addEventListener('click', async () => {
+    silverIntroBtn.disabled = true;
+    await runSilverIntro(silverIntroEl);
+    // Re-enable so the user can replay
+    silverIntroBtn.disabled = false;
+    silverIntroBtn.textContent = '↺ Play Again';
+    // Reset to the clock step for the next run
+    silverIntroEl.querySelectorAll<HTMLElement>('.silver-intro-step').forEach((s, i) => {
+      s.classList.toggle('active', i === 0);
+    });
+    // Re-fill clock with fresh PST time for the replay
+    const replayFields = silverIntroEl.querySelectorAll<HTMLElement>('.clock-field');
+    const replayPst = new Date(Date.now() + -8 * 60 * 60 * 1000);
+    [replayPst.getUTCHours(), replayPst.getUTCMinutes()].forEach((val, idx) => {
+      const valueEl = replayFields[idx]?.querySelector<HTMLElement>('.clock-value');
+      if (valueEl) valueEl.textContent = String(val).padStart(2, '0');
+    });
+    const nameInput = silverIntroEl.querySelector<HTMLInputElement>('.silver-intro-name');
+    if (nameInput) nameInput.value = '';
+  });
+}
+
+// ── Clock Setup (standalone widget demo kept for component reference) ─────────
+const clockSetupEl = document.getElementById('clockSetup');
+if (clockSetupEl) {
+  initClockSetup(clockSetupEl);
+}

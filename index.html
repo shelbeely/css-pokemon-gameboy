@@ -1043,6 +1043,61 @@
       </section>
 
       <section class="framed contains-code">
+        <h2>Silver Intro Wizard *(Gen 2)*</h2>
+        <p>The complete new-game intro sequence from Pokémon Silver. The agent controls everything: the clock is auto-set to PST, typewriter dialogs play in sequence, then the player enters their name. There is no gender step — Silver only has the male protagonist.</p>
+
+        <div class="viewable-code">
+          <div class="silver-intro" id="silverIntro">
+
+            <!-- Step 1: Clock — read-only, agent fills from PST -->
+            <div class="silver-intro-step active" data-step="clock">
+              <div class="framed no-hd neutral">
+                <p class="silver-intro-msg">Setting the CLOCK to PST&hellip;</p>
+              </div>
+              <div class="clock-setup">
+                <div class="clock-field" data-min="0" data-max="23">
+                  <div class="clock-label">HOUR</div>
+                  <div class="clock-value">00</div>
+                </div>
+                <div class="clock-colon">:</div>
+                <div class="clock-field" data-min="0" data-max="59">
+                  <div class="clock-label">MIN</div>
+                  <div class="clock-value">00</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Typewriter dialogs -->
+            <div class="silver-intro-step" data-step="dialog">
+              <div class="framed no-hd neutral">
+                <blockquote class="silver-intro-dialog">&#8203;</blockquote>
+              </div>
+            </div>
+
+            <!-- Step 3: Name entry — no gender (Silver-only) -->
+            <div class="silver-intro-step" data-step="name">
+              <div class="framed no-hd neutral">
+                <p>What is your name?</p>
+                <input type="text" class="silver-intro-name" maxlength="7" placeholder="GOLD">
+              </div>
+              <button class="silver-intro-confirm">OK</button>
+            </div>
+
+            <!-- Step 4: Done -->
+            <div class="silver-intro-step" data-step="done">
+              <div class="framed no-hd neutral">
+                <p>So your name is <span class="silver-intro-trainer-name">GOLD</span>!</p>
+                <p>This is the beginning of your great adventure!</p>
+              </div>
+            </div>
+
+          </div>
+
+          <button id="silverIntroBtn" style="margin-top:1em">&#9658; Start Adventure</button>
+        </div>
+      </section>
+
+      <section class="framed contains-code">
         <h2>Gym Badge Case *(Gen 2)*</h2>
         <p>The badge case screen from Gold/Silver/Crystal showing your collected Johto gym badges.</p>
 
