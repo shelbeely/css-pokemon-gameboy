@@ -7,6 +7,9 @@
  *   import { typewriter, initMenuKeyboard, animateHpBar, battleFlash } from './pgb';
  */
 
+/** PST offset in milliseconds (UTC−8, fixed — no DST adjustment). */
+const PST_OFFSET_MS = -8 * 60 * 60 * 1000;
+
 /**
  * Typewriter effect: writes `text` into `el` one character at a time,
  * mimicking the scrolling dialogue speed of Gen 1/2 games.
@@ -134,11 +137,9 @@ export function animateHpBar(
  * @returns        A cleanup function that removes all event listeners.
  */
 export function initClockSetup(clockEl: HTMLElement): () => void {
-  // Derive the current PST time (UTC-8). Using a fixed offset ensures
+  // Derive the current PST time. Using a fixed offset ensures
   // the clock always shows PST regardless of the visitor's local timezone.
-  const nowUtc = new Date();
-  const pstOffsetMs = -8 * 60 * 60 * 1000;
-  const nowPst = new Date(nowUtc.getTime() + pstOffsetMs);
+  const nowPst = new Date(Date.now() + PST_OFFSET_MS);
   const pstHour = nowPst.getUTCHours();
   const pstMin = nowPst.getUTCMinutes();
 
@@ -190,6 +191,86 @@ export function initClockSetup(clockEl: HTMLElement): () => void {
   });
 
   return () => cleanups.forEach(fn => fn());
+}
+
+/**
+ * Runs the Pokémon Silver new-game intro sequence on `containerEl`.
+ *
+ * The agent controls every step — no manual clock adjustment is needed:
+ *
+ *   1. **Clock** — fields are pre-filled with the current PST (UTC−8) time and
+ *      displayed for 2 s before the agent auto-advances.  Silver has no gender
+ *      selection (that was added in Crystal), so that step is omitted entirely.
+ *   2. **Dialogs** — a series of lines are shown with the typewriter effect.
+ *   3. **Name entry** — the player types their name (max 7 chars, defaults to
+ *      GOLD) and confirms with the on-screen OK button.
+ *   4. **Done** — the trainer name is revealed and the Promise resolves.
+ *
+ * @param containerEl  The `.silver-intro` wrapper element.
+ * @returns            A Promise that resolves with the chosen trainer name.
+ */
+export function runSilverIntro(containerEl: HTMLElement): Promise<string> {
+  return new Promise(resolve => {
+    // Use shared PST constant so the offset is defined in one place.
+    const nowPst  = new Date(Date.now() + PST_OFFSET_MS);
+    const pstHour = nowPst.getUTCHours();
+    const pstMin  = nowPst.getUTCMinutes();
+
+    const steps    = Array.from(containerEl.querySelectorAll<HTMLElement>('.silver-intro-step'));
+    const showStep = (name: string) =>
+      steps.forEach(s => s.classList.toggle('active', s.dataset.step === name));
+
+    const wait = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+
+    // Silver-specific dialog lines (no gender — that is Crystal-only)
+    const dialogs = [
+      'This game features a real-time CLOCK.',
+      'The CLOCK has been set to PST.',
+      'What is your name, young Trainer?',
+    ];
+
+    async function run() {
+      // ── Step 1: Clock ──────────────────────────────────────────────────────
+      // Agent fills the values from PST; no UP/DOWN buttons in the wizard.
+      showStep('clock');
+      const clockEl = containerEl.querySelector<HTMLElement>('.clock-setup');
+      if (clockEl) {
+        const fields = clockEl.querySelectorAll<HTMLElement>('.clock-field');
+        [pstHour, pstMin].forEach((val, idx) => {
+          const valueEl = fields[idx]?.querySelector<HTMLElement>('.clock-value');
+          if (valueEl) valueEl.textContent = String(val).padStart(2, '0');
+        });
+      }
+      await wait(2000);
+
+      // ── Step 2: Dialogs ────────────────────────────────────────────────────
+      showStep('dialog');
+      const dialogEl = containerEl.querySelector<HTMLElement>('.silver-intro-dialog');
+      if (dialogEl) {
+        for (const line of dialogs) {
+          await typewriter(dialogEl, line, 40);
+          await wait(1800);
+        }
+      }
+
+      // ── Step 3: Name entry (Silver has no gender step) ─────────────────────
+      showStep('name');
+      const nameInput  = containerEl.querySelector<HTMLInputElement>('.silver-intro-name');
+      const confirmBtn = containerEl.querySelector<HTMLButtonElement>('.silver-intro-confirm');
+      if (nameInput) nameInput.focus();
+      if (confirmBtn) {
+        confirmBtn.addEventListener('click', () => {
+          const name = (nameInput?.value.trim().toUpperCase() || 'GOLD').slice(0, 7);
+          const trainerNameEl = containerEl.querySelector<HTMLElement>('.silver-intro-trainer-name');
+          if (trainerNameEl) trainerNameEl.textContent = name;
+          showStep('done');
+          resolve(name);
+        }, { once: true });
+      }
+    }
+
+    run();
+  });
 }
 
 /**

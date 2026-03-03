@@ -831,7 +831,7 @@ Pixel-art scrollbars are applied automatically to all elements — no classes ar
 Optional JS helpers that complement the CSS framework. Import from `pgb.ts` (or the compiled output):
 
 ```ts
-import { typewriter, initMenuKeyboard, animateHpBar, battleFlash } from 'css-pokemon-gameboy/pgb';
+import { typewriter, initMenuKeyboard, animateHpBar, battleFlash, initClockSetup, runSilverIntro } from 'css-pokemon-gameboy/pgb';
 ```
 
 ### `typewriter(el, text, charDelay?)`
@@ -902,6 +902,33 @@ await battleFlash(document.getElementById('battle-area')!);
 
 
 ---
+
+### `initClockSetup(clockEl)`
+
+Seeds both `.clock-value` elements in a `.clock-setup` widget from the current **PST** time (UTC−8) and wires the ▲ / ▼ `.clock-btn` buttons for manual adjustment with wrap-around. Arrow keys (↑ / ↓) also work when focus is inside a field. Returns a cleanup function.
+
+```ts
+const cleanup = initClockSetup(document.getElementById('clockSetup')!);
+// later: cleanup();
+```
+
+| Parameter | Type | Description |
+|---|---|---|
+| `clockEl` | `HTMLElement` | The `.clock-setup` container |
+
+---
+
+### `runSilverIntro(containerEl)`
+
+Runs the fully agent-controlled Pokémon Silver new-game intro on `containerEl` (a `.silver-intro` element). The clock is auto-set to the current PST time and shown for 2 s; typewriter dialogs follow; then the name entry screen is presented. **There is no gender step** — Silver only has the male protagonist. Returns a `Promise<string>` that resolves with the chosen trainer name.
+
+```ts
+const name = await runSilverIntro(document.getElementById('silverIntro')!);
+```
+
+| Parameter | Type | Description |
+|---|---|---|
+| `containerEl` | `HTMLElement` | The `.silver-intro` wrapper element |
 
 ## 19. Tooltip
 
@@ -1592,47 +1619,84 @@ Gen 2 introduced a real-time clock with three time periods that affect wild Pok�
 
 ---
 
-## 40. Clock Setup *(Gen 2)*
+## 40. Silver Intro Wizard *(Gen 2)*
 
-Replicates the new-game clock-setting screen from Pokémon Silver/Gold/Crystal. The `initClockSetup()` JS utility pre-fills both fields with the current **PST** time (UTC−8) on load, and wires the ▲ / ▼ buttons to increment / decrement each value with wrap-around. Arrow keys (↑ / ↓) also work when focus is inside a field.
+The complete scripted new-game intro sequence from Pokémon Silver. The **agent controls everything** — the clock is auto-set to the current PST time (UTC−8), typewriter dialogs play in sequence, and then the player enters their name. **There is no gender step** — Silver only has the male protagonist (gender selection was added in Crystal).
+
+Call `runSilverIntro(containerEl)` to start the sequence. It returns a `Promise<string>` that resolves with the chosen trainer name.
 
 ```html
-<div class="clock-setup" id="clockSetup">
-  <div class="clock-field" data-min="0" data-max="23">
-    <div class="clock-label">HOUR</div>
-    <button class="clock-btn up" aria-label="Increase hour">▲</button>
-    <div class="clock-value">00</div>
-    <button class="clock-btn down" aria-label="Decrease hour">▼</button>
+<div class="silver-intro" id="silverIntro">
+
+  <!-- Step 1: Clock — read-only, agent fills from PST -->
+  <div class="silver-intro-step active" data-step="clock">
+    <div class="framed no-hd neutral">
+      <p class="silver-intro-msg">Setting the CLOCK to PST…</p>
+    </div>
+    <div class="clock-setup">
+      <div class="clock-field" data-min="0" data-max="23">
+        <div class="clock-label">HOUR</div>
+        <div class="clock-value">00</div>
+      </div>
+      <div class="clock-colon">:</div>
+      <div class="clock-field" data-min="0" data-max="59">
+        <div class="clock-label">MIN</div>
+        <div class="clock-value">00</div>
+      </div>
+    </div>
   </div>
-  <div class="clock-colon">:</div>
-  <div class="clock-field" data-min="0" data-max="59">
-    <div class="clock-label">MIN</div>
-    <button class="clock-btn up" aria-label="Increase minute">▲</button>
-    <div class="clock-value">00</div>
-    <button class="clock-btn down" aria-label="Decrease minute">▼</button>
+
+  <!-- Step 2: Typewriter dialogs -->
+  <div class="silver-intro-step" data-step="dialog">
+    <div class="framed no-hd neutral">
+      <blockquote class="silver-intro-dialog">&#8203;</blockquote>
+    </div>
   </div>
+
+  <!-- Step 3: Name entry — no gender (Silver-only) -->
+  <div class="silver-intro-step" data-step="name">
+    <div class="framed no-hd neutral">
+      <p>What is your name?</p>
+      <input type="text" class="silver-intro-name" maxlength="7" placeholder="GOLD">
+    </div>
+    <button class="silver-intro-confirm">OK</button>
+  </div>
+
+  <!-- Step 4: Done -->
+  <div class="silver-intro-step" data-step="done">
+    <div class="framed no-hd neutral">
+      <p>So your name is <span class="silver-intro-trainer-name">GOLD</span>!</p>
+      <p>This is the beginning of your great adventure!</p>
+    </div>
+  </div>
+
 </div>
 ```
 
 ```ts
-import { initClockSetup } from 'css-pokemon-gameboy/pgb';
-const cleanup = initClockSetup(document.getElementById('clockSetup')!);
-// later: cleanup();
+import { runSilverIntro } from 'css-pokemon-gameboy/pgb';
+const name = await runSilverIntro(document.getElementById('silverIntro')!);
+console.log(`Trainer: ${name}`);
 ```
 
 | Class | Element | Effect |
 |---|---|---|
-| `.clock-setup` | `<div>` | Flex row container for the clock fields |
-| `.clock-field` | `<div>` | Column for one time unit (hour or minute) |
-| `.clock-label` | `<div>` | Small caps label above the value (HOUR / MIN) |
-| `.clock-value` | `<div>` | Inverted two-digit display |
-| `.clock-btn.up` | `<button>` | ▲ increment button |
-| `.clock-btn.down` | `<button>` | ▼ decrement button |
-| `.clock-colon` | `<div>` | `:` separator between the two fields |
-| `data-min` | attribute on `.clock-field` | Minimum value (inclusive) |
-| `data-max` | attribute on `.clock-field` | Maximum value (inclusive) |
+| `.silver-intro` | `<div>` | Wizard container |
+| `.silver-intro-step` | `<div>` | A single step panel — hidden by default |
+| `.silver-intro-step.active` | — | Currently visible step |
+| `data-step` | attribute | Step identifier (`clock`, `dialog`, `name`, `done`) |
+| `.silver-intro-msg` | `<p>` | Small-caps status message (clock step) |
+| `.silver-intro-dialog` | `<blockquote>` | Typewriter target (dialog step) |
+| `.silver-intro-name` | `<input>` | Trainer name text field (name step) |
+| `.silver-intro-confirm` | `<button>` | Confirm name button (name step) |
+| `.silver-intro-trainer-name` | `<span>` | Trainer name display (done step) |
 
-`initClockSetup(clockEl)` seeds both fields from the current PST time and returns a cleanup function that removes all event listeners.
+`runSilverIntro(containerEl)` sequence:
+
+1. **Clock step** — fills `.clock-value` elements with current PST hours and minutes, waits 2 s, then auto-advances.
+2. **Dialog step** — plays three typewriter lines with 1.8 s pauses between them.
+3. **Name step** — focuses the name input; advances to Done when the OK button is clicked.
+4. **Done step** — displays the chosen name and resolves the returned Promise.
 
 ---
 
