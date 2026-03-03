@@ -6,7 +6,7 @@ import { Pokedex } from 'pokeapi-js-wrapper';
 
 import './scss/main.scss'
 import './scss/demo.scss'
-import { typewriter, animateHpBar, battleFlash } from './pgb'
+import { typewriter, animateHpBar, battleFlash, initClockSetup } from './pgb'
 
 window.Prism = Prism;
 
@@ -283,3 +283,9 @@ async function initHeldItemSprites(): Promise<void> {
 
 initBadgeCaseSprites();
 initHeldItemSprites();
+
+// ── Clock Setup (Pokémon Silver new-game clock) ───────────────────────────────
+const clockSetupEl = document.getElementById('clockSetup');
+if (clockSetupEl) {
+  initClockSetup(clockSetupEl);
+}

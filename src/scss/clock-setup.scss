@@ -1,0 +1,115 @@
+@import '_variables.scss';
+@import '_mixins.scss';
+
+// ─── Clock Setup *(Gen 2)* ────────────────────────────────────────────────────
+// Replicates the new-game clock-setting screen from Pokémon Silver/Gold/Crystal.
+// The player sets hours (0–23) and minutes (0–59) using ▲ / ▼ buttons before
+// the adventure begins. Use initClockSetup() from pgb.ts to wire interactivity.
+//
+// Usage:
+//   <div class="clock-setup" id="clockSetup">
+//     <div class="clock-field" data-min="0" data-max="23">
+//       <div class="clock-label">HOUR</div>
+//       <button class="clock-btn up" aria-label="Increase hour">▲</button>
+//       <div class="clock-value">00</div>
+//       <button class="clock-btn down" aria-label="Decrease hour">▼</button>
+//     </div>
+//     <div class="clock-colon">:</div>
+//     <div class="clock-field" data-min="0" data-max="59">
+//       <div class="clock-label">MIN</div>
+//       <button class="clock-btn up" aria-label="Increase minute">▲</button>
+//       <div class="clock-value">00</div>
+//       <button class="clock-btn down" aria-label="Decrease minute">▼</button>
+//     </div>
+//   </div>
+
+.clock-setup {
+  display: inline-flex;
+  align-items: center;
+  gap: $padding * $small-modifier;
+  background: $neutral;
+  border: 4px solid $contrast;
+  padding: $padding;
+  font-family: $font-content;
+
+  // ── Individual field (HOUR or MIN) ────────────────────────────────────────
+  .clock-field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $padding * $small-modifier * 0.5;
+  }
+
+  // ── Field label ───────────────────────────────────────────────────────────
+  .clock-label {
+    font-size: 0.55em;
+    text-transform: uppercase;
+    color: $contrast;
+    letter-spacing: 0.05em;
+  }
+
+  // ── Two-digit value display ───────────────────────────────────────────────
+  .clock-value {
+    font-family: $font-heading;
+    font-size: 1.4em;
+    min-width: 2ch;
+    text-align: center;
+    background: $contrast;
+    color: $neutral;
+    padding: $padding * $small-modifier * 0.5 $padding * $small-modifier;
+  }
+
+  // ── ▲ / ▼ increment buttons ───────────────────────────────────────────────
+  .clock-btn {
+    display: block;
+    font-family: $font-content;
+    font-size: 0.8em;
+    background: none;
+    border: 2px solid $contrast;
+    padding: $padding * $small-modifier * 0.5 $padding * $small-modifier;
+    cursor: pointer;
+    line-height: 1;
+    min-width: 2.5em;
+    text-align: center;
+
+    // Suppress the default arrow-right hover from input.scss
+    &:hover::before {
+      display: none;
+    }
+
+    &:hover {
+      background: $contrast;
+      color: $neutral;
+    }
+
+    &:focus {
+      outline: 2px solid $primary-accent;
+      outline-offset: 1px;
+    }
+
+    &:active {
+      background: $contrast;
+      color: $neutral;
+    }
+  }
+
+  // ── Colon separator ───────────────────────────────────────────────────────
+  .clock-colon {
+    font-family: $font-heading;
+    font-size: 1.4em;
+    align-self: center;
+    padding-top: $padding * 1.5;
+  }
+
+  @media screen and (max-width: $medium) {
+    gap: $padding * $small-modifier * 0.5;
+
+    .clock-value {
+      font-size: 1.1em;
+    }
+
+    .clock-colon {
+      font-size: 1.1em;
+    }
+  }
+}

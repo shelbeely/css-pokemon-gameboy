@@ -45,14 +45,15 @@ All styling is applied automatically to standard HTML elements once you include 
 37. [Pokégear](#37-pokégear) *(Gen 2)*
 38. [Trainer Phone Call](#38-trainer-phone-call) *(Gen 2)*
 39. [Time-of-Day Badge](#39-time-of-day-badge) *(Gen 2)*
-40. [Gym Badge Case](#40-gym-badge-case) *(Gen 2)*
-41. [Move Card](#41-move-card) *(Gen 2)*
-42. [PC Box](#42-pc-box) *(Gen 2)*
-43. [Pokédex Entry](#43-pokédex-entry) *(Gen 2)*
-44. [Friendship Meter](#44-friendship-meter) *(Gen 2)*
-45. [Held Item](#45-held-item) *(Gen 2)*
-46. [Summary Screen](#46-summary-screen) *(Gen 2)*
-47. [Bottom Sheet](#47-bottom-sheet)
+40. [Clock Setup](#40-clock-setup) *(Gen 2)*
+41. [Gym Badge Case](#41-gym-badge-case) *(Gen 2)*
+42. [Move Card](#42-move-card) *(Gen 2)*
+43. [PC Box](#43-pc-box) *(Gen 2)*
+44. [Pokédex Entry](#44-pokédex-entry) *(Gen 2)*
+45. [Friendship Meter](#45-friendship-meter) *(Gen 2)*
+46. [Held Item](#46-held-item) *(Gen 2)*
+47. [Summary Screen](#47-summary-screen) *(Gen 2)*
+48. [Bottom Sheet](#48-bottom-sheet)
 
 ---
 
@@ -1591,7 +1592,51 @@ Gen 2 introduced a real-time clock with three time periods that affect wild Pok�
 
 ---
 
-## 40. Gym Badge Case *(Gen 2)*
+## 40. Clock Setup *(Gen 2)*
+
+Replicates the new-game clock-setting screen from Pokémon Silver/Gold/Crystal. The `initClockSetup()` JS utility pre-fills both fields with the current **PST** time (UTC−8) on load, and wires the ▲ / ▼ buttons to increment / decrement each value with wrap-around. Arrow keys (↑ / ↓) also work when focus is inside a field.
+
+```html
+<div class="clock-setup" id="clockSetup">
+  <div class="clock-field" data-min="0" data-max="23">
+    <div class="clock-label">HOUR</div>
+    <button class="clock-btn up" aria-label="Increase hour">▲</button>
+    <div class="clock-value">00</div>
+    <button class="clock-btn down" aria-label="Decrease hour">▼</button>
+  </div>
+  <div class="clock-colon">:</div>
+  <div class="clock-field" data-min="0" data-max="59">
+    <div class="clock-label">MIN</div>
+    <button class="clock-btn up" aria-label="Increase minute">▲</button>
+    <div class="clock-value">00</div>
+    <button class="clock-btn down" aria-label="Decrease minute">▼</button>
+  </div>
+</div>
+```
+
+```ts
+import { initClockSetup } from 'css-pokemon-gameboy/pgb';
+const cleanup = initClockSetup(document.getElementById('clockSetup')!);
+// later: cleanup();
+```
+
+| Class | Element | Effect |
+|---|---|---|
+| `.clock-setup` | `<div>` | Flex row container for the clock fields |
+| `.clock-field` | `<div>` | Column for one time unit (hour or minute) |
+| `.clock-label` | `<div>` | Small caps label above the value (HOUR / MIN) |
+| `.clock-value` | `<div>` | Inverted two-digit display |
+| `.clock-btn.up` | `<button>` | ▲ increment button |
+| `.clock-btn.down` | `<button>` | ▼ decrement button |
+| `.clock-colon` | `<div>` | `:` separator between the two fields |
+| `data-min` | attribute on `.clock-field` | Minimum value (inclusive) |
+| `data-max` | attribute on `.clock-field` | Maximum value (inclusive) |
+
+`initClockSetup(clockEl)` seeds both fields from the current PST time and returns a cleanup function that removes all event listeners.
+
+---
+
+## 41. Gym Badge Case *(Gen 2)*
 
 Displays the collected gym badges in a grid — as seen on the badge case screen in Gold/Silver/Crystal. Add `.earned` to mark a slot as collected.
 

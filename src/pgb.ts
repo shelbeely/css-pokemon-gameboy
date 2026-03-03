@@ -122,6 +122,77 @@ export function animateHpBar(
 }
 
 /**
+ * Wires up a `.clock-setup` element (Pokémon Silver new-game clock screen).
+ *
+ * Each `.clock-field` child must carry `data-min` and `data-max` attributes.
+ * On init the fields are pre-filled with the current time in Pacific Standard
+ * Time (PST, UTC−8) so the player doesn't have to adjust from 00:00.
+ * The ▲ / ▼ `.clock-btn` buttons increment / decrement the value and wrap
+ * around at the min / max boundary.
+ *
+ * @param clockEl  The `.clock-setup` container element.
+ * @returns        A cleanup function that removes all event listeners.
+ */
+export function initClockSetup(clockEl: HTMLElement): () => void {
+  // Derive the current PST time (UTC-8). Using a fixed offset ensures
+  // the clock always shows PST regardless of the visitor's local timezone.
+  const nowUtc = new Date();
+  const pstOffsetMs = -8 * 60 * 60 * 1000;
+  const nowPst = new Date(nowUtc.getTime() + pstOffsetMs);
+  const pstHour = nowPst.getUTCHours();
+  const pstMin = nowPst.getUTCMinutes();
+
+  const fields = Array.from(clockEl.querySelectorAll<HTMLElement>('.clock-field'));
+
+  const seedValues = [pstHour, pstMin];
+
+  const cleanups: Array<() => void> = [];
+
+  fields.forEach((field, idx) => {
+    const min = parseInt(field.dataset.min ?? '0', 10);
+    const max = parseInt(field.dataset.max ?? '59', 10);
+    const valueEl = field.querySelector<HTMLElement>('.clock-value');
+    if (!valueEl) return;
+
+    // Seed from PST if a seed value is available for this field index
+    let current = seedValues[idx] !== undefined ? seedValues[idx] : min;
+    current = Math.max(min, Math.min(max, current));
+    valueEl.textContent = String(current).padStart(2, '0');
+
+    const update = (delta: number) => {
+      current = current + delta;
+      if (current > max) current = min;
+      if (current < min) current = max;
+      valueEl.textContent = String(current).padStart(2, '0');
+    };
+
+    const upBtn   = field.querySelector<HTMLButtonElement>('.clock-btn.up');
+    const downBtn = field.querySelector<HTMLButtonElement>('.clock-btn.down');
+
+    const onUp   = () => update(+1);
+    const onDown = () => update(-1);
+
+    upBtn?.addEventListener('click', onUp);
+    downBtn?.addEventListener('click', onDown);
+
+    // Allow ↑ / ↓ arrow keys when focus is anywhere inside the field
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowUp') { e.preventDefault(); update(+1); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); update(-1); }
+    };
+    field.addEventListener('keydown', onKey);
+
+    cleanups.push(() => {
+      upBtn?.removeEventListener('click', onUp);
+      downBtn?.removeEventListener('click', onDown);
+      field.removeEventListener('keydown', onKey);
+    });
+  });
+
+  return () => cleanups.forEach(fn => fn());
+}
+
+/**
  * Plays the Gen 2 battle-entry screen flash on `containerEl` by toggling the
  * `.animate-battle-flash` class and waiting for the animation to finish.
  *
